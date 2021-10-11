@@ -18,20 +18,15 @@ import { useToast } from 'react-native-toast-notifications';
 
 import AuthContext from '../../context/auth/AuthContext';
 
-interface IState {
-  loginReducer: ILoginState;
-}
+import OutputErrors from '../../utils/OutputErrors';
 
-const Registration: React.FC = () => {
+const Registration = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const id = useSelector((state: IState) => state.loginReducer.id);
-  const dispatch = useDispatch();
+
   const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
   //const onForgot = () => NavigationService.navigate('ForgotPassword');
   const authContext = useContext(AuthContext);
-  if (!authContext) {
-    return null;
-  }
+  const { register, error } = authContext;
 
   const elements = {
     email: '',
@@ -42,7 +37,7 @@ const Registration: React.FC = () => {
   const [password_confirm, seTpassword_confirm] = useState('');
   const [performer, seTperformer] = useState(false);
   const toast = useToast();
-  const handleChange = (val: string, fieldName: string) => {
+  const handleChange = (val, fieldName) => {
     seTuser(prev => {
       const varPr = { ...prev };
       switch (fieldName) {
@@ -61,7 +56,6 @@ const Registration: React.FC = () => {
   };
 
   const handleValidation = () => {
-    let errors = { phone: '', password: '' };
     let formIsValid = true;
     //Email
     if (!user.email) {
@@ -114,9 +108,17 @@ const Registration: React.FC = () => {
         animationType: 'zoom-in',
       });
     } else {
-      onLogin();
+      register(user);
     }
   };
+  console.log('errorrr....', error);
+  if (error) {
+    toast.show('Введите пароль', {
+      type: 'warning',
+      duration: 1000,
+      animationType: 'zoom-in',
+    });
+  }
 
   return (
     <KeyboardAvoidingView
@@ -250,6 +252,7 @@ const Registration: React.FC = () => {
             {performer ? 'Я не исполнитель' : 'Я исполнитель'}
           </Text>
         </View>
+        <OutputErrors errors={error} />
       </View>
     </KeyboardAvoidingView>
   );

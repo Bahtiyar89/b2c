@@ -19,6 +19,7 @@ const Login: React.FC = () => {
   const onLogin = () => dispatch(loginActions.requestLogin('test', '1234'));
   const onForgot = () => NavigationService.navigate('ForgotPassword');
   const onRegistration = () => NavigationService.navigate('Registration');
+
   const elements = {
     email: '',
     password: '',
@@ -82,7 +83,7 @@ const Login: React.FC = () => {
             </Text>
           </View>
           <Text style={styles.forgotStyle} onPress={onRegistration}>
-            Registration
+            Регистрация
           </Text>
         </View>
       </View>

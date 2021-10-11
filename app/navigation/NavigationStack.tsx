@@ -25,7 +25,12 @@ import AgentsObjectives from 'app/screens/AgentsObjectives';
 import * as loginActions from 'app/store/actions/loginActions';
 import styles from './styles';
 import LogoIcon from './logoIcon';
-import Registration from 'app/screens/Registration';
+import Registration from 'app/screens/Registration/register';
+import OpMain from 'app/screens/OpMain';
+import ZnpMain from 'app/screens/ZnpMain';
+import TombFind from 'app/screens/TombFind';
+import RitualGoods from 'app/screens/RitualGoods';
+import MainPerformer from 'app/screens/MainPerformer';
 
 const Drawer = createDrawerNavigator();
 const AuthDrawer = createDrawerNavigator();
@@ -51,7 +56,19 @@ const AuthDrawerNavigator = () => {
     (state: IState) => state.loginReducer.isLoggedIn,
   );
   return (
-    <AuthDrawer.Navigator>
+    <AuthDrawer.Navigator
+      screenOptions={{
+        swipeEnabled: false,
+        gestureEnabled: true,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#3c4b64',
+        },
+
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
       <Drawer.Screen name="Login" component={Login} />
       <Drawer.Screen name="ForgotPassword" component={ForgotPassword} />
       <Drawer.Screen name="Registration" component={Registration} />
@@ -106,7 +123,7 @@ const App: React.FC<IProps> = (props: IProps) => {
                       source={require('../assets/lock.png')} //Change your icon image here
                       style={styles.icon}
                     />
-                    <Text style={styles.logout}>Logout</Text>
+                    <Text style={styles.logout}>Выйти</Text>
                   </>
                 )}
               />
@@ -124,7 +141,7 @@ const App: React.FC<IProps> = (props: IProps) => {
             <Drawer.Screen
               name="Dashboard"
               options={{
-                title: 'Dashboard',
+                title: 'Главная',
                 drawerIcon: focused => (
                   <Image
                     source={require('../assets/speedometer.png')} //Change your icon image here
@@ -137,7 +154,7 @@ const App: React.FC<IProps> = (props: IProps) => {
             <Drawer.Screen
               name="Rollouts"
               options={{
-                title: 'Rollouts',
+                title: 'Узм главная',
                 drawerIcon: focused => (
                   <Image
                     source={require('../assets/options.png')} //Change your icon image here
@@ -148,9 +165,9 @@ const App: React.FC<IProps> = (props: IProps) => {
               component={Rollouts}
             />
             <Drawer.Screen
-              name="Agents objectives"
+              name="Op Main"
               options={{
-                title: 'Agents Objectives',
+                title: 'Оп главная',
                 drawerIcon: focused => (
                   <Image
                     source={require('../assets/color-circle.png')} //Change your icon image here
@@ -158,7 +175,63 @@ const App: React.FC<IProps> = (props: IProps) => {
                   />
                 ),
               }}
-              component={AgentsObjectives}
+              component={OpMain}
+            />
+
+            <Drawer.Screen
+              name="Zp Main"
+              options={{
+                title: 'Знп главная',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/main-idea.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={ZnpMain}
+            />
+
+            <Drawer.Screen
+              name="Find Tomb"
+              options={{
+                title: 'Найти могилу',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/gravestone.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={TombFind}
+            />
+
+            <Drawer.Screen
+              name="Ritual goods"
+              options={{
+                title: 'Ритуальные товары',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/ritual.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={RitualGoods}
+            />
+
+            <Drawer.Screen
+              name="Main Performer"
+              options={{
+                title: 'Гл-й исполнитель',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/growth.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={MainPerformer}
             />
           </>
         ) : (

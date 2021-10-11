@@ -3,10 +3,11 @@
  * Everything starts from the Entry-point
  */
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View, Text } from 'react-native';
 import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { ToastProvider } from 'react-native-toast-notifications';
 
 import {
   PaperThemeDefault,
@@ -17,6 +18,7 @@ import {
 import Navigator from 'app/navigation';
 import configureStore from 'app/store';
 import { IThemeState } from 'app/models/reducers/theme';
+import AuthState from './context/auth/AuthState';
 
 const { persistor, store } = configureStore();
 
@@ -38,11 +40,15 @@ const RootNavigation: React.FC = () => {
 
 const EntryPoint: React.FC = () => {
   return (
-    <Provider store={store}>
-      <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-        <RootNavigation />
-      </PersistGate>
-    </Provider>
+    <ToastProvider placement="top" offset={50}>
+      <Provider store={store}>
+        <AuthState>
+          <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+            <RootNavigation />
+          </PersistGate>
+        </AuthState>
+      </Provider>
+    </ToastProvider>
   );
 };
 
