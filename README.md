@@ -1,1 +1,2 @@
-//default read me to write
+//yarn
+//start: npx react-native run-android/ios
