@@ -242,7 +242,7 @@ const Registration: React.FC = () => {
 
         <View style={styles.rowDirection}>
           <Button mode="outlined" onPress={onSubmit} style={styles.rowButton}>
-            <Text style={styles.buttonText}>Зарегистрироваться</Text>
+            <Text style={styles.buttonText}>Зарегистрировать</Text>
           </Button>
           <Text
             style={styles.forgotStyle}

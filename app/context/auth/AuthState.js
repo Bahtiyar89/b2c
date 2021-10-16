@@ -1,7 +1,6 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
 import { modifyLoader } from '../loader/loader_action';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';

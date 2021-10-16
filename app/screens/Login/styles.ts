@@ -12,29 +12,25 @@ const styles = StyleSheet.create({
   loginHeaderText: { color: 'black', fontWeight: 'bold', fontSize: 28 },
   signInText: { color: '#768192' },
   textInput: { flex: 1 },
-  rowDirection: { flexDirection: 'row' },
-  rowButton: { backgroundColor: '#2819ae', marginLeft: 10 },
-  buttonText: { color: 'white' },
+  rowDirection: { marginTop:10, width:'90%', flexDirection: 'row' },
+  rowButton: {   marginLeft: 0 },
+  buttonText: { color: 'white', flex:1   },
   forgot: {
     marginRight: 0,
     flex: 1,
-    color: '#321fdb',
+     
     textAlign: 'right',
     fontSize: 12,
   },
   forgotStyle: {
-    marginRight: 10,
+   
     flex: 1,
-    color: '#321fdb',
+    backgroundColor: '#321fdb',
     textAlign: 'right',
     fontSize: 16,
   },
   forgot22: {
-    marginLeft: 10,
-    paddingTop:5,
-    color: '#321fdb',
-    textAlign: 'center',
-    fontSize: 16,
+        
   },
   ImageStyle: {
     padding: 10,
@@ -48,12 +44,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 0.5,
-    borderColor: '#000',
-    height: 40,
-    borderRadius: 5,
-    margin: 10,
+    width:'90%',
+    marginTop:10, 
+  },
+  SectionStyle2: {
+    marginTop:40, 
   },
 });
 

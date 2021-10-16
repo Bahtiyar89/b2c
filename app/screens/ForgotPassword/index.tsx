@@ -1,46 +1,45 @@
-import React, {useState} from 'react';
-import { View, Image, Text, TextInput } from 'react-native';
-import { Button } from 'react-native-paper';
+import React, { useState } from 'react';
+import { View, Image, Text } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 
 import NavigationService from 'app/navigation/NavigationService';
-
 import styles from './styles';
-const Dashboard: React.FC = () => {
+
+const ForgotPassword: React.FC = () => {
   const goBack = () => NavigationService.navigate('Details');
-  const [email, seTemail] = useState("");
+  const [email, seTemail] = useState('');
   const onLogin = () => NavigationService.navigate('Login');
   return (
     <View style={styles.container}>
-      <Text style={{ color: "black", fontWeight: 'bold', fontSize: 28 }} >Forgot Password</Text>
-        <Text style={{ color: "#768192" }}>Sign in to your account</Text>
-        <View style={styles.SectionStyle}>
-          <Image
-            source={require('../../assets/user-4.png')} //Change your icon image here
-            style={styles.ImageStyle}
-          />
-          <TextInput
-            style={{ flex: 1 }}
-            placeholder="Email"
-            underlineColorAndroid="transparent"
-            onChangeText={val => seTemail(val)}
-            value={email}
-          />
-        </View> 
-        <View style={{ flexDirection: 'row' }}>
-          <Button  mode="outlined" onPress={goBack} 
-            style={{ backgroundColor: "#2819ae", marginLeft:10 }}
-          >
-            <Text style={{ color: "white" }}>Send Instructions</Text>
-          </Button>
-          <Text style={{ marginRight: 10, flex: 1, color: '#321fdb', textAlign: 'right', fontSize: 16 }}
-            onPress={onLogin}
-            >
-            Login
-          </Text>
-        </View>
-      
+      <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 28 }}>
+        Востоновить пароль
+      </Text>
+      <Text style={{ color: '#768192' }}>Введите свой почтовый адрес</Text>
+      <View style={styles.SectionStyle}>
+        <TextInput
+          mode="outlined"
+          label="Email"
+          style={{ flex: 1 }}
+          onChangeText={val => seTemail(val)}
+          right={<TextInput.Icon name={require('../../assets/user-4.png')} />}
+          value={email}
+        />
+      </View>
+      <View style={{ marginTop: 10, width: '95%', flexDirection: 'row' }}>
+        <Button mode="contained" onPress={goBack} style={{ marginLeft: 10 }}>
+          <Text style={{ color: 'white' }}>Отправить инструкции</Text>
+        </Button>
+        <Button
+          style={{
+            flex: 1,
+            alignItems: 'flex-end',
+          }}
+          onPress={onLogin}>
+          Войти
+        </Button>
+      </View>
     </View>
   );
 };
 
-export default Dashboard;
+export default ForgotPassword;

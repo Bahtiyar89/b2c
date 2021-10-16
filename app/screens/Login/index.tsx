@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { View, Image } from 'react-native';
+import { Text, Button, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as loginActions from 'app/store/actions/loginActions';
@@ -25,6 +25,7 @@ const Login: React.FC = () => {
     password: '',
   };
   const [user, seTuser] = useState({ ...elements });
+  const [passwordShow, seTpasswordShow] = useState(true);
 
   const handleChange = (val: string, fieldName: string) => {
     seTuser(prev => {
@@ -46,45 +47,47 @@ const Login: React.FC = () => {
       <View style={styles.container}>
         <Text style={styles.loginHeaderText}>Login</Text>
         <Text style={styles.signInText}>Sign in to your account</Text>
-        <View style={styles.SectionStyle}>
-          <Image
-            source={require('../../assets/user-4.png')} //Change your icon image here
-            style={styles.ImageStyle}
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Email"
-            underlineColorAndroid="transparent"
-            onChangeText={val => handleChange(val, 'email')}
-            value={user.email}
-          />
-        </View>
 
         <View style={styles.SectionStyle}>
-          <Image
-            source={require('../../assets/padlock.png')} //Change your icon image here
-            style={styles.ImageStyle}
-          />
           <TextInput
+            mode="outlined"
+            label="Email"
             style={styles.textInput}
-            placeholder="Enter Your Name Here"
-            underlineColorAndroid="transparent"
-            onChangeText={val => handleChange(val, 'password')}
-            value={user.password}
+            onChangeText={val => handleChange(val, 'email')}
+            right={<TextInput.Icon name={require('../../assets/user-4.png')} />}
+          />
+        </View>
+        <View style={styles.SectionStyle}>
+          <TextInput
+            mode="outlined"
+            label="Введите пароль"
+            style={styles.textInput}
+            onChangeText={val => handleChange(val, 'email')}
+            right={
+              <TextInput.Icon
+                onPress={() => seTpasswordShow(!passwordShow)}
+                name={require('../../assets/padlock.png')}
+              />
+            }
+            secureTextEntry={passwordShow}
           />
         </View>
         <View style={styles.rowDirection}>
           <View>
-            <Button mode="outlined" onPress={onLogin} style={styles.rowButton}>
-              <Text style={styles.buttonText}>Login</Text>
+            <Button mode="contained" onPress={onLogin}>
+              <Text style={styles.buttonText}>Войти</Text>
             </Button>
-            <Text style={styles.forgot22} onPress={onForgot}>
-              Forgot Password
-            </Text>
+            <Button onPress={onForgot}>Забыли пароль?</Button>
           </View>
-          <Text style={styles.forgotStyle} onPress={onRegistration}>
+
+          <Button
+            style={{
+              flex: 1,
+              alignItems: 'flex-end',
+            }}
+            onPress={onRegistration}>
             Регистрация
-          </Text>
+          </Button>
         </View>
       </View>
     </View>

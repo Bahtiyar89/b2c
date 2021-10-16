@@ -18,12 +18,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 0.5,
-    borderColor: '#000',
-    height: 40,
-    borderRadius: 5,
-    margin: 10,
+    width:'90%',
+    marginTop:10, 
 },
 });
 

@@ -11,10 +11,12 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   loginHeaderText: { color: 'black', fontWeight: 'bold', fontSize: 28 },
+  text:{ padding:1, color: 'black', textAlign: 'center', justifyContent: 'center',fontSize: 16 },
+  textPerformer:{ padding:1, color: 'black', textAlign: 'center', justifyContent: 'center',fontSize: 18 },
   signInText: { color: '#768192' },
-  textInput: { flex: 1, marginLeft:10 },
+  textInput: { flex: 1, width:'95%', margin:10  },
   rowDirection: { flexDirection: 'row' },
-  rowButton: { backgroundColor: '#2819ae', marginLeft: 10 },
+  rowButton: {  marginLeft: 10 },
   buttonText: { color: 'white' },
   forgot: {
     marginRight: 0,
@@ -23,12 +25,9 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: 12,
   },
-  forgotStyle: {
-    marginRight: 10,
-    flex: 1,
-    color: '#321fdb',
-    textAlign: 'right',
-    fontSize: 16,
+  forgotStyle: { 
+    flex: 1, 
+    textAlign: 'right', 
   },
   ImageStyle: {
     padding: 10,

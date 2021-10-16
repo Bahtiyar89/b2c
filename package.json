@@ -12,7 +12,6 @@
     "postinstall": "yarn run update:pods"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.15.9",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/drawer": "^5",
@@ -22,6 +21,7 @@
     "react": "17.0.1",
     "react-native": "0.64.1",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-modal": "^13.0.0",
     "react-native-paper": "^4.8.1",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
