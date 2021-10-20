@@ -1,3 +1,4 @@
+import utility from '../../utils/Utility';
 import NavigationService from 'app/navigation/NavigationService';
 import { CLEAR_ERRORS } from '../types';
 import {
@@ -11,20 +12,17 @@ import {
 } from './AuthState';
 
 export default (state, action) => {
-  console.log('action...', action.type);
   switch (action.type) {
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       //  localStorage.setItem("user", JSON.stringify(action.payload.user));
       // localStorage.setItem("token", action.payload.token);
-      NavigationService.navigate('Login');
+      //  NavigationService.navigate('Login');
       return {
         ...state,
         ...action.payload,
-        isAuthenticated: true,
+        isSigned: true,
         loading: false,
-        redirectToReferrer: true,
-        user: action.payload.user,
       };
     case FALSE_REDIRECT:
       return {
@@ -35,7 +33,6 @@ export default (state, action) => {
     case AUTH_ERROR:
     case LOGIN_FAIL:
       // localStorage.removeItem('token');
-      console.log('action.payload...', [action.payload]);
       return {
         ...state,
         token: null,
@@ -45,14 +42,11 @@ export default (state, action) => {
         error: [action.payload],
       };
     case LOGOUT:
-      //localStorage.removeItem('token');
-      //localStorage.removeItem('user');
       return {
         ...state,
-        isAuthenticated: false,
+        isSigned: false,
         loading: false,
         user: null,
-        token: null,
         error: [],
       };
     case CLEAR_ERRORS:

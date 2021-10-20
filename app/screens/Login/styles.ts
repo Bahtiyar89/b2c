@@ -6,50 +6,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  loginHeaderText: { color: 'black', fontWeight: 'bold', fontSize: 28 },
+  signInText: { width:"90%", paddingTop:"2%", fontSize:18, fontWeight:'bold', marginTop:20, marginBottom: 20, },
+  textparagraph:{ },
+  textInput: { width:"90%" },
+  buttonText: { color: 'white' }, 
   login: {
     padding: 8,
   },
-  loginHeaderText: { color: 'black', fontWeight: 'bold', fontSize: 28 },
-  signInText: { color: '#768192' },
-  textInput: { flex: 1 },
-  rowDirection: { marginTop:10, width:'90%', flexDirection: 'row' },
-  rowButton: {   marginLeft: 0 },
-  buttonText: { color: 'white', flex:1   },
   forgot: {
-    marginRight: 0,
-    flex: 1,
-     
-    textAlign: 'right',
-    fontSize: 12,
+    marginTop: 12,
   },
-  forgotStyle: {
-   
-    flex: 1,
-    backgroundColor: '#321fdb',
-    textAlign: 'right',
-    fontSize: 16,
+  labelStyle: {
+    fontSize: 12, 
   },
-  forgot22: {
-        
-  },
-  ImageStyle: {
-    padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
-    resizeMode: 'stretch',
-    alignItems: 'center',
-  },
-  SectionStyle: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width:'90%',
-    marginTop:10, 
-  },
-  SectionStyle2: {
-    marginTop:40, 
-  },
+  rowDirection: { marginTop:10, width:'90%', flexDirection: 'row' },
 });
 
 export default styles;

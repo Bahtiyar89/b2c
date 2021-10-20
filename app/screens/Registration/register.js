@@ -111,7 +111,7 @@ const Registration = () => {
       register(user);
     }
   };
-  console.log('errorrr....', error);
+
   if (error) {
     toast.show('Введите пароль', {
       type: 'warning',

@@ -6,6 +6,7 @@ import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import { CLEAR_ERRORS } from '../types';
 
+import utility from '../../utils/Utility';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const LOGOUT = 'LOGOUT';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
@@ -20,34 +21,71 @@ const AuthState = props => {
     // user: JSON.parse(SyncStorage.getItem('user')),
     redirectToReferrer: false,
     loading: false,
+    isSigned: false,
     error: [],
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
-  /*
+
+  //logout
+  const signOut = async () => {
+    try {
+      utility.removeItem('TOKEN');
+      utility.removeItem('USER');
+      dispatch({
+        type: LOGOUT,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   //Login User
+  const getUser = async token => {
+    const config = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    try {
+      const res = await axios.get(
+        `https://flexim.tk/funeral/api/v1/users/info`,
+        config,
+      );
+      utility.setItemObject('USER', res.data.data);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data.data,
+      });
+    } catch (err) {
+      console.log('err : ', err);
+    }
+  };
   const signin = async FormData => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
     try {
       dispatch(modifyLoader(true));
-      const res = await axios.post(`${API}/v1/users/login`, FormData, config);
+      const res = await axios.post(
+        `https://flexim.tk/funeral/api/v1/users/login`,
+        FormData,
+        config,
+      );
+      utility.setItem('TOKEN', res.headers.authorization);
+      getUser(res.headers.authorization);
       dispatch(modifyLoader(false));
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data,
-      });
     } catch (err) {
       dispatch(modifyLoader(false));
       dispatch({
         type: LOGIN_FAIL,
-        payload: err.response.data.message,
+        payload: err,
       });
     }
   };
-
+  /*
   //Load User
   const signout = async () => {
     try {
@@ -80,8 +118,6 @@ const AuthState = props => {
 */
   //Register user
   const register = async FormData => {
-    console.log('FormData...', FormData);
-
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -113,6 +149,7 @@ const AuthState = props => {
     <AuthContext.Provider
       value={{
         error: state.error,
+        isSigned: state.isSigned,
         /* token: state.token,
         loading: state.loading,
         error: state.error,
@@ -125,6 +162,8 @@ const AuthState = props => {
         signin,
         signout
         */
+        signin,
+        signOut,
         register,
       }}>
       {props.children}
