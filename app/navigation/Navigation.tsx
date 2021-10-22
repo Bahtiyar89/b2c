@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Button, View, Text, Image, StatusBar } from 'react-native';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,6 +9,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import { useDispatch, useSelector } from 'react-redux';
+import { useToast } from 'react-native-toast-notifications';
 
 import * as loginActions from 'app/store/actions/loginActions';
 import { ILoginState } from 'app/models/reducers/login';
@@ -26,6 +27,15 @@ import Login from 'app/screens/Login';
 import ForgotPassword from 'app/screens/ForgotPassword';
 import Registration from 'app/screens/Registration/regist';
 import AuthContext from '../context/auth/AuthContext';
+import utility from '../utils/Utility';
+
+import CustomerDashboard from '../screens/customer/Dashboard';
+import CustomerAddCard from '../screens/customer/AddCard';
+import CustomerBasket from '../screens/customer/Basket';
+import CustomerOrderHistory from '../screens/customer/OrderHistory';
+import CustomerSelected from '../screens/customer/Selected';
+import CustomerSettings from '../screens/customer/Settings';
+import CustomerSupport from '../screens/customer/Support';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -56,11 +66,29 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
   const dispatch = useDispatch();
   const onLogout = () => dispatch(loginActions.logOut());
 
-  const authContext = useContext(AuthContext);
-  const { isSigned } = authContext;
+  const elements = {
+    role: '',
+    email: '',
+    phone: '',
+  };
 
-  const signOut = () => {
+  const [user, seTuser] = useState({ ...elements });
+  const toast = useToast();
+
+  useEffect(() => {
+    const storage = async () => {
+      let us = await utility.getItemObject('USER');
+      seTuser(us);
+    };
+    storage();
+  }, []);
+
+  const authContext = useContext(AuthContext);
+  const { isSigned, signOut } = authContext;
+
+  const signOutUser = () => {
     onLogout();
+    signOut();
   };
   return (
     <NavigationContainer theme={theme}>
@@ -98,7 +126,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                   style={{ marginTop: 10 }}
                   onPress={() => {
                     props.navigation.closeDrawer();
-                    signOut();
+                    signOutUser();
                   }}
                   icon={() => (
                     <>
@@ -122,101 +150,186 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
         }}>
         {isSigned ? (
           <>
-            <Drawer.Screen
-              name="Dashboard"
-              options={{
-                title: 'Главная',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/speedometer.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={Dashboard}
-            />
-            <Drawer.Screen
-              name="Rollouts"
-              options={{
-                title: 'Узм главная',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/options.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={Rollouts}
-            />
-            <Drawer.Screen
-              name="Op Main"
-              options={{
-                title: 'Оп главная',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/color-circle.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={OpMain}
-            />
+            {user.role.length > 2 ? (
+              <>
+                <Drawer.Screen
+                  name="CustomerDashboard"
+                  options={{
+                    title: 'Главная',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={CustomerDashboard}
+                />
+                <Drawer.Screen
+                  name="CustomerOrderHistory"
+                  options={{
+                    title: 'История заказов',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={CustomerOrderHistory}
+                />
+                <Drawer.Screen
+                  name="Dashboard"
+                  options={{
+                    title: 'Избранное',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={CustomerSelected}
+                />
+                <Drawer.Screen
+                  name="CustomerBasket"
+                  options={{
+                    title: 'Корзина',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={CustomerBasket}
+                />
+                <Drawer.Screen
+                  name="CustomerAddCard"
+                  options={{
+                    title: 'Добавить карту',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={CustomerAddCard}
+                />
+                <Drawer.Screen
+                  name="CustomerSettings"
+                  options={{
+                    title: 'Настройка',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={CustomerSettings}
+                />
+                <Drawer.Screen
+                  name="CustomerSupport"
+                  options={{
+                    title: 'Служба поддержки информация',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={CustomerSupport}
+                />
+              </>
+            ) : (
+              <>
+                <Drawer.Screen
+                  name="Rollouts"
+                  options={{
+                    title: 'Узм главная',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/options.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={Rollouts}
+                />
+                <Drawer.Screen
+                  name="Op Main"
+                  options={{
+                    title: 'Оп главная',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/color-circle.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={OpMain}
+                />
 
-            <Drawer.Screen
-              name="Zp Main"
-              options={{
-                title: 'Знп главная',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/main-idea.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={ZnpMain}
-            />
+                <Drawer.Screen
+                  name="Zp Main"
+                  options={{
+                    title: 'Знп главная',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/main-idea.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={ZnpMain}
+                />
 
-            <Drawer.Screen
-              name="Find Tomb"
-              options={{
-                title: 'Найти могилу',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/gravestone.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={TombFind}
-            />
+                <Drawer.Screen
+                  name="Find Tomb"
+                  options={{
+                    title: 'Найти могилу',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/gravestone.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={TombFind}
+                />
 
-            <Drawer.Screen
-              name="Ritual goods"
-              options={{
-                title: 'Ритуальные товары',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/ritual.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={RitualGoods}
-            />
+                <Drawer.Screen
+                  name="Ritual goods"
+                  options={{
+                    title: 'Ритуальные товары',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/ritual.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={RitualGoods}
+                />
 
-            <Drawer.Screen
-              name="Main Performer"
-              options={{
-                title: 'Гл-й исполнитель',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/growth.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={MainPerformer}
-            />
+                <Drawer.Screen
+                  name="Main Performer"
+                  options={{
+                    title: 'Гл-й исполнитель',
+                    drawerIcon: focused => (
+                      <Image
+                        source={require('../assets/growth.png')} //Change your icon image here
+                        style={styles.icon}
+                      />
+                    ),
+                  }}
+                  component={MainPerformer}
+                />
+              </>
+            )}
           </>
         ) : (
           <Drawer.Screen name="Root" component={Root} />
