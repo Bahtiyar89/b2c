@@ -14,11 +14,14 @@ import FuneralOrganization from './funeralOrganization';
 import RitualGoods from './ritualGoods';
 import OrderFuneral from './orderFuneral';
 
-interface IState {
-  lbarStyle: any;
+interface IProps {
+  navigation: any;
 }
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.FC<IProps> = (props: IProps) => {
+  const { navigation } = props;
+  console.log('navigation: ', navigation);
+
   //const dispatch = useDispatch();
   //const onLogout = () => dispatch(loginActions.logOut());
   const authContext = useContext(AuthContext);
@@ -56,7 +59,7 @@ const Dashboard: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.buttonMenuContainer}>
         <Button
-          onPress={() => seTmodelCareGrave(!modelCareGrave)}
+          onPress={() => navigation.navigate('CareOfGraves')}
           uppercase={false}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>

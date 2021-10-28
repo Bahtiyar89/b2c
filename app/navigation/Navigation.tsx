@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Button, View, Text, Image, StatusBar } from 'react-native';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Portal, FAB, DefaultTheme, Avatar } from 'react-native-paper';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -36,11 +37,14 @@ import CustomerOrderHistory from '../screens/customer/OrderHistory';
 import CustomerSelected from '../screens/customer/Selected';
 import CustomerSettings from '../screens/customer/Settings';
 import CustomerSupport from '../screens/customer/Support';
+import CareOfGraves from '../screens/customer/careOfGraves';
+import CareOfGravesPhoto from '../screens/customer/careOfGravesPhoto';
+import GeneratedOrder from '../screens/customer/generatedOrder';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-function Root() {
+function NotSignedIn() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -70,6 +74,48 @@ function Root() {
         }}
         name="RegistrationExecutor"
         component={RegistrationExecutor}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Уход за могилами',
+        }}
+        name="careOfGraves"
+        component={CareOfGraves}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function SignedIn() {
+  return (
+    <Stack.Navigator initialRouteName="customerDashboard" headerMode="none">
+      <Stack.Screen
+        options={{
+          title: 'Уход',
+        }}
+        name="customerDashboard"
+        component={CustomerDashboard}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Уход за могилами',
+        }}
+        name="CareOfGraves"
+        component={CareOfGraves}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Уход за могилами',
+        }}
+        name="CareOfGravesPhoto"
+        component={CareOfGravesPhoto}
+      />
+      <Stack.Screen
+        options={{
+          title: 'ввв',
+        }}
+        name="GeneratedOrder"
+        component={GeneratedOrder}
       />
     </Stack.Navigator>
   );
@@ -125,11 +171,14 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
             fontWeight: 'bold',
           },
         }}
-        initialRouteName="Root"
+        initialRouteName="NotSignedIn"
         drawerContent={props => {
           return (
             <>
-              <LogoIcon height={100} width={100} />
+              <Avatar.Image
+                size={100}
+                source={require('../assets/gubin.png')}
+              />
               <DrawerContentScrollView {...props}>
                 <DrawerItemList {...props} />
                 <DrawerItem
@@ -176,7 +225,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                       </View>
                     ),
                   }}
-                  component={CustomerDashboard}
+                  component={SignedIn}
                 />
                 <Drawer.Screen
                   name="CustomerOrderHistory"
@@ -345,7 +394,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
             )}
           </>
         ) : (
-          <Drawer.Screen name="Root" component={Root} />
+          <Drawer.Screen name="NotSignedIn" component={NotSignedIn} />
         )}
       </Drawer.Navigator>
     </NavigationContainer>

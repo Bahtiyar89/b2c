@@ -20,6 +20,7 @@ import configureStore from 'app/store';
 import { IThemeState } from 'app/models/reducers/theme';
 import AuthState from './context/auth/AuthState';
 import Navigation from './navigation/Navigation';
+import Navi from './navigation/navi';
 
 const { persistor, store } = configureStore();
 
@@ -34,8 +35,9 @@ const RootNavigation: React.FC = () => {
 
   return (
     <PaperProvider theme={paperTheme}>
-      <Navigation theme={combinedTheme} />
+      {/* <Navigation theme={combinedTheme} />*/}
       {/* <Navigator theme={combinedTheme} />*/}
+      <Navigation theme={combinedTheme} />
     </PaperProvider>
   );
 };

@@ -15,8 +15,6 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case VARIFY_OK:
-      console.log('adddd', CommonActions.navigate({ name: 'Login' }));
-      CommonActions.navigate({ name: 'Login' });
       return {
         ...state,
       };
@@ -30,6 +28,7 @@ export default (state, action) => {
     case LOGIN_SUCCESS:
       utility.setItemObject('user', action.payload.user);
       utility.setItem('token', action.payload.token);
+      console.log('payload ', action.payload);
       return {
         ...state,
         isSigned: true,

@@ -79,7 +79,6 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   const onSubmit = () => {
     const err = validation();
-    console.log('err: ', err);
     if (err) {
     } else {
       signin(user);
