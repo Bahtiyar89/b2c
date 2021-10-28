@@ -5,18 +5,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width:"100%",
+    width: '100%',
   },
   login: {
     padding: 8,
   },
   loginHeaderText: { color: 'black', fontWeight: 'bold', fontSize: 28 },
-  text:{ padding:1, color: 'black', textAlign: 'center', justifyContent: 'center',fontSize: 16 },
-  textPerformer:{ padding:1, color: 'black', textAlign: 'center', justifyContent: 'center',fontSize: 18 },
+  text: {
+    padding: 1,
+    color: 'black',
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontSize: 16,
+  },
+  textExecutor: {
+    padding: 1,
+    color: 'black',
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontSize: 18,
+  },
   signInText: { color: '#768192' },
-  textInput: { flex: 1, width:'95%', margin:10  },
+  textInput: { flex: 1, width: '95%', margin: 10 },
   rowDirection: { flexDirection: 'row' },
-  rowButton: {  marginLeft: 10 },
+  rowButton: { marginLeft: 10 },
   buttonText: { color: 'white' },
   forgot: {
     marginRight: 0,
@@ -25,9 +37,9 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: 12,
   },
-  forgotStyle: { 
-    flex: 1, 
-    textAlign: 'right', 
+  forgotStyle: {
+    flex: 1,
+    textAlign: 'right',
   },
   ImageStyle: {
     padding: 10,

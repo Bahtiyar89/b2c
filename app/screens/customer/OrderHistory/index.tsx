@@ -39,7 +39,6 @@ const OrderHistory: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="green" />
       <Text>OrderHistory</Text>
       <Button icon="logout" mode="outlined" onPress={onLogout}>
         Logout

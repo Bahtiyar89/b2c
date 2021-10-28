@@ -214,6 +214,23 @@ export function numberPrefixOne(lang, value) {
   }
 }
 
+const getDeviceLanguageFromStorage = async () => {
+  try {
+    let lang = await AsyncStorage.getItem('lang');
+    if (lang && lang.length > 0) return lang;
+    else return 'ru'; // No language setting, default it to english
+  } catch (error) {
+    // Can't get the language setting, default it to english
+    return 'ru';
+  }
+};
+
+const updateDeviceLanguageToStorage = async lang => {
+  try {
+    AsyncStorage.setItem('lang', lang);
+  } catch (error) {}
+};
+
 export default {
   setItem,
   getItem,
@@ -227,4 +244,6 @@ export default {
   numberPrefixOne,
   round,
   hasOwenProperty,
+  getDeviceLanguageFromStorage,
+  updateDeviceLanguageToStorage,
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, StatusBar } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from 'react-native-toast-notifications';
@@ -41,16 +41,6 @@ const Login: React.FC<IProps> = (props: IProps) => {
   };
   const [user, seTuser] = useState({ ...elements });
   const [passwordShow, seTpasswordShow] = useState(true);
-
-  useEffect(() => {
-    const storage = async () => {
-      let items = await utility.getItem('TOKEN');
-      let user = await utility.getItem('USER');
-      console.log('items 44:', items);
-      console.log('user 55:', user);
-    };
-    storage();
-  }, []);
 
   const handleChange = (val: string, fieldName: string) => {
     seTuser(prev => {

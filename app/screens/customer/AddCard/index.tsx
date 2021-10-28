@@ -39,7 +39,6 @@ const AddCard: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="green" />
       <Text>AddCard</Text>
       <Button icon="logout" mode="outlined" onPress={onLogout}>
         Logout

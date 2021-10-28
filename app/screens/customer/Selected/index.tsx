@@ -39,7 +39,6 @@ const Selected: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="green" />
       <Text>Selected</Text>
       <Button icon="logout" mode="outlined" onPress={onLogout}>
         Logout

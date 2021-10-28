@@ -39,7 +39,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="green" />
       <Button icon="logout" mode="outlined" onPress={onLogout}>
         Logout
       </Button>

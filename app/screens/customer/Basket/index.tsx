@@ -39,7 +39,6 @@ const Basket: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="green" />
       <Text>Basket</Text>
       <Button icon="logout" mode="outlined" onPress={onLogout}>
         Logout

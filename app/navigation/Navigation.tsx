@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Button, View, Text, Image, StatusBar } from 'react-native';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,10 +8,10 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from 'react-native-toast-notifications';
 
-import * as loginActions from 'app/store/actions/loginActions';
+//import * as loginActions from 'app/store/actions/loginActions';
 import { ILoginState } from 'app/models/reducers/login';
 import LogoIcon from './logoIcon';
 import ThemeController from '../components/ThemeController';
@@ -26,8 +26,8 @@ import styles from './styles';
 import Login from 'app/screens/Login';
 import ForgotPassword from 'app/screens/ForgotPassword';
 import Registration from 'app/screens/Registration/regist';
+import RegistrationExecutor from 'app/screens/Registration/executor';
 import AuthContext from '../context/auth/AuthContext';
-import utility from '../utils/Utility';
 
 import CustomerDashboard from '../screens/customer/Dashboard';
 import CustomerAddCard from '../screens/customer/AddCard';
@@ -43,9 +43,34 @@ const Stack = createStackNavigator();
 function Root() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Stack.Screen name="Registration" component={Registration} />
+      <Stack.Screen
+        options={{
+          title: 'Вход в приложение',
+        }}
+        name="Login"
+        component={Login}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Забыли пароль',
+        }}
+        name="ForgotPassword"
+        component={ForgotPassword}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Регистрация',
+        }}
+        name="Registration"
+        component={Registration}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Регистрация Исполнителя',
+        }}
+        name="RegistrationExecutor"
+        component={RegistrationExecutor}
+      />
     </Stack.Navigator>
   );
 }
@@ -60,39 +85,25 @@ interface IState {
 
 const Navigation: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
-  const isLoggedIn = useSelector(
-    (state: IState) => state.loginReducer.isLoggedIn,
-  );
-  const dispatch = useDispatch();
-  const onLogout = () => dispatch(loginActions.logOut());
-
-  const elements = {
-    role: '',
-    email: '',
-    phone: '',
-  };
-
-  const [user, seTuser] = useState({ ...elements });
-  const toast = useToast();
-
-  useEffect(() => {
-    const storage = async () => {
-      let us = await utility.getItemObject('USER');
-      seTuser(us);
-    };
-    storage();
-  }, []);
+  //const isLoggedIn = useSelector((state: IState) => state.loginReducer.isLoggedIn);
+  //const dispatch = useDispatch();
+  //const onLogout = () => dispatch(loginActions.logOut());
 
   const authContext = useContext(AuthContext);
-  const { isSigned, signOut } = authContext;
+  const { isSigned, signOut, user } = authContext;
+
+  const toast = useToast();
 
   const signOutUser = () => {
-    onLogout();
+    //onLogout();
     signOut();
   };
   return (
     <NavigationContainer theme={theme}>
-      <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+      <StatusBar
+        backgroundColor="grey"
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       <Drawer.Navigator
         drawerStyle={{
           width: 260,
@@ -157,10 +168,12 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                   options={{
                     title: 'Главная',
                     drawerIcon: focused => (
-                      <Image
-                        source={require('../assets/speedometer.png')} //Change your icon image here
-                        style={styles.icon}
-                      />
+                      <View>
+                        <Image
+                          source={require('../assets/speedometer.png')} //Change your icon image here
+                          style={styles.icon}
+                        />
+                      </View>
                     ),
                   }}
                   component={CustomerDashboard}
@@ -171,7 +184,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                     title: 'История заказов',
                     drawerIcon: focused => (
                       <Image
-                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        source={require('../assets/checklist.png')} //Change your icon image here
                         style={styles.icon}
                       />
                     ),
@@ -184,7 +197,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                     title: 'Избранное',
                     drawerIcon: focused => (
                       <Image
-                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        source={require('../assets/rating.png')} //Change your icon image here
                         style={styles.icon}
                       />
                     ),
@@ -197,7 +210,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                     title: 'Корзина',
                     drawerIcon: focused => (
                       <Image
-                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        source={require('../assets/vegetables.png')} //Change your icon image here
                         style={styles.icon}
                       />
                     ),
@@ -210,7 +223,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                     title: 'Добавить карту',
                     drawerIcon: focused => (
                       <Image
-                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        source={require('../assets/map.png')} //Change your icon image here
                         style={styles.icon}
                       />
                     ),
@@ -223,7 +236,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                     title: 'Настройка',
                     drawerIcon: focused => (
                       <Image
-                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        source={require('../assets/setting.png')} //Change your icon image here
                         style={styles.icon}
                       />
                     ),
@@ -233,10 +246,10 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                 <Drawer.Screen
                   name="CustomerSupport"
                   options={{
-                    title: 'Служба поддержки информация',
+                    title: 'Служба поддержки',
                     drawerIcon: focused => (
                       <Image
-                        source={require('../assets/speedometer.png')} //Change your icon image here
+                        source={require('../assets/call-center.png')} //Change your icon image here
                         style={styles.icon}
                       />
                     ),

@@ -1,5 +1,5 @@
 import utility from '../../utils/Utility';
-import NavigationService from 'app/navigation/NavigationService';
+import { CommonActions } from '@react-navigation/native';
 import { CLEAR_ERRORS } from '../types';
 import {
   LOGOUT,
@@ -9,20 +9,32 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   FALSE_REDIRECT,
+  VARIFY_OK,
 } from './AuthState';
 
 export default (state, action) => {
   switch (action.type) {
-    case REGISTER_SUCCESS:
-    case LOGIN_SUCCESS:
-      //  localStorage.setItem("user", JSON.stringify(action.payload.user));
-      // localStorage.setItem("token", action.payload.token);
-      //  NavigationService.navigate('Login');
+    case VARIFY_OK:
+      console.log('adddd', CommonActions.navigate({ name: 'Login' }));
+      CommonActions.navigate({ name: 'Login' });
       return {
         ...state,
-        ...action.payload,
+      };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        varifyId: action.payload.data.id,
+        isSigned: false,
+        loading: false,
+      };
+    case LOGIN_SUCCESS:
+      utility.setItemObject('user', action.payload.user);
+      utility.setItem('token', action.payload.token);
+      return {
+        ...state,
         isSigned: true,
         loading: false,
+        user: action.payload.user,
       };
     case FALSE_REDIRECT:
       return {
