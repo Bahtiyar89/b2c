@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   signInText: { color: '#768192' },
-  textInput: { flex: 1, width: '95%', margin: 10 },
+  textInput: { width: '95%', marginBottom: 10 },
   rowDirection: { flexDirection: 'row' },
   rowButton: { marginLeft: 10 },
   buttonText: { color: 'white' },

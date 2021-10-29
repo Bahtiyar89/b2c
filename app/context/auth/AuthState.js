@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import { modifyLoader } from '../loader/loader_action';
+import { useToast } from 'react-native-toast-notifications';
+
 import NavigationService from 'app/navigation/NavigationService';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
@@ -11,20 +12,25 @@ import utility from '../../utils/Utility';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const LOGOUT = 'LOGOUT';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
-export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const FALSE_REDIRECT = 'FALSE_REDIRECT';
-export const VARIFY_OK = 'VARIFY_OK';
+export const MODAL_VARIFY = 'MODAL_VARIFY';
+export const MODAL_VARIFY_USER = 'MODAL_VARIFY_USER';
+export const LOADING = 'LOADING';
 
 const AuthState = props => {
+  const toast = useToast();
+
   const initialState = {
     token: utility.getItem('token'),
+    user: utility.getItemObject('user'),
     loading: false,
     isSigned: false,
     varifyId: '',
+    modalVarify: false,
+    modalVarifyUser: false,
     error: [],
-    user: utility.getItemObject('user'),
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
@@ -53,14 +59,17 @@ const AuthState = props => {
         `https://flexim.tk/funeral/api/v1/users/info`,
         config,
       );
+      dispatch({ type: LOADING, payload: false });
       dispatch({
         type: LOGIN_SUCCESS,
         payload: { user: res.data.data, token },
       });
     } catch (err) {
+      dispatch({ type: LOADING, payload: false });
       console.log('err : ', err);
     }
   };
+
   const signin = async FormData => {
     const config = {
       headers: {
@@ -69,7 +78,7 @@ const AuthState = props => {
     };
 
     try {
-      dispatch(modifyLoader(true));
+      dispatch({ type: LOADING, payload: true });
       const res = await axios.post(
         `https://flexim.tk/funeral/api/v1/users/login`,
         FormData,
@@ -77,42 +86,15 @@ const AuthState = props => {
       );
 
       getUser(res.headers.authorization);
-      dispatch(modifyLoader(false));
     } catch (err) {
-      dispatch(modifyLoader(false));
+      dispatch({ type: LOADING, payload: false });
       dispatch({
         type: LOGIN_FAIL,
         payload: err,
       });
     }
   };
-  /*
-  //Load User
-  const signout = async () => {
-    try {
-      await axios.get(`${API}/v1/users/signout`);
-      dispatch({
-        type: LOGOUT,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  //forgotPassword Errors
-  const forgotPassword = async FormData => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    try {
-      axios.post(`${API}/v1/users/forgotPassword`, FormData, config);
-    } catch (error) {
-      console.log('error11 ');
-    }
-  };
-
+  /* 
   //clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
   const reverseRedirect = () => dispatch({ type: FALSE_REDIRECT });
@@ -124,29 +106,44 @@ const AuthState = props => {
         'Content-Type': 'application/json',
       },
     };
+    try {
+      dispatch({ type: LOADING, payload: true });
+      const res = await axios.post(
+        `https://flexim.tk/funeral/api/v1/users/register/customer`,
+        FormData,
+        config,
+      );
 
-    dispatch(modifyLoader(true));
-    const res = await axios.post(
-      `https://flexim.tk/funeral/api/v1/users/register/customer`,
-      FormData,
-      config,
-    );
-    dispatch(modifyLoader(false));
-    if (res.data.status === 'FAIL') {
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: res.data.message,
+      dispatch({ type: LOADING, payload: false });
+      if (res.data.status === 'FAIL') {
+        toast.show(res.data.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+        dispatch({ type: LOADING, payload: false });
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: res.data.message,
+        });
+      } else {
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data,
+        });
+      }
+    } catch (error) {
+      toast.show(error.message, {
+        type: 'warning',
+        duration: 3000,
+        animationType: 'zoom-in',
       });
-    } else {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
+      dispatch({ type: LOADING, payload: false });
+      dispatch({ type: REGISTER_FAIL, payload: error.message });
     }
   };
 
-  const approveVarify = async (FormData, navigation) => {
-    console.log('FormData:', FormData);
+  const approveVarify = async FormData => {
     const id = { id: FormData };
     const config = {
       headers: {
@@ -154,21 +151,78 @@ const AuthState = props => {
       },
     };
 
-    dispatch(modifyLoader(true));
-    const res = await axios.post(
-      `https://flexim.tk/funeral/api/v1/users/sendVerifyCode`,
-      id,
-      config,
-    );
-    console.log('reddd', res.data);
-    dispatch(modifyLoader(false));
-    if (res.data.status === 'FAIL') {
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: res.data.message,
-      });
-    } else {
-      navigation.navigate('Login');
+    try {
+      dispatch({ type: LOADING, payload: true });
+      const res = await axios.post(
+        `https://flexim.tk/funeral/api/v1/users/sendVerifyCode`,
+        id,
+        config,
+      );
+
+      dispatch({ type: LOADING, payload: false });
+      if (res.data.status === 'FAIL') {
+        toast.show(res.data.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: res.data.message,
+        });
+      } else {
+        dispatch({
+          type: MODAL_VARIFY,
+          payload: false,
+        });
+      }
+    } catch (error) {
+      dispatch({ type: LOADING, payload: false });
+      dispatch({ type: REGISTER_FAIL, payload: error.message });
+    }
+  };
+
+  const approveVarifyUser = async (FormData, navigation) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      dispatch({ type: LOADING, payload: true });
+      const res = await axios.post(
+        `https://flexim.tk/funeral/api/v1/users/verify`,
+        FormData,
+        config,
+      );
+
+      dispatch({ type: LOADING, payload: false });
+      if (res.data.status === 'FAIL') {
+        toast.show(res.data.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: res.data.message,
+        });
+      } else {
+        toast.show('Успешно прошли варификацию, перенапраетесь...', {
+          type: 'success',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+        dispatch({
+          type: MODAL_VARIFY_USER,
+          payload: false,
+        });
+        navigation.navigate('Login');
+      }
+    } catch (error) {
+      dispatch({ type: LOADING, payload: false });
+      dispatch({ type: REGISTER_FAIL, payload: error.message });
     }
   };
 
@@ -179,8 +233,11 @@ const AuthState = props => {
         isSigned: state.isSigned,
         varifyId: state.varifyId,
         user: state.user,
-        /* token: state.token,
         loading: state.loading,
+        modalVarify: state.modalVarify,
+        modalVarifyUser: state.modalVarifyUser,
+        /* token: state.token,
+        
         error: state.error,
         redirectToReferrer: state.redirectToReferrer,
         user: state.user,
@@ -195,6 +252,7 @@ const AuthState = props => {
         signOut,
         register,
         approveVarify,
+        approveVarifyUser,
       }}>
       {props.children}
     </AuthContext.Provider>

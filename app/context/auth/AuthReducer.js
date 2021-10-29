@@ -1,34 +1,37 @@
 import utility from '../../utils/Utility';
-import { CommonActions } from '@react-navigation/native';
 import { CLEAR_ERRORS } from '../types';
 import {
   LOGOUT,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   FALSE_REDIRECT,
-  VARIFY_OK,
+  LOADING,
+  MODAL_VARIFY,
+  MODAL_VARIFY_USER,
 } from './AuthState';
 
 export default (state, action) => {
   switch (action.type) {
-    case VARIFY_OK:
-      return {
-        ...state,
-      };
+    case LOADING:
+      return { ...state, loading: action.payload };
+    case MODAL_VARIFY:
+      return { ...state, modalVarify: action.payload, modalVarifyUser: true };
+
+    case MODAL_VARIFY_USER:
+      return { ...state, modalVarifyUser: action.payload };
     case REGISTER_SUCCESS:
       return {
         ...state,
         varifyId: action.payload.data.id,
         isSigned: false,
         loading: false,
+        modalVarify: true,
       };
     case LOGIN_SUCCESS:
       utility.setItemObject('user', action.payload.user);
       utility.setItem('token', action.payload.token);
-      console.log('payload ', action.payload);
       return {
         ...state,
         isSigned: true,
@@ -41,16 +44,14 @@ export default (state, action) => {
         redirectToReferrer: false,
       };
     case REGISTER_FAIL:
-    case AUTH_ERROR:
     case LOGIN_FAIL:
-      // localStorage.removeItem('token');
       return {
         ...state,
         token: null,
-        isAuthenticated: false,
+        isSigned: false,
         loading: false,
         user: null,
-        error: [action.payload],
+        error: action.payload,
       };
     case LOGOUT:
       return {

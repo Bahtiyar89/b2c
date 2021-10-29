@@ -3,6 +3,7 @@ import { View, Image, StatusBar } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from 'react-native-toast-notifications';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import * as loginActions from 'app/store/actions/loginActions';
 import styles from './styles';
@@ -31,7 +32,7 @@ const Login: React.FC<IProps> = (props: IProps) => {
   const onRegistration = () => navigation.navigate('Registration');
 
   const authContext = useContext(AuthContext);
-  const { signin } = authContext;
+  const { signin, loading } = authContext;
 
   const toast = useToast();
 
@@ -95,6 +96,11 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
   return (
     <View style={styles.container}>
+      <Spinner
+        visible={loading}
+        textContent={'Загружается...'}
+        textStyle={{ color: '#3498db' }}
+      />
       <Text style={styles.loginHeaderText}>Войти</Text>
       <Text style={styles.signInText}>Введите ваш аккаунт</Text>
 
