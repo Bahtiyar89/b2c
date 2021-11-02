@@ -31,12 +31,6 @@ const GeneratedOrder: React.FC<IProps> = (props: IProps) => {
   useEffect(() => {
     const storage = async () => {
       let user = await utility.getItemObject('user');
-
-      toast.show('Добро пожаловать: ' + user?.role!, {
-        type: 'success',
-        duration: 5000,
-        animationType: 'zoom-in',
-      });
     };
     storage();
   }, []);

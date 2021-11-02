@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import { Button } from 'react-native-paper';
+import { View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 import { useToast } from 'react-native-toast-notifications';
 //import { useDispatch } from 'react-redux';
 //import * as loginActions from 'app/store/actions/loginActions';
@@ -35,12 +35,6 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
   useEffect(() => {
     const storage = async () => {
       let user = await utility.getItemObject('user');
-
-      toast.show('Добро пожаловать: ' + user?.role!, {
-        type: 'success',
-        duration: 5000,
-        animationType: 'zoom-in',
-      });
     };
     storage();
   }, []);

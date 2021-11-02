@@ -1,0 +1,26 @@
+import React from 'react';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { Button, TextInput, HelperText } from 'react-native-paper';
+
+interface IProps {
+  text: any;
+  visible: boolean;
+  errText: string;
+}
+const Validation: React.FC<IProps> = (props: IProps) => {
+  const { text, visible, errText } = props;
+
+  return (
+    <View style={{ flexDirection: 'row', width: '95%' }}>
+      <Text style={{ flex: 1 }}>{text}</Text>
+      <HelperText
+        style={{ alignItems: 'flex-end' }}
+        type="error"
+        visible={visible}>
+        {errText}
+      </HelperText>
+    </View>
+  );
+};
+
+export default Validation;

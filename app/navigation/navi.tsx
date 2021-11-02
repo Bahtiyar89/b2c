@@ -9,7 +9,7 @@ import Login from 'app/screens/Login';
 import ForgotPassword from 'app/screens/ForgotPassword';
 import Registration from '../screens/Registration';
 import Home from './drawer';
-import CareOfGraves from '../screens/customer/careOfGraves';
+import CareOfGraves from '../screens/customer/Dashboard/careOfGraves';
 
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();

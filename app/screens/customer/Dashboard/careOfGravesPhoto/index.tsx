@@ -4,10 +4,10 @@ import { Button, TextInput, HelperText } from 'react-native-paper';
 import { useToast } from 'react-native-toast-notifications';
 //import { useDispatch } from 'react-redux';
 //import * as loginActions from 'app/store/actions/loginActions';
-import AuthContext from '../../../context/auth/AuthContext';
+import AuthContext from '../../../../context/auth/AuthContext';
 import styles from './styles';
-import utility from '../../../utils/Utility';
-import I18n from '../../../../i18';
+import utility from '../../../../utils/Utility';
+import I18n from '../../../../../i18';
 import Modal from 'react-native-modal';
 
 interface IProps {
@@ -30,12 +30,6 @@ const CareGravePhoto: React.FC<IProps> = (props: IProps) => {
   useEffect(() => {
     const storage = async () => {
       let user = await utility.getItemObject('user');
-
-      toast.show('Добро пожаловать: ' + user?.role!, {
-        type: 'success',
-        duration: 5000,
-        animationType: 'zoom-in',
-      });
     };
     storage();
   }, []);

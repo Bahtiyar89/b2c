@@ -99,7 +99,7 @@ const AuthState = props => {
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
   const reverseRedirect = () => dispatch({ type: FALSE_REDIRECT });
 */
-  //Register user
+  //Register user customer
   const register = async FormData => {
     const config = {
       headers: {
@@ -226,6 +226,51 @@ const AuthState = props => {
     }
   };
 
+  //Register user executor
+  const registerExecutor = async FormData => {
+    console.log('FormData : ', FormData);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      dispatch({ type: LOADING, payload: true });
+      const res = await axios.post(
+        `https://flexim.tk/funeral/api/v1/users/register/customer`,
+        FormData,
+        config,
+      );
+
+      dispatch({ type: LOADING, payload: false });
+      if (res.data.status === 'FAIL') {
+        toast.show(res.data.message, {
+          type: 'warning',
+          duration: 3000,
+          animationType: 'zoom-in',
+        });
+        dispatch({ type: LOADING, payload: false });
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: res.data.message,
+        });
+      } else {
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data,
+        });
+      }
+    } catch (error) {
+      toast.show(error.message, {
+        type: 'warning',
+        duration: 3000,
+        animationType: 'zoom-in',
+      });
+      dispatch({ type: LOADING, payload: false });
+      dispatch({ type: REGISTER_FAIL, payload: error.message });
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -253,6 +298,8 @@ const AuthState = props => {
         register,
         approveVarify,
         approveVarifyUser,
+        //Executor
+        registerExecutor,
       }}>
       {props.children}
     </AuthContext.Provider>

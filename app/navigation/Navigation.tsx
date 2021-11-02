@@ -37,9 +37,11 @@ import CustomerOrderHistory from '../screens/customer/OrderHistory';
 import CustomerSelected from '../screens/customer/Selected';
 import CustomerSettings from '../screens/customer/Settings';
 import CustomerSupport from '../screens/customer/Support';
-import CareOfGraves from '../screens/customer/careOfGraves';
-import CareOfGravesPhoto from '../screens/customer/careOfGravesPhoto';
+//main page customer
+import CareOfGraves from '../screens/customer/Dashboard/careOfGraves';
+import CareOfGravesPhoto from '../screens/customer/Dashboard/careOfGravesPhoto';
 import GeneratedOrder from '../screens/customer/generatedOrder';
+import ServiceForYourself from '../screens/customer/Dashboard/serviceForYourself';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -116,6 +118,13 @@ function SignedIn() {
         }}
         name="GeneratedOrder"
         component={GeneratedOrder}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Уход за могилами',
+        }}
+        name="ServiceForYourself"
+        component={ServiceForYourself}
       />
     </Stack.Navigator>
   );

@@ -21,7 +21,7 @@ import CustomerOrderHistory from '../screens/customer/OrderHistory';
 import CustomerSelected from '../screens/customer/Selected';
 import CustomerSettings from '../screens/customer/Settings';
 import CustomerSupport from '../screens/customer/Support';
-import CareOfGraves from '../screens/customer/careOfGraves';
+import CareOfGraves from '../screens/customer/Dashboard/careOfGraves';
 
 import Rollouts from 'app/screens/Rollouts';
 import OpMain from 'app/screens/OpMain';
