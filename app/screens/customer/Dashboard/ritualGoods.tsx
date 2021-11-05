@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import {
-  Button,
-  Avatar,
-  IconButton,
-  Badge,
-  HelperText,
-  TextInput,
-} from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text';
-import { useDispatch } from 'react-redux';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import { Button, Text, HelperText, TextInput } from 'react-native-paper';
 import Modal from 'react-native-modal';
 
 import styles from './styles';
@@ -26,8 +17,16 @@ const ProfileEditModal: React.FC<IState> = ({
   model,
 }: IState) => {
   const elements = {
-    email: '',
+    surname: '',
+    name: '',
     phone: '',
+    fname: '',
+    dr: '',
+    ds: '',
+    country: '',
+    region: '',
+    city: '',
+    tomb: '',
   };
   const [user, seTuser] = useState({ ...elements });
 
@@ -38,31 +37,9 @@ const ProfileEditModal: React.FC<IState> = ({
 
   const [validObj, seTvalidObj] = useState({ ...validationElements });
 
-  const handleChange = (val: string, fieldName: string) => {
-    seTuser(prev => {
-      const varPr = { ...prev };
-      switch (fieldName) {
-        case 'email':
-          varPr.email = val;
-          break;
-        case 'phone':
-          varPr.phone = val;
-          break;
-      }
-      return varPr;
-    });
-  };
-
   const validation = () => {
     let err = false;
-    if (!user.email.includes('@')) {
-      err = true;
-      seTvalidObj({ ...validObj, email: true });
-      setTimeout(() => {
-        seTvalidObj({ ...validObj, email: false });
-      }, 1000);
-      return err;
-    }
+
     if (user.phone.length < 3) {
       err = true;
       seTvalidObj({ ...validObj, phone: true });
@@ -84,33 +61,173 @@ const ProfileEditModal: React.FC<IState> = ({
   return (
     <>
       <Modal isVisible={model}>
-        <View style={styles.modelContainer}>
-          <Text style={styles.modelHeaderText}>Найти могилу</Text>
-          <View style={styles.modelTextAndError}>
-            <Text style={{ flex: 1 }}>Имя</Text>
-            <HelperText
-              style={styles.modelHelperText}
-              type="error"
-              visible={validObj.email}>
-              input недействителень!
-            </HelperText>
-          </View>
-          <TextInput
-            placeholder="имя"
-            mode="outlined"
-            onChangeText={val => handleChange(val, 'email')}
-            value={user.email}
-          />
+        <SafeAreaView>
+          <ScrollView>
+            <View style={styles.modelContainer}>
+              <Text style={{ fontSize: 26 }}>Найти могилу</Text>
+              <Text style={{ fontSize: 20 }}>Описание услуги</Text>
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Фамилия</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="Фамилия"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, surname: val })}
+                value={user.surname}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Имя</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="имя"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, name: val })}
+                value={user.name}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Имя</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.phone}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="имя"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, fname: val })}
+                value={user.name}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Отчество</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="имя"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, fname: val })}
+                value={user.fname}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Д.Р.</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="имя"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, dr: val })}
+                value={user.dr}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Д.C.</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="имя"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, ds: val })}
+                value={user.ds}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Страна</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="имя"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, country: val })}
+                value={user.country}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Регион</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="имя"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, region: val })}
+                value={user.region}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Город</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="Город"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, city: val })}
+                value={user.city}
+              />
+              <View style={styles.modelTextAndError}>
+                <Text style={{ flex: 1 }}>Кладбище</Text>
+                <HelperText
+                  style={styles.modelHelperText}
+                  type="error"
+                  visible={validObj.email}>
+                  input недействителень!
+                </HelperText>
+              </View>
+              <TextInput
+                placeholder="имя"
+                mode="outlined"
+                onChangeText={val => seTuser({ ...user, tomb: val })}
+                value={user.tomb}
+              />
 
-          <View style={styles.modelYesNo}>
-            <Button onPress={() => noPressed()}>
-              <Text style={styles.modelButtonNoColor}>Нет</Text>
-            </Button>
-            <Button onPress={() => onButtonPressed()}>
-              <Text style={styles.modelButtonYesColor}>Да</Text>
-            </Button>
-          </View>
-        </View>
+              <View style={styles.modelYesNo}>
+                <Button onPress={() => noPressed()}>
+                  <Text style={styles.modelButtonNoColor}>Отмена</Text>
+                </Button>
+                <Button onPress={() => onButtonPressed()}>
+                  <Text style={styles.modelButtonYesColor}>Да</Text>
+                </Button>
+              </View>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
       </Modal>
     </>
   );

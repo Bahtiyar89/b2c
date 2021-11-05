@@ -39,6 +39,8 @@ import CustomerSettings from '../screens/customer/Settings';
 import CustomerSupport from '../screens/customer/Support';
 //main page customer
 import CareOfGraves from '../screens/customer/Dashboard/careOfGraves';
+import FuneralOrganization from '../screens/customer/Dashboard/funeralOrganization/index';
+import RitualGoodsCustomer from '../screens/customer/Dashboard/ritualGoods/index';
 import CareOfGravesPhoto from '../screens/customer/Dashboard/careOfGravesPhoto';
 import GeneratedOrder from '../screens/customer/generatedOrder';
 import ServiceForYourself from '../screens/customer/Dashboard/serviceForYourself';
@@ -91,6 +93,7 @@ function NotSignedIn() {
 function SignedIn() {
   return (
     <Stack.Navigator initialRouteName="customerDashboard" headerMode="none">
+      {/* customer dashboard menu */}
       <Stack.Screen
         options={{
           title: 'Уход',
@@ -112,6 +115,21 @@ function SignedIn() {
         name="CareOfGravesPhoto"
         component={CareOfGravesPhoto}
       />
+      <Stack.Screen
+        options={{
+          title: 'Уход за могилами',
+        }}
+        name="FuneralOrganization"
+        component={FuneralOrganization}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Уход за могилами',
+        }}
+        name="RitualGoodsCustomer"
+        component={RitualGoodsCustomer}
+      />
+
       <Stack.Screen
         options={{
           title: 'ввв',

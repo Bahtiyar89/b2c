@@ -10,7 +10,6 @@ import utility from '../../../utils/Utility';
 import I18n from '../../../../i18';
 
 import CareGrave from './careGrave';
-import FuneralOrganization from './funeralOrganization';
 import RitualGoods from './ritualGoods';
 import OrderFuneral from './orderFuneral';
 
@@ -40,8 +39,6 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
   }, []);
 
   const [modelCareGrave, seTmodelCareGrave] = useState(false);
-  const [modelFuneralOrganization, seTmodelFuneralOrganization] =
-    useState(false);
   const [modelRitualGoods, seTmodelRitualGoods] = useState(false);
   const [modelOrderFuneral, seTmodelOrderFuneral] = useState(false);
 
@@ -61,7 +58,7 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
         </Button>
 
         <Button
-          onPress={() => seTmodelFuneralOrganization(!modelFuneralOrganization)}
+          onPress={() => navigation.navigate('FuneralOrganization')}
           uppercase={false}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
@@ -69,7 +66,7 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
         </Button>
 
         <Button
-          onPress={() => seTmodelRitualGoods(!modelRitualGoods)}
+          onPress={() => navigation.navigate('RitualGoodsCustomer')}
           uppercase={false}
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
@@ -96,12 +93,6 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
           okPressed={modelOkPressed}
           model={modelCareGrave}
           noPressed={() => seTmodelCareGrave(false)}
-        />
-
-        <FuneralOrganization
-          okPressed={modelOkPressed}
-          model={modelFuneralOrganization}
-          noPressed={() => seTmodelFuneralOrganization(false)}
         />
 
         <RitualGoods
