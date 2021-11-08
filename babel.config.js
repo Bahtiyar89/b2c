@@ -17,5 +17,11 @@ module.exports = {
       },
     ],
     'jest-hoist',
+    [
+      'module:react-native-dotenv',
+      {
+        moduleName: 'react-native-dotenv',
+      },
+    ],
   ],
 };

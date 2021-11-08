@@ -19,6 +19,7 @@ import Navigator from 'app/navigation';
 import configureStore from 'app/store';
 import { IThemeState } from 'app/models/reducers/theme';
 import AuthState from './context/auth/AuthState';
+import F4State from './context/f4_state';
 import Navigation from './navigation/Navigation';
 import Navi from './navigation/navi';
 
@@ -46,11 +47,13 @@ const EntryPoint: React.FC = () => {
   return (
     <ToastProvider placement="top" offset={50}>
       <Provider store={store}>
-        <AuthState>
-          <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
-            <RootNavigation />
-          </PersistGate>
-        </AuthState>
+        <F4State>
+          <AuthState>
+            <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+              <RootNavigation />
+            </PersistGate>
+          </AuthState>
+        </F4State>
       </Provider>
     </ToastProvider>
   );
