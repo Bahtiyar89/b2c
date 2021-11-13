@@ -23,3 +23,7 @@ export const ADD_MODAL_OPEN = 'ADD_MODAL_OPEN';
 export const USER_MODAL_UPDATE = 'USER_MODAL_UPDATE';
 export const DELETE_USER = 'DELETE_USER';
 export const VARIFY_OK = 'VARIFY_OK';
+
+//dashboard
+export const TOMB_SERVICES = 'TOMB_SERVICES';
+export const TOMB_SERVICES_MODAL = 'TOMB_SERVICES_MODAL';

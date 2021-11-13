@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { ScrollView, SafeAreaView, View } from 'react-native';
 import { Card, Button, TextInput, HelperText, Text } from 'react-native-paper';
 import { useToast } from 'react-native-toast-notifications';
 import { Dropdown, MultiselectDropdown } from 'sharingan-rn-modal-dropdown';
+import Modal from 'react-native-modal';
+import DropDownPicker from 'react-native-dropdown-picker';
 //import { useDispatch } from 'react-redux';
 //import * as loginActions from 'app/store/actions/loginActions';
 import AuthContext from '../../../../context/auth/AuthContext';
 import styles from './styles';
 import utility from '../../../../utils/Utility';
 import I18n from '../../../../../i18';
-import Modal from 'react-native-modal';
+import Model from './model';
 
 interface IProps {
   navigation: any;
@@ -66,7 +68,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
       label: 'Поправка',
     },
   ];
-  const [fences, seTfences] = useState('');
+
   const dataFences = [
     {
       value: 'inst',
@@ -82,7 +84,8 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
     },
   ];
 
-  const [flowers, seTflowers] = useState('');
+  const dataChairs = [];
+
   const dataFlowers = [
     {
       value: 'inst',
@@ -98,10 +101,8 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
     },
   ];
 
-  const [churchService, seTchurchService] = useState('');
   const dataChurchServices = [];
 
-  const [vases, seTvases] = useState('');
   const dataVases = [
     {
       value: 'inst',
@@ -130,6 +131,15 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
   const onChangeSS = (value: string) => {
     seTlang(value);
   };
+  const [monument, seTmonument] = useState('');
+  const [fences, seTfences] = useState('');
+  const [chairs, seTchairs] = useState('');
+  const [flowers, seTflowers] = useState('');
+  const [impostions, seTimpostions] = useState<string[]>([]);
+  const [churchService, seTchurchService] = useState('');
+  const [vases, seTvases] = useState('');
+  const [cleanValue, seTcleanValue] = useState('');
+
   const onChangeFences = (value: string) => {
     seTfences(value);
   };
@@ -147,7 +157,6 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
     // seTcleanValue(value);
   };
   const [modalClean, seTmodalClean] = useState(false);
-  const [cleanValue, seTcleanValue] = useState('');
 
   const onChangeVases = (value: string) => {
     seTvases(value);
@@ -171,6 +180,43 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
   const onChangeMS = (value: string[]) => {
     setValueMS(value);
   };
+  const [country, seTcountry] = useState('');
+
+  const [monumentOpen, seTmonumentOpen] = useState(false);
+  const [fencesOpen, seTfencesOpen] = useState(false);
+  const [chairsOpen, seTchairsOpen] = useState(false);
+  const [flowersOpen, seTflowersOpen] = useState(false);
+  const [impositionOpen, seTimpositionOpen] = useState(false);
+  const [cleanOpen, seTcleanOpen] = useState(false);
+  const [churchOpen, seTchurchOpen] = useState(false);
+  const [vasesOpen, seTvasesOpen] = useState(false);
+
+  //on Open dropdown
+  const onMonumentOpen = useCallback(() => {
+    seTfencesOpen(false);
+  }, []);
+
+  const onFencesOpen = useCallback(() => {
+    seTchairsOpen(false);
+  }, []);
+
+  const onChairsOpen = useCallback(() => {
+    seTflowersOpen(false);
+  }, []);
+  const onFlowersOpen = useCallback(() => {
+    seTimpositionOpen(false);
+  }, []);
+  const onImpositionOpen = useCallback(() => {
+    seTcleanOpen(false);
+  }, []);
+  const onCleanOpen = useCallback(() => {
+    seTchurchOpen(false);
+  }, []);
+  const onChirchOpen = useCallback(() => {
+    seTvasesOpen(false);
+  }, []);
+  console.log('monument:', monument);
+  console.log('fences:', fences);
 
   return (
     <SafeAreaView>
@@ -184,227 +230,245 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
             }}>
             Уход за могилами
           </Text>
-          <Text>Выбрать услуги самому</Text>
-          <View style={{ height: 65, width: '90%' }}>
-            <Dropdown
-              mode="outlined"
-              label="Памятники"
-              data={data}
-              value={lang}
-              onChange={onChangeSS}
-            />
-          </View>
-          <View style={{ height: 65, width: '90%' }}>
-            <Dropdown
-              mode="outlined"
-              label="Ограды"
-              data={dataFences}
-              value={fences}
-              onChange={onChangeFences}
-            />
-          </View>
-          <View style={{ height: 65, width: '90%' }}>
-            <Dropdown
-              mode="outlined"
-              label="Столы/Скамейки"
-              data={dataFences}
-              value={fences}
-              onChange={onChangeFences}
-            />
-          </View>
-          <View style={{ height: 65, width: '90%' }}>
-            <Dropdown
-              mode="outlined"
-              label="Цветники"
-              data={dataFlowers}
-              value={flowers}
-              onChange={onChangeFlowers}
-            />
-          </View>
-          <View style={{ height: 65, width: '90%' }}>
-            <MultiselectDropdown
-              mode="outlined"
-              label="Возложение"
-              chipType="outlined"
-              data={dataImp}
-              value={valueMS}
-              onChange={onChangeMS}
-              emptySelectionText="Не выбрано"
-              selectedItemsText="Выбрано"
-            />
-          </View>
-          <View style={{ height: 65, width: '90%' }}>
-            <Dropdown
-              mode="outlined"
-              label="Уборка"
-              data={dataClean}
-              value={cleanValue}
-              onChange={onChangeClean}
-            />
-          </View>
-          <View style={{ height: 65, width: '90%' }}>
-            <Dropdown
-              mode="outlined"
-              label="Церковные услуги"
-              data={dataChurchServices}
-              value={churchService}
-              onChange={onChangeImposition}
-              emptyListText="пусто"
-              parentDDContainerStyle={{
-                position: 'absolute',
-                top: 60,
-                left: 0,
-                right: 0,
-                zIndex: 3,
-              }}
-            />
-          </View>
-          <View style={{ height: 65, width: '90%' }}>
-            <Dropdown
-              mode="outlined"
-              label="Вазочки"
-              data={dataVases}
-              value={vases}
-              onChange={onChangeVases}
-              parentDDContainerStyle={{
-                position: 'absolute',
-                top: 25,
-                left: 0,
-                right: 0,
-                zIndex: 3,
-              }}
-              disableSelectionTick
-            />
-          </View>
-
-          <Button
-            style={{ width: '90%', marginTop: 5, backgroundColor: '#333333' }}
-            mode="contained"
-            onPress={() => seTmodelServices(true)}>
-            <Text style={{ color: 'white' }}>Перейти к заказу</Text>
-          </Button>
-
+          <Text>Выбрать типы услуг самому</Text>
           <View style={styles.buttonMenuContainer}>
-            <Modal isVisible={modalClean}>
-              <View style={styles.modelContainer}>
-                <Card
-                  style={{ margin: 10, borderColor: 'black', borderWidth: 1 }}>
-                  <Card.Content>
-                    <Text style={styles.modelHeaderText}>Наименование</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                      }}>
-                      <View>
-                        <Text style={{ fontSize: 18 }}>набор 1</Text>
-                        <Text>Услуга 1</Text>
-                        <Text>Услуга 2</Text>
-                        <Text>Услуга 3</Text>
-                      </View>
+            <DropDownPicker
+              open={monumentOpen}
+              onOpen={onMonumentOpen}
+              setOpen={seTmonumentOpen}
+              items={data}
+              setValue={seTmonument}
+              value={monument}
+              zIndex={10}
+              placeholder="Памятники"
+              dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+              containerStyle={{ paddingTop: '2%' }}
+            />
 
-                      <View>
-                        <Text style={{ textAlign: 'center', fontSize: 16 }}>
-                          4200 руб
-                        </Text>
-                        <Button
-                          onPress={() => seTmodalClean(!modalClean)}
-                          uppercase={false}>
-                          Выбрать
-                        </Button>
+            <DropDownPicker
+              open={fencesOpen}
+              onOpen={onFencesOpen}
+              setOpen={seTfencesOpen}
+              items={dataFences}
+              setValue={seTfences}
+              value={fences}
+              zIndex={9}
+              placeholder="Ограды"
+              dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+              containerStyle={{ paddingTop: '2%' }}
+            />
 
-                        <Button
-                          onPress={() => seTmodalClean(!modalClean)}
-                          uppercase={false}>
-                          Оформить подписку
-                        </Button>
-                      </View>
-                    </View>
-                  </Card.Content>
-                </Card>
+            <DropDownPicker
+              open={chairsOpen}
+              onOpen={onChairsOpen}
+              setOpen={seTchairsOpen}
+              items={dataChairs}
+              setValue={seTchairs}
+              value={fences}
+              zIndex={8}
+              placeholder="Столы/Скамейки"
+              dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+              containerStyle={{ paddingTop: '2%' }}
+            />
 
-                <Card
-                  style={{ margin: 10, borderColor: 'black', borderWidth: 1 }}>
-                  <Card.Content style={{ margin: 10 }}>
-                    <Text style={styles.modelHeaderText}>Наименование</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                      }}>
-                      <View>
-                        <Text style={{ fontSize: 18 }}>набор 2</Text>
-                        <Text>Услуга 1</Text>
-                        <Text>Услуга 2</Text>
-                        <Text>Услуга 3</Text>
-                      </View>
+            <DropDownPicker
+              open={flowersOpen}
+              onOpen={onFlowersOpen}
+              setOpen={seTflowersOpen}
+              items={dataFlowers}
+              setValue={seTflowers}
+              value={flowers}
+              zIndex={7}
+              placeholder="Цветники"
+              dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+              containerStyle={{ paddingTop: '2%' }}
+            />
 
-                      <View>
-                        <Text style={{ textAlign: 'center', fontSize: 16 }}>
-                          6800 руб
-                        </Text>
-                        <Button
-                          onPress={() => seTmodalClean(!modalClean)}
-                          uppercase={false}>
-                          Выбрать
-                        </Button>
+            <DropDownPicker
+              multiple={true}
+              min={0}
+              max={3}
+              open={impositionOpen}
+              onOpen={onImpositionOpen}
+              setOpen={seTimpositionOpen}
+              items={dataImp}
+              setValue={seTimpostions}
+              value={impostions}
+              zIndex={6}
+              placeholder="Возложение"
+              dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+              containerStyle={{ paddingTop: '2%' }}
+            />
 
-                        <Button
-                          onPress={() => seTmodalClean(!modalClean)}
-                          uppercase={false}>
-                          Оформить подписку
-                        </Button>
-                      </View>
-                    </View>
-                  </Card.Content>
-                </Card>
+            <DropDownPicker
+              open={cleanOpen}
+              onOpen={onCleanOpen}
+              setOpen={seTcleanOpen}
+              items={dataClean}
+              setValue={seTcleanValue}
+              value={cleanValue}
+              zIndex={5}
+              placeholder="Уборка"
+              dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+              containerStyle={{ paddingTop: '2%' }}
+            />
 
-                <Card
-                  style={{ margin: 10, borderColor: 'black', borderWidth: 1 }}>
-                  <Card.Content>
-                    <Text style={styles.modelHeaderText}>Наименование</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                      }}>
-                      <View>
-                        <Text style={{ fontSize: 12, padding: 5 }}>
-                          набор по
-                        </Text>
-                        <Text style={{ fontSize: 12, padding: 0 }}>
-                          благоустройству
-                        </Text>
-                        <Text style={{ fontSize: 12, padding: 0 }}>
-                          мобильного холма
-                        </Text>
-                        <Text>Услуга 1</Text>
-                        <Text>Услуга 2</Text>
-                        <Text>Услуга 3</Text>
-                      </View>
+            <DropDownPicker
+              open={churchOpen}
+              onOpen={onChirchOpen}
+              setOpen={seTchurchOpen}
+              items={dataChurchServices}
+              setValue={seTchurchService}
+              value={churchService}
+              zIndex={4}
+              placeholder="Церковные услуги"
+              dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+              containerStyle={{ paddingTop: '2%' }}
+              dropDownDirection="TOP"
+            />
 
-                      <View>
-                        <Text style={{ textAlign: 'center', fontSize: 16 }}>
-                          6800 руб
-                        </Text>
-                        <Button
-                          onPress={() => seTmodalClean(!modalClean)}
-                          uppercase={false}>
-                          Выбрать
-                        </Button>
+            <DropDownPicker
+              open={vasesOpen}
+              setOpen={seTvasesOpen}
+              items={dataVases}
+              setValue={seTvases}
+              value={vases}
+              zIndex={3}
+              dropDownDirection="TOP"
+              dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+              containerStyle={{ paddingTop: '2%' }}
+              placeholder="Вазочки"
+            />
 
-                        <Button
-                          onPress={() => seTmodalClean(!modalClean)}
-                          uppercase={false}>
-                          Оформить подписку
-                        </Button>
-                      </View>
-                    </View>
-                  </Card.Content>
-                </Card>
-              </View>
-            </Modal>
+            <Button
+              style={{ width: '90%', marginTop: 5, backgroundColor: '#333333' }}
+              mode="contained"
+              onPress={() => seTmodelServices(true)}>
+              <Text style={{ color: 'white' }}>Перейти к заказу</Text>
+            </Button>
           </View>
+          <Model
+            model={true}
+            okPressed={() => console.log('pressed')}
+            noPressed={() => console.log('nooo')}
+          />
+          <Modal isVisible={modalClean}>
+            <View style={styles.modelContainer}>
+              <Card
+                style={{ margin: 10, borderColor: 'black', borderWidth: 1 }}>
+                <Card.Content>
+                  <Text style={styles.modelHeaderText}>Наименование</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                    }}>
+                    <View>
+                      <Text style={{ fontSize: 18 }}>набор 1</Text>
+                      <Text>Услуга 1</Text>
+                      <Text>Услуга 2</Text>
+                      <Text>Услуга 3</Text>
+                    </View>
+
+                    <View>
+                      <Text style={{ textAlign: 'center', fontSize: 16 }}>
+                        4200 руб
+                      </Text>
+                      <Button
+                        onPress={() => seTmodalClean(!modalClean)}
+                        uppercase={false}>
+                        Выбрать
+                      </Button>
+
+                      <Button
+                        onPress={() => seTmodalClean(!modalClean)}
+                        uppercase={false}>
+                        Оформить подписку
+                      </Button>
+                    </View>
+                  </View>
+                </Card.Content>
+              </Card>
+
+              <Card
+                style={{ margin: 10, borderColor: 'black', borderWidth: 1 }}>
+                <Card.Content style={{ margin: 10 }}>
+                  <Text style={styles.modelHeaderText}>Наименование</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                    }}>
+                    <View>
+                      <Text style={{ fontSize: 18 }}>набор 2</Text>
+                      <Text>Услуга 1</Text>
+                      <Text>Услуга 2</Text>
+                      <Text>Услуга 3</Text>
+                    </View>
+
+                    <View>
+                      <Text style={{ textAlign: 'center', fontSize: 16 }}>
+                        6800 руб
+                      </Text>
+                      <Button
+                        onPress={() => seTmodalClean(!modalClean)}
+                        uppercase={false}>
+                        Выбрать
+                      </Button>
+
+                      <Button
+                        onPress={() => seTmodalClean(!modalClean)}
+                        uppercase={false}>
+                        Оформить подписку
+                      </Button>
+                    </View>
+                  </View>
+                </Card.Content>
+              </Card>
+
+              <Card
+                style={{ margin: 10, borderColor: 'black', borderWidth: 1 }}>
+                <Card.Content>
+                  <Text style={styles.modelHeaderText}>Наименование</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                    }}>
+                    <View>
+                      <Text style={{ fontSize: 12, padding: 5 }}>набор по</Text>
+                      <Text style={{ fontSize: 12, padding: 0 }}>
+                        благоустройству
+                      </Text>
+                      <Text style={{ fontSize: 12, padding: 0 }}>
+                        мобильного холма
+                      </Text>
+                      <Text>Услуга 1</Text>
+                      <Text>Услуга 2</Text>
+                      <Text>Услуга 3</Text>
+                    </View>
+
+                    <View>
+                      <Text style={{ textAlign: 'center', fontSize: 16 }}>
+                        6800 руб
+                      </Text>
+                      <Button
+                        onPress={() => seTmodalClean(!modalClean)}
+                        uppercase={false}>
+                        Выбрать
+                      </Button>
+
+                      <Button
+                        onPress={() => seTmodalClean(!modalClean)}
+                        uppercase={false}>
+                        Оформить подписку
+                      </Button>
+                    </View>
+                  </View>
+                </Card.Content>
+              </Card>
+            </View>
+          </Modal>
         </View>
       </ScrollView>
     </SafeAreaView>

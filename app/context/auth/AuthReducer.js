@@ -34,6 +34,7 @@ export default (state, action) => {
       utility.setItem('token', action.payload.token);
       return {
         ...state,
+        token: action.payload.token,
         isSigned: true,
         loading: false,
         user: action.payload.user,

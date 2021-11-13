@@ -17,7 +17,6 @@ interface IProps {
 
 const RitualGoods: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
-  console.log('FuneralOrganization: ');
 
   //const dispatch = useDispatch();
   //const onLogout = () => dispatch(loginActions.logOut());

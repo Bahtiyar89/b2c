@@ -11,7 +11,6 @@ import I18n from '../../../../i18';
 
 import CareGrave from './careGrave';
 import RitualGoods from './ritualGoods';
-import OrderFuneral from './orderFuneral';
 
 interface IProps {
   navigation: any;
@@ -19,7 +18,6 @@ interface IProps {
 
 const Dashboard: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
-  console.log('navigation: ', navigation);
 
   //const dispatch = useDispatch();
   //const onLogout = () => dispatch(loginActions.logOut());
@@ -40,7 +38,6 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
 
   const [modelCareGrave, seTmodelCareGrave] = useState(false);
   const [modelRitualGoods, seTmodelRitualGoods] = useState(false);
-  const [modelOrderFuneral, seTmodelOrderFuneral] = useState(false);
 
   const modelOkPressed = (params: any) => {
     console.log('params: ', params);
@@ -55,14 +52,6 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
           icon="chevron-right"
           contentStyle={{ flexDirection: 'row-reverse' }}>
           {I18n.t('care_grave')}
-        </Button>
-
-        <Button
-          onPress={() => navigation.navigate('FuneralOrganization')}
-          uppercase={false}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('funeral_organization')}
         </Button>
 
         <Button
@@ -81,14 +70,6 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
           {I18n.t('find_grave')}
         </Button>
 
-        <Button
-          onPress={() => seTmodelOrderFuneral(!modelOrderFuneral)}
-          uppercase={false}
-          icon="chevron-right"
-          contentStyle={{ flexDirection: 'row-reverse' }}>
-          {I18n.t('order_funeral')}
-        </Button>
-
         <CareGrave
           okPressed={modelOkPressed}
           model={modelCareGrave}
@@ -99,12 +80,6 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
           okPressed={modelOkPressed}
           model={modelRitualGoods}
           noPressed={() => seTmodelRitualGoods(false)}
-        />
-
-        <OrderFuneral
-          okPressed={modelOkPressed}
-          model={modelOrderFuneral}
-          noPressed={() => seTmodelOrderFuneral(false)}
         />
       </View>
       <Button

@@ -3,10 +3,9 @@ import { APP_API_URL } from 'react-native-dotenv';
 
 import utility from '../utils/Utility';
 
-const token = utility.getItem('token');
 export const doGet = async (uri, params = {}) => {
-  console.log('${APP_API_URL}', `${APP_API_URL}` + uri);
-  console.log('params', params);
+  const token = await utility.getItem('token');
+
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -14,6 +13,8 @@ export const doGet = async (uri, params = {}) => {
     },
     params,
   };
+  console.log('config 4', config);
+  console.log('ur 4', `${APP_API_URL}` + uri);
   return await axios.get(`${APP_API_URL}` + uri, config);
 };
 

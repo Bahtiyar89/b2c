@@ -281,6 +281,7 @@ const AuthState = props => {
         loading: state.loading,
         modalVarify: state.modalVarify,
         modalVarifyUser: state.modalVarifyUser,
+        token: state.token,
         /* token: state.token,
         
         error: state.error,

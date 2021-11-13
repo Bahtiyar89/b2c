@@ -6,6 +6,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  buttonMenuContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginTop: 20,
+    flexDirection: 'column',
+    width: '90%',
+  },
   mainHeader: {
     marginTop: 20,
     flexDirection: 'row',
@@ -24,13 +31,6 @@ const styles = StyleSheet.create({
     right: 14,
   },
 
-  buttonMenuContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginTop: 20,
-    flexDirection: 'column',
-    width: '90%',
-  },
   modelContainer: { backgroundColor: 'white', padding: 10 },
   modelHeaderText: { color: 'black', fontWeight: '500', fontSize: 20 },
   modelTextAndError: { marginTop: 10, flexDirection: 'row', width: '100%' },
