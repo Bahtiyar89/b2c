@@ -4576,7 +4576,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
 
-lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.20, lodash@^4.7.0:
+lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -5669,6 +5669,11 @@ react-native-i18n@^2.0.15:
   dependencies:
     i18n-js "3.0.11"
 
+react-native-image-picker@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-4.2.0.tgz#852867e340da464fda6895b32d383d88a143e623"
+  integrity sha512-RT/MIDx/j6lSF7ZaHG1CU/Fw+TcY2FejvvzjfWbB3DUBp5cZU6JmIWwFEYD/GD8PSvE/3l6K1r67C02phk/wqw==
+
 react-native-iphone-x-helper@^1.3.0, react-native-iphone-x-helper@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
@@ -5688,14 +5693,6 @@ react-native-masked-text@^1.13.0:
   dependencies:
     date-and-time "0.9.0"
     tinymask "1.0.2"
-
-react-native-modal@^11.5.6:
-  version "11.10.0"
-  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-11.10.0.tgz#94a6d3a2428ba5228cfb4dc174cacea79c871591"
-  integrity sha512-syRYDJYSh16bR37R5EKU9T/wC+5bEOfF17IUqf5URdhbEDd+hxyMInC++l45E8oI+MtdOaEp9yAws5xDqk8dnA==
-  dependencies:
-    prop-types "^15.6.2"
-    react-native-animatable "1.3.3"
 
 react-native-modal@^13.0.0:
   version "13.0.0"
@@ -6249,14 +6246,6 @@ shallow-clone@^3.0.0:
   integrity sha512-/6KqX+GVUdqPuPPd2LxDDxzX6CAbjJehAAOKlNpqqUpAqPM6HeL8f+o3a+JsyGjn2lv0WY8UsTgUJjU9Ok55NA==
   dependencies:
     kind-of "^6.0.2"
-
-sharingan-rn-modal-dropdown@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/sharingan-rn-modal-dropdown/-/sharingan-rn-modal-dropdown-1.4.0.tgz#a5665e955c7dce2d2a86a77348a9cf1e60131d15"
-  integrity sha512-FaYAL13aGuX1albtNIbAABdyy3boXP8dZe55mMIHhp8OLpnfNpTJdHy9PrFU9Ka51ehAD7601lqLt3WoV9BLew==
-  dependencies:
-    lodash "^4.17.20"
-    react-native-modal "^11.5.6"
 
 shebang-command@^1.2.0:
   version "1.2.0"

@@ -1,17 +1,110 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, SafeAreaView, View } from 'react-native';
-import { Card, Button, TextInput, HelperText, Text } from 'react-native-paper';
-import { useToast } from 'react-native-toast-notifications';
-import { Dropdown, MultiselectDropdown } from 'sharingan-rn-modal-dropdown';
+import { Card, Button, Text } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
-//import { useDispatch } from 'react-redux';
-//import * as loginActions from 'app/store/actions/loginActions';
 import AuthContext from '../../../../context/auth/AuthContext';
 import styles from './styles';
 import utility from '../../../../utils/Utility';
-import I18n from '../../../../../i18';
-import Model from './model';
+import InstallationModel from './InstallationModel';
+
+const data = [
+  {
+    value: 'inst',
+    label: 'Установка',
+  },
+  {
+    value: 'str',
+    label: 'Демонтаж',
+  },
+  {
+    value: 'change',
+    label: 'Замена',
+  },
+  {
+    value: 'reg',
+    label: 'Реставрация',
+  },
+  {
+    value: 'cor',
+    label: 'Поправка',
+  },
+];
+
+const dataFences = [
+  {
+    value: 'inst',
+    label: 'Установка',
+  },
+  {
+    value: 'str',
+    label: 'Демонтаж',
+  },
+  {
+    value: 'change',
+    label: 'Замена',
+  },
+];
+
+const dataChairs = [];
+
+const dataFlowers = [
+  {
+    value: 'inst',
+    label: 'Установка',
+  },
+  {
+    value: 'str',
+    label: 'Демонтаж',
+  },
+  {
+    value: 'change',
+    label: 'Замена',
+  },
+];
+
+const dataChurchServices = [];
+
+const dataVases = [
+  {
+    value: 'inst',
+    label: 'Установка',
+  },
+  {
+    value: 'str',
+    label: 'Демонтаж',
+  },
+  {
+    value: 'change',
+    label: 'Замена',
+  },
+];
+
+const dataClean = [
+  {
+    value: 'set1',
+    label: 'Набор 1',
+  },
+  {
+    value: 'set2',
+    label: 'Набор 2',
+  },
+];
+
+const dataImp = [
+  {
+    value: 'basket',
+    label: 'Корзина',
+  },
+  {
+    value: 'fl',
+    label: 'Цветы',
+  },
+  {
+    value: 'wr',
+    label: 'Венки',
+  },
+];
 
 interface IProps {
   navigation: any;
@@ -19,18 +112,7 @@ interface IProps {
 
 const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
   const { navigation } = props;
-  console.log('navigation: ', navigation);
 
-  //const dispatch = useDispatch();
-  //const onLogout = () => dispatch(loginActions.logOut());
-  const authContext = useContext(AuthContext);
-  const { signOut } = authContext;
-
-  const toast = useToast();
-
-  const onLogout = () => {
-    signOut();
-  };
   useEffect(() => {
     const storage = async () => {
       let user = await utility.getItemObject('user');
@@ -44,143 +126,14 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
     seTmodelServices(!modelServices);
   };
 
-  const [lang, seTlang] = useState('');
-
-  const data = [
-    {
-      value: 'inst',
-      label: 'Установка',
-    },
-    {
-      value: 'str',
-      label: 'Демонтаж',
-    },
-    {
-      value: 'change',
-      label: 'Замена',
-    },
-    {
-      value: 'reg',
-      label: 'Реставрация',
-    },
-    {
-      value: 'cor',
-      label: 'Поправка',
-    },
-  ];
-
-  const dataFences = [
-    {
-      value: 'inst',
-      label: 'Установка',
-    },
-    {
-      value: 'str',
-      label: 'Демонтаж',
-    },
-    {
-      value: 'change',
-      label: 'Замена',
-    },
-  ];
-
-  const dataChairs = [];
-
-  const dataFlowers = [
-    {
-      value: 'inst',
-      label: 'Установка',
-    },
-    {
-      value: 'str',
-      label: 'Демонтаж',
-    },
-    {
-      value: 'change',
-      label: 'Замена',
-    },
-  ];
-
-  const dataChurchServices = [];
-
-  const dataVases = [
-    {
-      value: 'inst',
-      label: 'Установка',
-    },
-    {
-      value: 'str',
-      label: 'Демонтаж',
-    },
-    {
-      value: 'change',
-      label: 'Замена',
-    },
-  ];
-
-  const dataClean = [
-    {
-      value: 'set1',
-      label: 'Набор 1',
-    },
-    {
-      value: 'set2',
-      label: 'Набор 2',
-    },
-  ];
-  const onChangeSS = (value: string) => {
-    seTlang(value);
-  };
-  const [monument, seTmonument] = useState('');
-  const [fences, seTfences] = useState('');
-  const [chairs, seTchairs] = useState('');
-  const [flowers, seTflowers] = useState('');
+  const [monument, seTmonument] = useState<string>('');
+  const [fences, seTfences] = useState<string>('');
+  const [chairs, seTchairs] = useState<string>('');
+  const [flowers, seTflowers] = useState<string>('');
   const [impostions, seTimpostions] = useState<string[]>([]);
-  const [churchService, seTchurchService] = useState('');
-  const [vases, seTvases] = useState('');
-  const [cleanValue, seTcleanValue] = useState('');
-
-  const onChangeFences = (value: string) => {
-    seTfences(value);
-  };
-  const onChangeFlowers = (value: string) => {
-    seTflowers(value);
-  };
-  const onChangeImposition = (value: string) => {
-    seTchurchService(value);
-  };
-
-  const onChangeClean = (value: string) => {
-    console.log('value:', value);
-
-    seTmodalClean(!modalClean);
-    // seTcleanValue(value);
-  };
-  const [modalClean, seTmodalClean] = useState(false);
-
-  const onChangeVases = (value: string) => {
-    seTvases(value);
-  };
-  const [valueMS, setValueMS] = useState<string[]>([]);
-
-  const dataImp = [
-    {
-      value: 'basket',
-      label: 'Корзина',
-    },
-    {
-      value: 'fl',
-      label: 'Цветы',
-    },
-    {
-      value: 'wr',
-      label: 'Венки',
-    },
-  ];
-  const onChangeMS = (value: string[]) => {
-    setValueMS(value);
-  };
-  const [country, seTcountry] = useState('');
+  const [churchService, seTchurchService] = useState<string>('');
+  const [vases, seTvases] = useState<string>('');
+  const [cleanValue, seTcleanValue] = useState<string>('');
 
   const [monumentOpen, seTmonumentOpen] = useState(false);
   const [fencesOpen, seTfencesOpen] = useState(false);
@@ -191,6 +144,9 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
   const [churchOpen, seTchurchOpen] = useState(false);
   const [vasesOpen, seTvasesOpen] = useState(false);
 
+  //dropdown models
+  const [modalClean, seTmodalClean] = useState<boolean>(false);
+  const [instModel, seTinstModel] = useState<boolean>(false);
   //on Open dropdown
   const onMonumentOpen = useCallback(() => {
     seTfencesOpen(false);
@@ -215,8 +171,15 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
   const onChirchOpen = useCallback(() => {
     seTvasesOpen(false);
   }, []);
-  console.log('monument:', monument);
-  console.log('fences:', fences);
+
+  //dropdown on change
+  const setMonumentDr = (callback: any) => {
+    if (callback() === 'inst') {
+      seTinstModel(true);
+    } else {
+    }
+    seTmonument(callback());
+  };
 
   return (
     <SafeAreaView>
@@ -237,7 +200,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               onOpen={onMonumentOpen}
               setOpen={seTmonumentOpen}
               items={data}
-              setValue={seTmonument}
+              setValue={setMonumentDr}
               value={monument}
               zIndex={10}
               placeholder="Памятники"
@@ -252,7 +215,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               items={dataFences}
               setValue={seTfences}
               value={fences}
-              zIndex={9}
+              zIndex={8}
               placeholder="Ограды"
               dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
               containerStyle={{ paddingTop: '2%' }}
@@ -265,7 +228,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               items={dataChairs}
               setValue={seTchairs}
               value={fences}
-              zIndex={8}
+              zIndex={7}
               placeholder="Столы/Скамейки"
               dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
               containerStyle={{ paddingTop: '2%' }}
@@ -278,7 +241,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               items={dataFlowers}
               setValue={seTflowers}
               value={flowers}
-              zIndex={7}
+              zIndex={6}
               placeholder="Цветники"
               dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
               containerStyle={{ paddingTop: '2%' }}
@@ -294,7 +257,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               items={dataImp}
               setValue={seTimpostions}
               value={impostions}
-              zIndex={6}
+              zIndex={5}
               placeholder="Возложение"
               dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
               containerStyle={{ paddingTop: '2%' }}
@@ -307,7 +270,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               items={dataClean}
               setValue={seTcleanValue}
               value={cleanValue}
-              zIndex={5}
+              zIndex={4}
               placeholder="Уборка"
               dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
               containerStyle={{ paddingTop: '2%' }}
@@ -320,7 +283,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               items={dataChurchServices}
               setValue={seTchurchService}
               value={churchService}
-              zIndex={4}
+              zIndex={3}
               placeholder="Церковные услуги"
               dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
               containerStyle={{ paddingTop: '2%' }}
@@ -333,7 +296,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               items={dataVases}
               setValue={seTvases}
               value={vases}
-              zIndex={3}
+              zIndex={2}
               dropDownDirection="TOP"
               dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
               containerStyle={{ paddingTop: '2%' }}
@@ -347,8 +310,9 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
               <Text style={{ color: 'white' }}>Перейти к заказу</Text>
             </Button>
           </View>
-          <Model
-            model={true}
+          <InstallationModel
+            instCloseModal={() => seTinstModel(false)}
+            model={instModel}
             okPressed={() => console.log('pressed')}
             noPressed={() => console.log('nooo')}
           />

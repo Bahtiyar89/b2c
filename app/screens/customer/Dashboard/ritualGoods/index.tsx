@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, SafeAreaView, Image } from 'react-native';
 import { Button, TextInput, Checkbox, Text, Card } from 'react-native-paper';
 import { useToast } from 'react-native-toast-notifications';
-import { Dropdown } from 'sharingan-rn-modal-dropdown';
+
 //import { useDispatch } from 'react-redux';
 //import * as loginActions from 'app/store/actions/loginActions';
 import AuthContext from '../../../../context/auth/AuthContext';
