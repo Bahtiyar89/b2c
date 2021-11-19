@@ -9,6 +9,7 @@ import { TextInputMask } from 'react-native-masked-text';
 //import * as loginActions from 'app/store/actions/loginActions';
 import AuthContext from '../../context/auth/AuthContext';
 import NavigationService from 'app/navigation/NavigationService';
+import AppStyles from '../../config/styles';
 import styles from './styles';
 
 interface IProps {
@@ -126,7 +127,8 @@ const MainScreen: React.FC<IProps> = (props: IProps) => {
           />
           <Text style={styles.loginHeaderText}>Регистрация</Text>
 
-          <View style={{ flexDirection: 'row', width: '95%' }}>
+          <View
+            style={{ flexDirection: 'row', width: AppStyles.width90.width }}>
             <Text style={{ flex: 1 }}>E-mail</Text>
             <HelperText
               style={{ alignItems: 'flex-end' }}
@@ -137,14 +139,15 @@ const MainScreen: React.FC<IProps> = (props: IProps) => {
           </View>
           <TextInput
             mode="outlined"
-            style={styles.textInput}
+            style={{ width: AppStyles.width90.width }}
             placeholder="Email"
             underlineColorAndroid="transparent"
             onChangeText={val => seTuser({ ...user, email: val })}
             value={user.email}
           />
 
-          <View style={{ flexDirection: 'row', width: '95%' }}>
+          <View
+            style={{ flexDirection: 'row', width: AppStyles.width90.width }}>
             <Text style={{ flex: 1 }}>Телефон</Text>
             <HelperText
               style={{ alignItems: 'flex-end' }}
@@ -155,7 +158,7 @@ const MainScreen: React.FC<IProps> = (props: IProps) => {
           </View>
           <TextInput
             mode="outlined"
-            style={styles.textInput}
+            style={{ width: AppStyles.width90.width }}
             render={props => (
               <TextInputMask
                 type={'custom'}
@@ -169,7 +172,8 @@ const MainScreen: React.FC<IProps> = (props: IProps) => {
             )}
           />
 
-          <View style={{ flexDirection: 'row', width: '95%' }}>
+          <View
+            style={{ flexDirection: 'row', width: AppStyles.width90.width }}>
             <Text style={{ flex: 1 }}>Пароль</Text>
             <HelperText
               style={{ alignItems: 'flex-end' }}
@@ -180,7 +184,7 @@ const MainScreen: React.FC<IProps> = (props: IProps) => {
           </View>
           <TextInput
             mode="outlined"
-            style={styles.textInput}
+            style={{ width: AppStyles.width90.width }}
             placeholder="Пароль"
             underlineColorAndroid="transparent"
             onChangeText={val => seTuser({ ...user, password: val })}
@@ -188,7 +192,12 @@ const MainScreen: React.FC<IProps> = (props: IProps) => {
             secureTextEntry={true}
           />
 
-          <View style={{ flexDirection: 'row', width: '95%' }}>
+          <View
+            style={{
+              marginTop: 10,
+              flexDirection: 'row',
+              width: AppStyles.width90.width,
+            }}>
             <Text style={{ flex: 1 }}>Повторный пароль</Text>
             <HelperText
               style={{ alignItems: 'flex-end' }}
@@ -199,7 +208,7 @@ const MainScreen: React.FC<IProps> = (props: IProps) => {
           </View>
           <TextInput
             mode="outlined"
-            style={styles.textInput}
+            style={{ width: AppStyles.width90.width }}
             placeholder="Повторный пароль"
             underlineColorAndroid="transparent"
             onChangeText={val => seTuser({ ...user, password_confirm: val })}
@@ -207,16 +216,28 @@ const MainScreen: React.FC<IProps> = (props: IProps) => {
             secureTextEntry={true}
           />
 
-          <View style={styles.rowDirection}>
-            <Button
-              mode="contained"
-              onPress={registerUser}
-              style={styles.rowButton}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 15,
+              marginBottom: 15,
+              width: AppStyles.width90.width,
+            }}>
+            <Button onPress={registerUser} uppercase={false} mode="contained">
               <Text style={styles.buttonText}>Зарегистрироваться</Text>
             </Button>
-            <Button style={styles.forgotStyle} onPress={onRegistrationExecutor}>
-              <Text style={{ fontSize: 12 }}>Я исполнитель</Text>
-            </Button>
+
+            <Text
+              onPress={onRegistrationExecutor}
+              style={{
+                fontWeight: '400',
+                color: AppStyles.color.COLOR_PRIMARY,
+                marginRight: 10,
+              }}>
+              Я исполнитель
+            </Text>
           </View>
         </View>
 

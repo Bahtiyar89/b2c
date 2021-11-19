@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { View, Image } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, Text, FAB } from 'react-native-paper';
 import { useToast } from 'react-native-toast-notifications';
 import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -12,6 +12,7 @@ import F4Context from '../../../../context/f4_context';
 import styles from './styles';
 import I18n from '../../../../../i18';
 import DashboardContext from '../../../../context/dashboard/DashboardContext';
+import Validation from '../../../../components/validation';
 
 interface IProps {
   navigation: any;
@@ -43,9 +44,6 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
     cemeteryList,
   } = f4Context;
   const toast = useToast();
-
-  console.log('tombcareService: ', tombcareService);
-  console.log('loading: ', loading);
 
   useEffect(() => {
     getCountries();
@@ -166,7 +164,6 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
     seTmodelCareGrave(true);
   };
 
-  console.log('region..', region);
   const navigateYourSelf = () => {
     modalTombFalse();
     navigateServiceYourself();
@@ -175,6 +172,63 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
     modalTombFalse();
     navigateGravePhoto();
   };
+
+  const validationElements = {
+    country: false,
+    region: false,
+    city: false,
+    cemetry: false,
+  };
+
+  const [validObj, seTvalidObj] = useState({ ...validationElements });
+
+  const validation = () => {
+    let err = false;
+    if (country.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, country: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, country: false });
+      }, 1000);
+      return err;
+    }
+    if (region.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, region: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, region: false });
+      }, 1000);
+      return err;
+    }
+    /*
+    if (city.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, city: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, city: false });
+      }, 1000);
+      return err;
+    }
+    if (cemetry.length < 3) {
+      err = true;
+      seTvalidObj({ ...validObj, cemetry: true });
+      setTimeout(() => {
+        seTvalidObj({ ...validObj, cemetry: false });
+      }, 1000);
+    }*/
+    return err;
+  };
+
+  const goChooseService = () => {
+    const err = validation();
+
+    if (err) {
+    } else {
+      getTombCareService(region ? region : 1);
+      navigation.navigate('ChooseService');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Spinner
@@ -200,7 +254,13 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
           Местоположение захоронения
         </Text>
 
-        <Text style={{ width: '90%', paddingTop: '2%' }}>Страны</Text>
+        <View style={{ marginTop: 20 }}>
+          <Validation
+            text={'Страны'}
+            visible={validObj.country}
+            errText={'Выберите Страну!'}
+          />
+        </View>
         <DropDownPicker
           open={countryOpen}
           onOpen={onCountryOpen}
@@ -210,8 +270,14 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
           value={country}
           zIndex={10}
           dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+          placeholder={'Выберите Страну'}
+          placeholderStyle={{ color: '#707070' }}
         />
-        <Text style={{ width: '90%', paddingTop: '2%' }}>Регионы</Text>
+        <Validation
+          text={'Регионы'}
+          visible={validObj.region}
+          errText={'Выберите Регион!'}
+        />
         <DropDownPicker
           open={regionOpen}
           onOpen={onRegionOpen}
@@ -221,9 +287,15 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
           value={region}
           zIndex={9}
           dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+          placeholder={'Выберите Регион'}
+          placeholderStyle={{ color: '#707070' }}
         />
 
-        <Text style={{ width: '90%', paddingTop: '2%' }}>Город</Text>
+        <Validation
+          text={'Город'}
+          visible={validObj.city}
+          errText={'Выберите Город!'}
+        />
         <DropDownPicker
           open={cityOpen}
           onOpen={onCityOpen}
@@ -233,8 +305,15 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
           value={city}
           zIndex={8}
           dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+          placeholder={'Выберите Город'}
+          placeholderStyle={{ color: '#707070' }}
         />
-        <Text style={{ width: '90%', paddingTop: '2%' }}>Кладбище</Text>
+
+        <Validation
+          text={'Кладбище'}
+          visible={validObj.cemetry}
+          errText={'Выберите Кладбище!'}
+        />
         <DropDownPicker
           open={cemetryOpen}
           onOpen={onCemetryOpen}
@@ -244,6 +323,8 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
           value={cemetry}
           zIndex={7}
           dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+          placeholder={'Выберите Кладбище'}
+          placeholderStyle={{ color: '#707070' }}
         />
 
         <Button
@@ -257,11 +338,11 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
           }}
           contentStyle={{ zIndex: 0 }}
           mode="contained"
-          onPress={goCareGrave}>
+          onPress={goChooseService}>
           <Text style={{ color: 'white', zIndex: 0 }}>Перейти к услугам</Text>
         </Button>
 
-        <Modal isVisible={modalTombCare}>
+        <Modal isVisible={false}>
           <View style={styles.modelContainer}>
             <Text style={styles.modelHeaderText}>Уход за могилами</Text>
             <Button

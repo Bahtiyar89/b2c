@@ -14,19 +14,24 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   mainHeader: {
-    fontWeight: 'bold',
-    fontSize: 26,
-    textAlign: 'center',
-    marginTop: '5%',
-  },
-  subHeader: {
-    marginBottom: '5%',
-  },
-  buttonWidth: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     width: '90%',
   },
+  profileHeaderText: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 28,
+  },
+  badgeStyle: {
+    position: 'absolute',
+    top: 16,
+    right: 14,
+  },
 
-  modelContainer: { backgroundColor: 'white', padding: 10 },
+  modelContainer: { backgroundColor: 'white' },
   modelHeaderText: { color: 'black', fontWeight: '500', fontSize: 20 },
   modelTextAndError: { marginTop: 10, flexDirection: 'row', width: '100%' },
   modelHelperText: { alignItems: 'flex-end' },

@@ -95,14 +95,14 @@ const MonumentModel: React.FC<IState> = ({
                   <TouchableOpacity
                     onPress={() =>
                       selectPressed({
-                        src: '../../../../assets/gubin.png',
+                        src: '.../../../../../../assets/gubin.png',
                         name: 'Наименование',
                         price: '780 руб',
                       })
                     }>
                     <Image
                       style={{ width: 100, height: 100 }}
-                      source={require('../../../../assets/gubin.png')}
+                      source={require('../../../../../../assets/gubin.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Наименование</Text>
                     <Text style={{ textAlign: 'center' }}>780 руб</Text>
@@ -113,14 +113,14 @@ const MonumentModel: React.FC<IState> = ({
                   <TouchableOpacity
                     onPress={() =>
                       selectPressed({
-                        src: '../../../../assets/gubin.png',
+                        src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
                         price: '780 руб',
                       })
                     }>
                     <Image
                       style={{ width: 100, height: 100 }}
-                      source={require('../../../../assets/gubin.png')}
+                      source={require('../../../../../../assets/gubin.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Наименование</Text>
                     <Text style={{ textAlign: 'center' }}>1050 руб</Text>
@@ -131,14 +131,14 @@ const MonumentModel: React.FC<IState> = ({
                   <TouchableOpacity
                     onPress={() =>
                       selectPressed({
-                        src: '../../../../assets/gubin.png',
+                        src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
                         price: '780 руб',
                       })
                     }>
                     <Image
                       style={{ width: 100, height: 100 }}
-                      source={require('../../../../assets/gubin.png')}
+                      source={require('../../../../../../assets/gubin.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Наименование</Text>
                     <Text style={{ textAlign: 'center' }}>1230 руб</Text>
@@ -155,14 +155,14 @@ const MonumentModel: React.FC<IState> = ({
                   <TouchableOpacity
                     onPress={() =>
                       selectPressed({
-                        src: '../../../../assets/gubin.png',
+                        src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
                         price: '780 руб',
                       })
                     }>
                     <Image
                       style={{ width: 100, height: 100 }}
-                      source={require('../../../../assets/gubin.png')}
+                      source={require('../../../../../../assets/gubin.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Наименование</Text>
                     <Text style={{ textAlign: 'center' }}>1320 руб</Text>
@@ -172,14 +172,14 @@ const MonumentModel: React.FC<IState> = ({
                   <TouchableOpacity
                     onPress={() =>
                       selectPressed({
-                        src: '../../../../assets/gubin.png',
+                        src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
                         price: '780 руб',
                       })
                     }>
                     <Image
                       style={{ width: 100, height: 100 }}
-                      source={require('../../../../assets/gubin.png')}
+                      source={require('../../../../../../assets/gubin.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Наименование</Text>
                     <Text style={{ textAlign: 'center' }}>1440 руб</Text>
@@ -189,14 +189,14 @@ const MonumentModel: React.FC<IState> = ({
                   <TouchableOpacity
                     onPress={() =>
                       selectPressed({
-                        src: '../../../../assets/gubin.png',
+                        src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
                         price: '780 руб',
                       })
                     }>
                     <Image
                       style={{ width: 100, height: 100 }}
-                      source={require('../../../../assets/gubin.png')}
+                      source={require('../../../../../../assets/gubin.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Наименование</Text>
                     <Text style={{ textAlign: 'center' }}>9600 руб</Text>

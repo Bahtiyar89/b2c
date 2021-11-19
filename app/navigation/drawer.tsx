@@ -15,7 +15,6 @@ import ThemeController from '../components/ThemeController';
 import AuthContext from '../context/auth/AuthContext';
 
 import CustomerDashboard from '../screens/customer/Dashboard';
-import CustomerAddCard from '../screens/customer/AddCard';
 import CustomerBasket from '../screens/customer/Basket';
 import CustomerOrderHistory from '../screens/customer/OrderHistory';
 import CustomerSelected from '../screens/customer/Selected';
@@ -154,19 +153,7 @@ const Home: React.FC = () => {
               }}
               component={CustomerBasket}
             />
-            <Drawer.Screen
-              name="CustomerAddCard"
-              options={{
-                title: 'Добавить карту',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/map.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={CustomerAddCard}
-            />
+
             <Drawer.Screen
               name="CustomerSettings"
               options={{

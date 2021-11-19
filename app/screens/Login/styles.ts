@@ -7,10 +7,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginHeaderText: { color: 'black', fontWeight: 'bold', fontSize: 28 },
-  signInText: { width:"90%", paddingTop:"2%", fontSize:18, fontWeight:'bold', marginTop:20, marginBottom: 20, },
-  textparagraph:{ },
-  textInput: { width:"90%" },
-  buttonText: { color: 'white' }, 
+  signInText: {
+    width: '95%',
+    paddingTop: '2%',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  textparagraph: {},
+  textInput: { width: '95%' },
+  buttonText: { color: 'white' },
   login: {
     padding: 8,
   },
@@ -18,9 +25,9 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   labelStyle: {
-    fontSize: 12, 
+    fontSize: 12,
   },
-  rowDirection: { marginTop:10, width:'90%', flexDirection: 'row' },
+  rowDirection: { marginTop: 10, width: '95%', flexDirection: 'row' },
 });
 
 export default styles;

@@ -3,23 +3,32 @@ import { ScrollView, SafeAreaView, View, Image } from 'react-native';
 import { Text, Button, Checkbox, TextInput } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
+
 import {
   launchImageLibrary,
   ImageLibraryOptions,
 } from 'react-native-image-picker';
+
+import AppStyles from '../../../../../../config/styles';
 import styles from './styles';
 import MonumentModel from './installationMonumentModel';
-
-const itemsType = [
-  { label: 'Обычная', value: 'p' },
-  { label: 'Усиленная', value: 'fk' },
-];
 
 const itemsLook = [
   { label: 'Портрет', value: 'p' },
   { label: 'Фотокерамика', value: 'fk' },
   { label: 'Фото на стекле', value: 'foncam' },
 ];
+
+const itemsType = [
+  { label: 'Обычная', value: 'p' },
+  { label: 'Усиленная', value: 'fk' },
+];
+
+const itemsWriteFont = [
+  { label: '16', value: '16' },
+  { label: '18', value: '18' },
+];
+
 const itemsSizeFont = [
   { label: '16', value: '16' },
   { label: '18', value: '18' },
@@ -27,7 +36,7 @@ const itemsSizeFont = [
 
 interface IState {
   model: boolean;
-  okPressed: (params: any) => void;
+  okPressed: (params: boolean) => void;
   noPressed: () => void;
   instCloseModal: () => void;
 }
@@ -44,13 +53,6 @@ const Model: React.FC<IState> = ({
   };
   const [user, seTuser] = useState({ ...elements });
 
-  const validationElements = {
-    email: false,
-    phone: false,
-  };
-
-  const [validObj, seTvalidObj] = useState({ ...validationElements });
-
   const handleChange = (val: string, fieldName: string) => {
     seTuser(prev => {
       const varPr = { ...prev };
@@ -66,35 +68,6 @@ const Model: React.FC<IState> = ({
     });
   };
 
-  const validation = () => {
-    let err = false;
-    if (!user.email.includes('@')) {
-      err = true;
-      seTvalidObj({ ...validObj, email: true });
-      setTimeout(() => {
-        seTvalidObj({ ...validObj, email: false });
-      }, 1000);
-      return err;
-    }
-    if (user.phone.length < 3) {
-      err = true;
-      seTvalidObj({ ...validObj, phone: true });
-      setTimeout(() => {
-        seTvalidObj({ ...validObj, phone: false });
-      }, 1000);
-    }
-    return err;
-  };
-
-  const onButtonPressed = () => {
-    let err = validation();
-    if (err) {
-    } else {
-      okPressed(user);
-    }
-  };
-  const [checked, setChecked] = useState(false);
-
   const [lookOpen, seTlookOpen] = useState(false);
   const [typeOpen, seTtypeOpen] = useState(false);
   const [wrFontOpen, seTwrFontOpen] = useState(false);
@@ -102,6 +75,7 @@ const Model: React.FC<IState> = ({
 
   const [look, seTlook] = useState('');
   const [type, seTtype] = useState('');
+  const [sizeWrite, seTsizeWrite] = useState('');
   const [sizeFont, seTsizeFont] = useState('');
 
   //monument model
@@ -112,7 +86,6 @@ const Model: React.FC<IState> = ({
   });
   const cancelModelMonument = () => seTmonumentModel(false);
   const selectMonumentItem = (item: any) => {
-    console.log('item', item);
     seTmonument(item);
     seTmonumentModel(false);
   };
@@ -136,8 +109,8 @@ const Model: React.FC<IState> = ({
     seTwrFontOpen(false);
   }, []);
 
-  const onSizeFontOpen = useCallback(() => {
-    seTwrFontOpen(false);
+  const onWriteFontOpen = useCallback(() => {
+    seTsizeFontOpen(false);
   }, []);
 
   //dropdown on change
@@ -147,9 +120,20 @@ const Model: React.FC<IState> = ({
   const setTypeDr = (callback: any) => {
     seTtype(callback());
   };
+  const setWriteFontDr = (callback: any) => {
+    seTsizeWrite(callback());
+  };
   const setSizeFontDr = (callback: any) => {
     seTsizeFont(callback());
   };
+
+  //Checkbox
+  const [checkedMonument, seTcheckedMonument] = useState(false);
+  const [checkedPlate, seTcheckedPlate] = useState(false);
+  const [checkedEpitaph, seTcheckedEpitaph] = useState(false);
+  const [checkedPictureEpitaph, seTcheckedPictureEpitaph] = useState(false);
+  const [checkedPictureCriss, seTcheckedPictureCriss] = useState(false);
+  const [checkedQrCode, seTcheckedQrCode] = useState(false);
   return (
     <>
       <Modal
@@ -163,11 +147,7 @@ const Model: React.FC<IState> = ({
 
               <View style={{ alignItems: 'flex-start' }}>
                 <Button
-                  style={{
-                    width: '70%',
-                    marginTop: 5,
-                    backgroundColor: '#333333',
-                  }}
+                  style={styles.monumentButton}
                   mode="contained"
                   onPress={() => seTmonumentModel(true)}>
                   <Text style={{ color: 'white' }}>Выбрать памятник</Text>
@@ -176,8 +156,8 @@ const Model: React.FC<IState> = ({
               {monument.src.length > 0 && (
                 <View>
                   <Image
-                    style={{ width: 100, height: 100 }}
-                    source={require('../../../../assets/gubin.png')}
+                    style={styles.imageWH100}
+                    source={require('../../../../../../assets/gubin.png')}
                   />
                   <Text style={{ textAlign: 'center' }}>{monument.name}</Text>
                 </View>
@@ -185,76 +165,51 @@ const Model: React.FC<IState> = ({
 
               <View style={{ flexDirection: 'row' }}>
                 <Checkbox.Android
-                  status={checked ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    setChecked(!checked);
-                  }}
-                  color={'#397AF9'}
+                  status={checkedMonument ? 'checked' : 'unchecked'}
+                  onPress={() => seTcheckedMonument(!checkedMonument)}
+                  color={AppStyles.color.COLOR_BLUE}
                 />
                 <Text style={{ flex: 1, margin: 8 }}> Цветники</Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
                 <Checkbox.Android
-                  status={checked ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    setChecked(!checked);
-                  }}
-                  color={'#397AF9'}
+                  status={checkedPlate ? 'checked' : 'unchecked'}
+                  onPress={() => seTcheckedPlate(!checkedPlate)}
+                  color={AppStyles.color.COLOR_BLUE}
                 />
                 <Text style={{ flex: 1, margin: 8 }}>Надгробная плита</Text>
               </View>
 
               <Text>Фото на памятнике</Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
+              <View style={styles.rowSpaceBetween}>
                 <Button
-                  style={{ width: '50%', backgroundColor: '#333333' }}
+                  style={{ width: '63%', backgroundColor: '#333333' }}
                   mode="contained"
                   onPress={chooseImage}>
                   <Text style={{ color: 'white' }}>Выбери файл</Text>
                 </Button>
                 <Text>__руб</Text>
               </View>
-              <Text style={{ paddingTop: '2%' }}>Вид</Text>
-              <View style={{ width: '90%' }}>
-                <DropDownPicker
-                  open={lookOpen}
-                  onOpen={onLookOpen}
-                  setOpen={seTlookOpen}
-                  items={itemsLook}
-                  setValue={setLookDr}
-                  value={look}
-                  dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
-                  placeholder="Вид"
-                  zIndex={10}
-                  style={{ width: '70%' }}
-                />
-              </View>
-              <Text style={{ paddingTop: '2%' }}>Тип установки памятника</Text>
+              <Text style={styles.paddingTop2}>Вид</Text>
+              <DropDownPicker
+                open={lookOpen}
+                onOpen={onLookOpen}
+                setOpen={seTlookOpen}
+                items={itemsLook}
+                setValue={setLookDr}
+                value={look}
+                dropDownContainerStyle={styles.dropdBorderWidth63}
+                placeholder="Вид"
+                style={AppStyles.width63}
+              />
+              <Text style={styles.paddingTop2}>Тип установки памятника</Text>
               <View
                 style={{
                   width: '90%',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
+                  zIndex: 10,
                 }}>
-                <DropDownPicker
-                  open={lookOpen}
-                  onOpen={onLookOpen}
-                  setOpen={seTlookOpen}
-                  items={itemsLook}
-                  setValue={setLookDr}
-                  value={look}
-                  dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
-                  placeholder="Тип установки памятника"
-                  zIndex={10}
-                  style={{ width: '70%' }}
-                />
-                <Text>__руб</Text>
-              </View>
-              <View style={{ width: '90%' }}>
                 <DropDownPicker
                   open={typeOpen}
                   onOpen={onTypeOpen}
@@ -262,34 +217,61 @@ const Model: React.FC<IState> = ({
                   items={itemsType}
                   setValue={setTypeDr}
                   value={type}
-                  dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
-                  containerStyle={{ paddingTop: '2%' }}
-                  placeholder="Надпись шрифт"
+                  dropDownContainerStyle={{
+                    borderColor: '#dfdfdf',
+                    width: '70%',
+                  }}
+                  dropDownDirection="BOTTOM"
+                  placeholder="Тип установки памятника"
                   zIndex={9}
-                  style={{ width: '70%' }}
+                  style={styles.width70}
                 />
+                <Text>__руб</Text>
+              </View>
+
+              <Text style={{ marginTop: '2%' }}>Надпись шрифт</Text>
+              <View style={{ width: '90%', zIndex: 9 }}>
                 <DropDownPicker
-                  open={sizeFontOpen}
-                  onOpen={onSizeFontOpen}
-                  setOpen={seTsizeFontOpen}
-                  items={itemsSizeFont}
-                  setValue={setSizeFontDr}
-                  value={sizeFont}
-                  dropDownContainerStyle={{ borderColor: '#dfdfdf' }}
+                  open={wrFontOpen}
+                  onOpen={onWriteFontOpen}
+                  setOpen={seTwrFontOpen}
+                  items={itemsWriteFont}
+                  setValue={setWriteFontDr}
+                  value={sizeWrite}
+                  dropDownContainerStyle={{
+                    borderColor: '#dfdfdf',
+                    width: '70%',
+                  }}
+                  dropDownDirection="BOTTOM"
                   containerStyle={{ paddingTop: '2%' }}
-                  placeholder="Размер шрифта"
+                  placeholder="Надпись шрифта"
                   zIndex={8}
-                  style={{ width: '50%' }}
+                  style={styles.width70}
                 />
               </View>
 
+              <Text style={{ marginTop: '2%' }}>Размер шрифта</Text>
+              <DropDownPicker
+                open={sizeFontOpen}
+                setOpen={seTsizeFontOpen}
+                items={itemsSizeFont}
+                setValue={setSizeFontDr}
+                value={sizeWrite}
+                dropDownContainerStyle={{
+                  borderColor: '#dfdfdf',
+                  width: '50%',
+                }}
+                dropDownDirection="BOTTOM"
+                containerStyle={styles.paddingTop2}
+                placeholder="Размер шрифта"
+                zIndex={7}
+                style={{ width: '50%' }}
+              />
               <View style={{ flexDirection: 'row' }}>
                 <Checkbox.Android
-                  status={checked ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    setChecked(!checked);
-                  }}
-                  color={'#397AF9'}
+                  status={checkedEpitaph ? 'checked' : 'unchecked'}
+                  onPress={() => seTcheckedEpitaph(!checkedEpitaph)}
+                  color={AppStyles.color.COLOR_BLUE}
                 />
                 <Text style={{ flex: 1, margin: 8 }}>Эпитафия</Text>
                 <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>
@@ -297,11 +279,11 @@ const Model: React.FC<IState> = ({
 
               <View style={{ flexDirection: 'row' }}>
                 <Checkbox.Android
-                  status={checked ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    setChecked(!checked);
-                  }}
-                  color={'#397AF9'}
+                  status={checkedPictureEpitaph ? 'checked' : 'unchecked'}
+                  onPress={() =>
+                    seTcheckedPictureEpitaph(!checkedPictureEpitaph)
+                  }
+                  color={AppStyles.color.COLOR_BLUE}
                 />
                 <Text style={{ flex: 1, margin: 8 }}>
                   Рисунок (рядом с эпитафии)
@@ -311,11 +293,9 @@ const Model: React.FC<IState> = ({
 
               <View style={{ flexDirection: 'row' }}>
                 <Checkbox.Android
-                  status={checked ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    setChecked(!checked);
-                  }}
-                  color={'#397AF9'}
+                  status={checkedPictureCriss ? 'checked' : 'unchecked'}
+                  onPress={() => seTcheckedPictureCriss(!checkedPictureCriss)}
+                  color={AppStyles.color.COLOR_BLUE}
                 />
                 <Text style={{ flex: 1, margin: 8 }}>
                   Рисунок креста (в углу)
@@ -325,16 +305,16 @@ const Model: React.FC<IState> = ({
 
               <View style={{ flexDirection: 'row' }}>
                 <Checkbox.Android
-                  status={checked ? 'checked' : 'unchecked'}
+                  status={checkedQrCode ? 'checked' : 'unchecked'}
                   onPress={() => {
-                    setChecked(!checked);
+                    seTcheckedQrCode(!checkedQrCode);
                   }}
-                  color={'#397AF9'}
+                  color={AppStyles.color.COLOR_BLUE}
                 />
                 <Text style={{ flex: 1, margin: 4 }}>
-                  Qr code{' '}
+                  Qr code
                   <Image
-                    source={require('../../../../assets/exclamation-mark-1.png')} //Change your icon image here
+                    source={require('../../../../../../assets/exclamation-mark-1.png')} //Change your icon image here
                     style={{ width: 20, height: 20 }}
                   />
                 </Text>
@@ -359,14 +339,24 @@ const Model: React.FC<IState> = ({
 
               <View
                 style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
                   marginTop: 10,
                   marginBottom: 15,
                 }}>
                 <Button
+                  uppercase={false}
                   mode="outlined"
-                  style={{ backgroundColor: '#333333', width: '50%' }}
-                  onPress={() => onButtonPressed()}>
+                  style={{ backgroundColor: 'orange', width: '45%' }}
+                  onPress={() => okPressed(false)}>
+                  <Text style={{ color: 'white' }}>Отмена</Text>
+                </Button>
+                <Button
+                  uppercase={false}
+                  mode="outlined"
+                  style={{ backgroundColor: '#333333', width: '45%' }}
+                  onPress={() => okPressed(false)}>
                   <Text style={{ color: 'white' }}>Выбрать</Text>
                 </Button>
               </View>

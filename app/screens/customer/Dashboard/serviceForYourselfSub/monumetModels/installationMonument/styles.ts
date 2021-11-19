@@ -6,26 +6,20 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  buttonMenuContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginTop: 20,
-    flexDirection: 'column',
-    width: '90%',
+  monumentButton: {
+    width: '70%',
+    marginTop: 5,
+    backgroundColor: '#333333',
   },
-  mainHeader: {
-    fontWeight: 'bold',
-    fontSize: 26,
-    textAlign: 'center',
-    marginTop: '5%',
-  },
-  subHeader: {
-    marginBottom: '5%',
-  },
-  buttonWidth: {
-    width: '90%',
+  imageWH100: {
+    width: 100,
+    height: 100,
   },
 
+  rowSpaceBetween: { flexDirection: 'row', justifyContent: 'space-between' },
+  paddingTop2: { paddingTop: '2%' },
+  dropdBorderWidth63: { borderColor: '#dfdfdf', width: '63%' },
+  width70: { width: '70%' },
   modelContainer: { backgroundColor: 'white', padding: 10 },
   modelHeaderText: { color: 'black', fontWeight: '500', fontSize: 20 },
   modelTextAndError: { marginTop: 10, flexDirection: 'row', width: '100%' },

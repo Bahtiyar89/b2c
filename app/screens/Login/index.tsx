@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { View, Image, StatusBar } from 'react-native';
-import { Text, Button, TextInput, HelperText } from 'react-native-paper';
+import React, { useState, useContext } from 'react';
+import { View } from 'react-native';
+import { Text, Button, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from 'react-native-toast-notifications';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -10,7 +10,7 @@ import styles from './styles';
 import { ILoginState } from 'app/models/reducers/login';
 //import NavigationService from 'app/navigation/NavigationService';
 import AuthContext from '../../context/auth/AuthContext';
-import utility from '../../utils/Utility';
+import Validation from '../../components/validation';
 
 interface IState {
   loginReducer: ILoginState;
@@ -104,14 +104,12 @@ const Login: React.FC<IProps> = (props: IProps) => {
       <Text style={styles.loginHeaderText}>Войти</Text>
       <Text style={styles.signInText}>Введите ваш аккаунт</Text>
 
-      <View style={{ flexDirection: 'row', width: '90%' }}>
-        <Text style={{ flex: 1 }}>E-mail</Text>
-        <HelperText
-          style={{ alignItems: 'flex-end' }}
-          type="error"
-          visible={validObj.email}>
-          Email недействителень!
-        </HelperText>
+      <View style={{ marginTop: 20 }}>
+        <Validation
+          text={'E-mail'}
+          visible={validObj.email}
+          errText={'Email недействителень!'}
+        />
       </View>
 
       <TextInput
@@ -123,14 +121,12 @@ const Login: React.FC<IProps> = (props: IProps) => {
         value={user.email}
       />
 
-      <View style={{ marginTop: 20, flexDirection: 'row', width: '90%' }}>
-        <Text style={{ flex: 1 }}>Пароль</Text>
-        <HelperText
-          style={{ alignItems: 'flex-end' }}
-          type="error"
-          visible={validObj.password}>
-          Неправельный пароль!
-        </HelperText>
+      <View style={{ marginTop: 20 }}>
+        <Validation
+          text={'Пароль'}
+          visible={validObj.password}
+          errText={'Неправельный пароль!'}
+        />
       </View>
       <TextInput
         mode="outlined"
@@ -146,49 +142,42 @@ const Login: React.FC<IProps> = (props: IProps) => {
         secureTextEntry={passwordShow}
         value={user.password}
       />
-      {/*
-        <View style={styles.SectionStyle}>
-          <TextInput
-            mode="outlined"
-            label="Email"
-            style={styles.textInput}
-            onChangeText={val => handleChange(val, 'email')}
-            right={<TextInput.Icon name={require('../../assets/user-4.png')} />}
-          />
-        </View>
-        <View style={styles.SectionStyle}>
-          <TextInput
-            mode="outlined"
-            label="Введите пароль"
-            style={styles.textInput}
-            onChangeText={val => handleChange(val, 'email')}
-            right={
-              <TextInput.Icon
-                onPress={() => seTpasswordShow(!passwordShow)}
-                name={require('../../assets/padlock.png')}
-              />
-            }
-            secureTextEntry={passwordShow}
-          />
-        </View>
-          */}
-      <View style={styles.rowDirection}>
-        <View>
-          <Button mode="contained" onPress={onSubmit}>
-            <Text style={styles.buttonText}>Войти</Text>
-          </Button>
-          <Button onPress={onForgot}>Забыли пароль?</Button>
-        </View>
 
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginTop: 15,
+          marginBottom: 15,
+          width: '95%',
+        }}>
+        <Button uppercase={false} mode="contained" onPress={onSubmit}>
+          <Text style={styles.buttonText}>Войти</Text>
+        </Button>
         <Button
+          uppercase={false}
           style={{
-            flex: 1,
             alignItems: 'flex-end',
           }}
           onPress={onRegistration}>
           Регистрация
         </Button>
       </View>
+
+      <Text
+        onPress={onForgot}
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '95%',
+          fontSize: 14,
+          fontWeight: '600',
+          color: '#3498db',
+        }}>
+        Забыли пароль?
+      </Text>
     </View>
   );
 };

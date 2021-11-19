@@ -40,9 +40,11 @@ import CustomerSupport from '../screens/customer/Support';
 //main page customer
 import CareOfGraves from '../screens/customer/Dashboard/careOfGraves';
 import RitualGoodsCustomer from '../screens/customer/Dashboard/ritualGoods/index';
+import ChooseService from '../screens/customer/Dashboard/ChooseService';
 import CareOfGravesPhoto from '../screens/customer/Dashboard/careOfGravesPhoto';
 import GeneratedOrder from '../screens/customer/generatedOrder';
 import ServiceForYourself from '../screens/customer/Dashboard/serviceForYourself';
+import ServiceForYourselfSub from 'app/screens/customer/Dashboard/serviceForYourselfSub';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -102,6 +104,13 @@ function SignedIn() {
       />
       <Stack.Screen
         options={{
+          title: 'Выбор могил',
+        }}
+        name="ChooseService"
+        component={ChooseService}
+      />
+      <Stack.Screen
+        options={{
           title: 'Уход за могилами',
         }}
         name="CareOfGraves"
@@ -136,6 +145,13 @@ function SignedIn() {
         }}
         name="ServiceForYourself"
         component={ServiceForYourself}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Уход за могилами',
+        }}
+        name="ServiceForYourselfSub"
+        component={ServiceForYourselfSub}
       />
     </Stack.Navigator>
   );

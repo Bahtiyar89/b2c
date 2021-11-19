@@ -4,7 +4,8 @@
  */
 const AppStyles = {
   color: {
-    COLOR_PRIMARY: '#2ec7ab',
+    COLOR_PRIMARY: '#3498db',
+    COLOR_BLUE: '#397AF9',
     COLOR_SECONDARY: '#111',
     COLOR_WHITE: '#FFFFFF',
     COLOR_BLACK: '#000000',
@@ -20,5 +21,8 @@ const AppStyles = {
     // FONT_REGULAR: 'Roboto-Regular',
     // FONT_MEDIUM: 'Roboto-Medium'
   },
+  width63: { width: '63%' },
+  width90: { width: '90%' },
+  dropdownBorderColor: { borderColor: '#dfdfdf' },
 };
 export default AppStyles;

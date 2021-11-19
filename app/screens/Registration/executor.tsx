@@ -17,7 +17,7 @@ import * as loginActions from 'app/store/actions/loginActions';
 import styles from './styles';
 import AuthContext from '../../context/auth/AuthContext';
 import NavigationService from 'app/navigation/NavigationService';
-import Validation from '../../utils/validation';
+import Validation from '../../components/validation';
 
 interface IProps {
   navigation: any;
@@ -92,7 +92,6 @@ const Executor: React.FC<IProps> = (props: IProps) => {
     }
 
     if (user.phone.length < 6) {
-      err = true;
       err = true;
       seTvalidObj({ ...validObj, phone: true });
       setTimeout(() => {
