@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
 
   modelContainer: { backgroundColor: 'white', padding: 10 },
   modelHeaderText: { color: 'black', fontWeight: '500', fontSize: 20 },
+  dropdBorderWidth63: { borderColor: '#dfdfdf', width: '63%' },
+  width70: { width: '70%' },
+  paddingTop2: { paddingTop: '2%' },
   modelTextAndError: { marginTop: 10, flexDirection: 'row', width: '100%' },
   modelHelperText: { alignItems: 'flex-end' },
   modelYesNo: { flexDirection: 'row', justifyContent: 'flex-end' },

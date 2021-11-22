@@ -24,11 +24,6 @@ const itemsType = [
   { label: 'Усиленная', value: 'fk' },
 ];
 
-const itemsWriteFont = [
-  { label: '16', value: '16' },
-  { label: '18', value: '18' },
-];
-
 const itemsSizeFont = [
   { label: '16', value: '16' },
   { label: '18', value: '18' },
@@ -38,15 +33,9 @@ interface IState {
   model: boolean;
   okPressed: (params: boolean) => void;
   noPressed: () => void;
-  instCloseModal: () => void;
 }
 
-const Model: React.FC<IState> = ({
-  okPressed,
-  noPressed,
-  model,
-  instCloseModal,
-}: IState) => {
+const Model: React.FC<IState> = ({ okPressed, noPressed, model }: IState) => {
   const elements = {
     email: '',
     phone: '',
@@ -70,12 +59,10 @@ const Model: React.FC<IState> = ({
 
   const [lookOpen, seTlookOpen] = useState(false);
   const [typeOpen, seTtypeOpen] = useState(false);
-  const [wrFontOpen, seTwrFontOpen] = useState(false);
   const [sizeFontOpen, seTsizeFontOpen] = useState(false);
 
   const [look, seTlook] = useState('');
   const [type, seTtype] = useState('');
-  const [sizeWrite, seTsizeWrite] = useState('');
   const [sizeFont, seTsizeFont] = useState('');
 
   //monument model
@@ -106,7 +93,7 @@ const Model: React.FC<IState> = ({
   }, []);
 
   const onTypeOpen = useCallback(() => {
-    seTwrFontOpen(false);
+    seTsizeFontOpen(false);
   }, []);
 
   const onWriteFontOpen = useCallback(() => {
@@ -120,9 +107,6 @@ const Model: React.FC<IState> = ({
   const setTypeDr = (callback: any) => {
     seTtype(callback());
   };
-  const setWriteFontDr = (callback: any) => {
-    seTsizeWrite(callback());
-  };
   const setSizeFontDr = (callback: any) => {
     seTsizeFont(callback());
   };
@@ -134,10 +118,21 @@ const Model: React.FC<IState> = ({
   const [checkedPictureEpitaph, seTcheckedPictureEpitaph] = useState(false);
   const [checkedPictureCriss, seTcheckedPictureCriss] = useState(false);
   const [checkedQrCode, seTcheckedQrCode] = useState(false);
+
+  const cancelPressed = () => {
+    seTcheckedMonument(false);
+    seTcheckedPlate(false);
+    seTcheckedEpitaph(false);
+    seTcheckedPictureEpitaph(false);
+    seTcheckedPictureCriss(false);
+    seTcheckedPictureCriss(false);
+    seTcheckedQrCode(false);
+    noPressed();
+  };
   return (
     <>
       <Modal
-        onBackButtonPress={instCloseModal}
+        onBackButtonPress={cancelPressed}
         style={{ margin: 0 }}
         isVisible={model}>
         <SafeAreaView>
@@ -169,7 +164,11 @@ const Model: React.FC<IState> = ({
                   onPress={() => seTcheckedMonument(!checkedMonument)}
                   color={AppStyles.color.COLOR_BLUE}
                 />
-                <Text style={{ flex: 1, margin: 8 }}> Цветники</Text>
+                <Text
+                  onPress={() => seTcheckedMonument(!checkedMonument)}
+                  style={{ flex: 1, margin: 8 }}>
+                  Цветники
+                </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
                 <Checkbox.Android
@@ -177,7 +176,11 @@ const Model: React.FC<IState> = ({
                   onPress={() => seTcheckedPlate(!checkedPlate)}
                   color={AppStyles.color.COLOR_BLUE}
                 />
-                <Text style={{ flex: 1, margin: 8 }}>Надгробная плита</Text>
+                <Text
+                  onPress={() => seTcheckedPlate(!checkedPlate)}
+                  style={{ flex: 1, margin: 8 }}>
+                  Надгробная плита
+                </Text>
               </View>
 
               <Text>Фото на памятнике</Text>
@@ -201,14 +204,14 @@ const Model: React.FC<IState> = ({
                 dropDownContainerStyle={styles.dropdBorderWidth63}
                 placeholder="Вид"
                 style={AppStyles.width63}
+                zIndex={10}
               />
               <Text style={styles.paddingTop2}>Тип установки памятника</Text>
               <View
                 style={{
-                  width: '90%',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
-                  zIndex: 10,
+                  width: '90%',
                 }}>
                 <DropDownPicker
                   open={typeOpen}
@@ -223,32 +226,20 @@ const Model: React.FC<IState> = ({
                   }}
                   dropDownDirection="BOTTOM"
                   placeholder="Тип установки памятника"
-                  zIndex={9}
                   style={styles.width70}
+                  zIndex={9}
                 />
                 <Text>__руб</Text>
               </View>
-
               <Text style={{ marginTop: '2%' }}>Надпись шрифт</Text>
-              <View style={{ width: '90%', zIndex: 9 }}>
-                <DropDownPicker
-                  open={wrFontOpen}
-                  onOpen={onWriteFontOpen}
-                  setOpen={seTwrFontOpen}
-                  items={itemsWriteFont}
-                  setValue={setWriteFontDr}
-                  value={sizeWrite}
-                  dropDownContainerStyle={{
-                    borderColor: '#dfdfdf',
-                    width: '70%',
-                  }}
-                  dropDownDirection="BOTTOM"
-                  containerStyle={{ paddingTop: '2%' }}
-                  placeholder="Надпись шрифта"
-                  zIndex={8}
-                  style={styles.width70}
-                />
-              </View>
+              <TextInput
+                style={AppStyles.width63}
+                maxLength={2}
+                mode="outlined"
+                placeholder="Шрифт надпися"
+                onChangeText={val => handleChange(val, 'phone')}
+                value={user.phone}
+              />
 
               <Text style={{ marginTop: '2%' }}>Размер шрифта</Text>
               <DropDownPicker
@@ -256,7 +247,7 @@ const Model: React.FC<IState> = ({
                 setOpen={seTsizeFontOpen}
                 items={itemsSizeFont}
                 setValue={setSizeFontDr}
-                value={sizeWrite}
+                value={sizeFont}
                 dropDownContainerStyle={{
                   borderColor: '#dfdfdf',
                   width: '50%',
@@ -264,8 +255,8 @@ const Model: React.FC<IState> = ({
                 dropDownDirection="BOTTOM"
                 containerStyle={styles.paddingTop2}
                 placeholder="Размер шрифта"
-                zIndex={7}
                 style={{ width: '50%' }}
+                zIndex={8}
               />
               <View style={{ flexDirection: 'row' }}>
                 <Checkbox.Android
@@ -273,7 +264,11 @@ const Model: React.FC<IState> = ({
                   onPress={() => seTcheckedEpitaph(!checkedEpitaph)}
                   color={AppStyles.color.COLOR_BLUE}
                 />
-                <Text style={{ flex: 1, margin: 8 }}>Эпитафия</Text>
+                <Text
+                  onPress={() => seTcheckedEpitaph(!checkedEpitaph)}
+                  style={{ flex: 1, margin: 8 }}>
+                  Эпитафия
+                </Text>
                 <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>
               </View>
 
@@ -285,7 +280,11 @@ const Model: React.FC<IState> = ({
                   }
                   color={AppStyles.color.COLOR_BLUE}
                 />
-                <Text style={{ flex: 1, margin: 8 }}>
+                <Text
+                  onPress={() =>
+                    seTcheckedPictureEpitaph(!checkedPictureEpitaph)
+                  }
+                  style={{ flex: 1, margin: 8 }}>
                   Рисунок (рядом с эпитафии)
                 </Text>
                 <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>
@@ -297,7 +296,9 @@ const Model: React.FC<IState> = ({
                   onPress={() => seTcheckedPictureCriss(!checkedPictureCriss)}
                   color={AppStyles.color.COLOR_BLUE}
                 />
-                <Text style={{ flex: 1, margin: 8 }}>
+                <Text
+                  onPress={() => seTcheckedPictureCriss(!checkedPictureCriss)}
+                  style={{ flex: 1, margin: 8 }}>
                   Рисунок креста (в углу)
                 </Text>
                 <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>
@@ -311,7 +312,11 @@ const Model: React.FC<IState> = ({
                   }}
                   color={AppStyles.color.COLOR_BLUE}
                 />
-                <Text style={{ flex: 1, margin: 4 }}>
+                <Text
+                  onPress={() => {
+                    seTcheckedQrCode(!checkedQrCode);
+                  }}
+                  style={{ flex: 1, margin: 4 }}>
                   Qr code
                   <Image
                     source={require('../../../../../../assets/exclamation-mark-1.png')} //Change your icon image here
@@ -349,7 +354,7 @@ const Model: React.FC<IState> = ({
                   uppercase={false}
                   mode="outlined"
                   style={{ backgroundColor: 'orange', width: '45%' }}
-                  onPress={() => okPressed(false)}>
+                  onPress={() => cancelPressed()}>
                   <Text style={{ color: 'white' }}>Отмена</Text>
                 </Button>
                 <Button

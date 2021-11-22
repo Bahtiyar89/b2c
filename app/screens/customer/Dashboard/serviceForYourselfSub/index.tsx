@@ -126,16 +126,14 @@ const ServiceForYourselfSub: React.FC<IProps> = (props: IProps) => {
             </Button>
           </View>
           <InstallationModel
-            instCloseModal={() => seTmonumentInstModel(false)}
             model={monumentInstModel}
             okPressed={() => seTmonumentInstModel(false)}
-            noPressed={() => console.log('nooo')}
+            noPressed={() => seTmonumentInstModel(false)}
           />
           <ChangeMonument
-            instCloseModal={() => seTmonumentChangeModel(false)}
             model={monumentChangeModel}
             okPressed={() => seTmonumentChangeModel(false)}
-            noPressed={() => console.log('nooo')}
+            noPressed={() => seTmonumentChangeModel(false)}
           />
           <MonumentResolutionModel
             okPressed={val => seTmonumentResolutionModal(val)}
