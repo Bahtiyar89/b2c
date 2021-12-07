@@ -81,10 +81,10 @@ const MonumentModel: React.FC<IState> = ({
   ]);
   return (
     <>
-      <Modal style={{}} isVisible={model}>
-        <SafeAreaView>
+      <Modal style={{ margin: 0 }} isVisible={model}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
           <ScrollView contentInsetAdjustmentBehavior="automatic">
-            <View style={styles.modelContainer}>
+            <View style={{ backgroundColor: 'white', padding: 10 }}>
               <Text style={styles.modelHeaderText}>Перечень памятников</Text>
               <View
                 style={{
@@ -115,7 +115,7 @@ const MonumentModel: React.FC<IState> = ({
                       selectPressed({
                         src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
-                        price: '780 руб',
+                        price: '1050 руб',
                       })
                     }>
                     <Image
@@ -133,7 +133,7 @@ const MonumentModel: React.FC<IState> = ({
                       selectPressed({
                         src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
-                        price: '780 руб',
+                        price: '1230 руб',
                       })
                     }>
                     <Image
@@ -157,7 +157,7 @@ const MonumentModel: React.FC<IState> = ({
                       selectPressed({
                         src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
-                        price: '780 руб',
+                        price: '1320 руб',
                       })
                     }>
                     <Image
@@ -174,7 +174,7 @@ const MonumentModel: React.FC<IState> = ({
                       selectPressed({
                         src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
-                        price: '780 руб',
+                        price: '1440 руб',
                       })
                     }>
                     <Image
@@ -191,7 +191,7 @@ const MonumentModel: React.FC<IState> = ({
                       selectPressed({
                         src: '../../../../../../assets/gubin.png',
                         name: 'Наименование',
-                        price: '780 руб',
+                        price: '9600 руб',
                       })
                     }>
                     <Image

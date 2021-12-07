@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.9",
+    "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/drawer": "^5",
     "@react-navigation/native": "^5.9.4",
@@ -26,6 +27,7 @@
     "react-native-i18n": "^2.0.15",
     "react-native-image-picker": "^4.2.0",
     "react-native-loading-spinner-overlay": "^2.0.0",
+    "react-native-maps": "^0.29.4",
     "react-native-masked-text": "^1.13.0",
     "react-native-modal": "^13.0.0",
     "react-native-paper": "^4.8.1",
@@ -35,6 +37,7 @@
     "react-native-svg": "^12.1.1",
     "react-native-toast-notifications": "^3.1.0",
     "react-native-vector-icons": "^8.1.0",
+    "react-native-wizard": "^2.1.0",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-logger": "^3.0.6",

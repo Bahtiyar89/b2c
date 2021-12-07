@@ -1,8 +1,21 @@
-import React, { useCallback, useState } from 'react';
-import { ScrollView, SafeAreaView, View, Image } from 'react-native';
-import { Text, Button, Checkbox, TextInput } from 'react-native-paper';
+import React, { useRef, useCallback, useState } from 'react';
+import {
+  ScrollView,
+  SafeAreaView,
+  View,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import {
+  Text,
+  Button,
+  Checkbox,
+  TextInput,
+  RadioButton,
+} from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
+import Wizard from 'react-native-wizard';
 
 import {
   launchImageLibrary,
@@ -12,6 +25,11 @@ import {
 import AppStyles from '../../../../../../config/styles';
 import styles from './styles';
 import MonumentModel from './installationMonumentModel';
+import FirstStep from './firstStep';
+import SecondStep from './secondStep';
+import ForthStep from './forthStep';
+import FifthStep from './fifthStep';
+import SixthStep from './sixthStep';
 
 const itemsLook = [
   { label: 'Портрет', value: 'p' },
@@ -71,6 +89,11 @@ const Model: React.FC<IState> = ({ okPressed, noPressed, model }: IState) => {
     src: '',
     name: '',
   });
+  const [third, seTthird] = useState({
+    src: '',
+    name: '',
+    price: '',
+  });
   const cancelModelMonument = () => seTmonumentModel(false);
   const selectMonumentItem = (item: any) => {
     seTmonument(item);
@@ -88,9 +111,6 @@ const Model: React.FC<IState> = ({ okPressed, noPressed, model }: IState) => {
     });
   };
   //on Open dropdown
-  const onLookOpen = useCallback(() => {
-    seTtypeOpen(false);
-  }, []);
 
   const onTypeOpen = useCallback(() => {
     seTsizeFontOpen(false);
@@ -118,7 +138,12 @@ const Model: React.FC<IState> = ({ okPressed, noPressed, model }: IState) => {
   const [checkedPictureEpitaph, seTcheckedPictureEpitaph] = useState(false);
   const [checkedPictureCriss, seTcheckedPictureCriss] = useState(false);
   const [checkedQrCode, seTcheckedQrCode] = useState(false);
+  console.log('monument : ', monument);
+  const selected = (val: any) => {
+    console.log('val: ', val);
 
+    seTmonument(val);
+  };
   const cancelPressed = () => {
     seTcheckedMonument(false);
     seTcheckedPlate(false);
@@ -129,243 +154,319 @@ const Model: React.FC<IState> = ({ okPressed, noPressed, model }: IState) => {
     seTcheckedQrCode(false);
     noPressed();
   };
+  const [value, setValue] = React.useState('first');
+  const wizard = useRef<any>();
+  const [isFirstStep, setIsFirstStep] = useState(true);
+  const [isLastStep, setIsLastStep] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    { label: 'Apple', value: 'apple' },
+    { label: 'Banana', value: 'banana' },
+  ]);
+  const stepList = [
+    {
+      content: (
+        <FirstStep
+          selectedMonument={(val: any) => selected(val)}
+          monument={monument}
+          model={model}
+        />
+      ),
+    },
+    {
+      content: <SecondStep />,
+    },
+    {
+      content: (
+        <View style={{ width: '90%' }}>
+          <Text style={{ marginTop: '2%', fontSize: 20 }}>
+            Фото на памятнике
+          </Text>
+          <Text style={{ marginTop: '2%' }}>Вид</Text>
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            dropDownContainerStyle={{
+              borderColor: '#dfdfdf',
+            }}
+            style={{ marginBottom: '5%', zIndex: 1000, elevation: 1000 }}
+            zIndex={1000}
+            placeholder="Вид"
+          />
+          <Button
+            style={{
+              marginTop: 15,
+              backgroundColor: '#333333',
+              elevation: 0,
+            }}
+            onPress={() => seTlookOpen(true)}
+            mode="contained">
+            <Text style={{ color: 'white' }}>Выбрать</Text>
+          </Button>
+        </View>
+      ),
+    },
+    {
+      content: (
+        <ForthStep
+          model={false}
+          selectedMonument={undefined}
+          monument={monument}
+        />
+      ),
+    },
+    {
+      content: (
+        <FifthStep model={false} selectedMonument={{}} monument={monument} />
+      ),
+    },
+    {
+      content: (
+        <SixthStep
+          model={false}
+          selectedMonument={undefined}
+          monument={monument}
+          cancelPressed={cancelPressed}
+        />
+      ),
+    },
+  ];
   return (
     <>
       <Modal
         onBackButtonPress={cancelPressed}
         style={{ margin: 0 }}
         isVisible={model}>
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
           <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <Text style={styles.modelHeaderText}>Установка памятника</Text>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                backgroundColor: '#FFF',
+                borderBottomColor: '#dedede',
+                borderBottomWidth: 1,
+              }}>
+              <Button
+                disabled={isFirstStep}
+                onPress={() => wizard.current.prev()}>
+                <Text style={{ fontSize: 8 }}>Предыдущая</Text>
+              </Button>
+              <Text>{currentStep + 1} из 6</Text>
+              <Button
+                disabled={isLastStep}
+                onPress={() => wizard.current.next()}>
+                <Text style={{ fontSize: 8 }}>Далее</Text>
+              </Button>
+            </View>
+
             <View style={styles.modelContainer}>
-              <Text style={styles.modelHeaderText}>Установка памятника</Text>
-
-              <View style={{ alignItems: 'flex-start' }}>
-                <Button
-                  style={styles.monumentButton}
-                  mode="contained"
-                  onPress={() => seTmonumentModel(true)}>
-                  <Text style={{ color: 'white' }}>Выбрать памятник</Text>
-                </Button>
-              </View>
-              {monument.src.length > 0 && (
-                <View>
-                  <Image
-                    style={styles.imageWH100}
-                    source={require('../../../../../../assets/gubin.png')}
-                  />
-                  <Text style={{ textAlign: 'center' }}>{monument.name}</Text>
-                </View>
-              )}
-
-              <View style={{ flexDirection: 'row' }}>
-                <Checkbox.Android
-                  status={checkedMonument ? 'checked' : 'unchecked'}
-                  onPress={() => seTcheckedMonument(!checkedMonument)}
-                  color={AppStyles.color.COLOR_BLUE}
-                />
-                <Text
-                  onPress={() => seTcheckedMonument(!checkedMonument)}
-                  style={{ flex: 1, margin: 8 }}>
-                  Цветники
-                </Text>
-              </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Checkbox.Android
-                  status={checkedPlate ? 'checked' : 'unchecked'}
-                  onPress={() => seTcheckedPlate(!checkedPlate)}
-                  color={AppStyles.color.COLOR_BLUE}
-                />
-                <Text
-                  onPress={() => seTcheckedPlate(!checkedPlate)}
-                  style={{ flex: 1, margin: 8 }}>
-                  Надгробная плита
-                </Text>
-              </View>
-
-              <Text>Фото на памятнике</Text>
-              <View style={styles.rowSpaceBetween}>
-                <Button
-                  style={{ width: '63%', backgroundColor: '#333333' }}
-                  mode="contained"
-                  onPress={chooseImage}>
-                  <Text style={{ color: 'white' }}>Выбери файл</Text>
-                </Button>
-                <Text>__руб</Text>
-              </View>
-              <Text style={styles.paddingTop2}>Вид</Text>
-              <DropDownPicker
-                open={lookOpen}
-                onOpen={onLookOpen}
-                setOpen={seTlookOpen}
-                items={itemsLook}
-                setValue={setLookDr}
-                value={look}
-                dropDownContainerStyle={styles.dropdBorderWidth63}
-                placeholder="Вид"
-                style={AppStyles.width63}
-                zIndex={10}
-              />
-              <Text style={styles.paddingTop2}>Тип установки памятника</Text>
               <View
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  width: '90%',
-                }}>
-                <DropDownPicker
-                  open={typeOpen}
-                  onOpen={onTypeOpen}
-                  setOpen={seTtypeOpen}
-                  items={itemsType}
-                  setValue={setTypeDr}
-                  value={type}
-                  dropDownContainerStyle={{
-                    borderColor: '#dfdfdf',
-                    width: '70%',
-                  }}
-                  dropDownDirection="BOTTOM"
-                  placeholder="Тип установки памятника"
-                  style={styles.width70}
-                  zIndex={9}
-                />
-                <Text>__руб</Text>
-              </View>
-              <Text style={{ marginTop: '2%' }}>Надпись шрифт</Text>
-              <TextInput
-                style={AppStyles.width63}
-                maxLength={2}
-                mode="outlined"
-                placeholder="Шрифт надпися"
-                onChangeText={val => handleChange(val, 'phone')}
-                value={user.phone}
-              />
-
-              <Text style={{ marginTop: '2%' }}>Размер шрифта</Text>
-              <DropDownPicker
-                open={sizeFontOpen}
-                setOpen={seTsizeFontOpen}
-                items={itemsSizeFont}
-                setValue={setSizeFontDr}
-                value={sizeFont}
-                dropDownContainerStyle={{
-                  borderColor: '#dfdfdf',
-                  width: '50%',
-                }}
-                dropDownDirection="BOTTOM"
-                containerStyle={styles.paddingTop2}
-                placeholder="Размер шрифта"
-                style={{ width: '50%' }}
-                zIndex={8}
-              />
-              <View style={{ flexDirection: 'row' }}>
-                <Checkbox.Android
-                  status={checkedEpitaph ? 'checked' : 'unchecked'}
-                  onPress={() => seTcheckedEpitaph(!checkedEpitaph)}
-                  color={AppStyles.color.COLOR_BLUE}
-                />
-                <Text
-                  onPress={() => seTcheckedEpitaph(!checkedEpitaph)}
-                  style={{ flex: 1, margin: 8 }}>
-                  Эпитафия
-                </Text>
-                <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>
-              </View>
-
-              <View style={{ flexDirection: 'row' }}>
-                <Checkbox.Android
-                  status={checkedPictureEpitaph ? 'checked' : 'unchecked'}
-                  onPress={() =>
-                    seTcheckedPictureEpitaph(!checkedPictureEpitaph)
-                  }
-                  color={AppStyles.color.COLOR_BLUE}
-                />
-                <Text
-                  onPress={() =>
-                    seTcheckedPictureEpitaph(!checkedPictureEpitaph)
-                  }
-                  style={{ flex: 1, margin: 8 }}>
-                  Рисунок (рядом с эпитафии)
-                </Text>
-                <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>
-              </View>
-
-              <View style={{ flexDirection: 'row' }}>
-                <Checkbox.Android
-                  status={checkedPictureCriss ? 'checked' : 'unchecked'}
-                  onPress={() => seTcheckedPictureCriss(!checkedPictureCriss)}
-                  color={AppStyles.color.COLOR_BLUE}
-                />
-                <Text
-                  onPress={() => seTcheckedPictureCriss(!checkedPictureCriss)}
-                  style={{ flex: 1, margin: 8 }}>
-                  Рисунок креста (в углу)
-                </Text>
-                <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>
-              </View>
-
-              <View style={{ flexDirection: 'row' }}>
-                <Checkbox.Android
-                  status={checkedQrCode ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    seTcheckedQrCode(!checkedQrCode);
-                  }}
-                  color={AppStyles.color.COLOR_BLUE}
-                />
-                <Text
-                  onPress={() => {
-                    seTcheckedQrCode(!checkedQrCode);
-                  }}
-                  style={{ flex: 1, margin: 4 }}>
-                  Qr code
-                  <Image
-                    source={require('../../../../../../assets/exclamation-mark-1.png')} //Change your icon image here
-                    style={{ width: 20, height: 20 }}
-                  />
-                </Text>
-                <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>
-              </View>
-              <TextInput
-                numberOfLines={3}
-                mode="outlined"
-                multiline={true}
-                placeholder="Коментарии к заказу"
-                onChangeText={val => handleChange(val, 'email')}
-                value={user.email}
-              />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}>
-                <Text>Общая стоимость</Text>
-                <Text style={{ position: 'absolute', right: 0 }}>___руб</Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  marginTop: 10,
-                  marginBottom: 15,
+                  justifyContent: 'center',
+                  zIndex: 1000,
                 }}>
-                <Button
-                  uppercase={false}
-                  mode="outlined"
-                  style={{ backgroundColor: 'orange', width: '45%' }}
-                  onPress={() => cancelPressed()}>
-                  <Text style={{ color: 'white' }}>Отмена</Text>
-                </Button>
-                <Button
-                  uppercase={false}
-                  mode="outlined"
-                  style={{ backgroundColor: '#333333', width: '45%' }}
-                  onPress={() => okPressed(false)}>
-                  <Text style={{ color: 'white' }}>Выбрать</Text>
-                </Button>
+                <Wizard
+                  ref={wizard}
+                  steps={stepList}
+                  isFirstStep={val => setIsFirstStep(val)}
+                  isLastStep={val => setIsLastStep(val)}
+                  onNext={() => {
+                    console.log('Next Step Called');
+                  }}
+                  onPrev={() => {
+                    console.log('Previous Step Called');
+                  }}
+                  currentStep={({ currentStep, isLastStep, isFirstStep }) => {
+                    setCurrentStep(currentStep);
+                  }}
+                />
+                <View style={{ flexDirection: 'row', margin: 18 }}>
+                  {stepList.map((val, index) => (
+                    <View
+                      key={'step-indicator-' + index}
+                      style={{
+                        width: 10,
+                        marginHorizontal: 6,
+                        height: 10,
+                        borderRadius: 5,
+                        backgroundColor:
+                          index === currentStep ? '#fc0' : '#000',
+                      }}
+                    />
+                  ))}
+                </View>
               </View>
             </View>
+            <Modal style={{ margin: 0 }} isVisible={lookOpen}>
+              <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+                <ScrollView contentInsetAdjustmentBehavior="automatic">
+                  <View style={{ backgroundColor: 'white', padding: 10 }}>
+                    <Text style={styles.modelHeaderText}>
+                      Перечень памятников
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                      }}>
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            seTthird({
+                              src: '.../../../../../../assets/gubin.png',
+                              name: 'Наименование',
+                              price: '780 руб',
+                            });
+                            seTlookOpen(false);
+                          }}>
+                          <Image
+                            style={{ width: 100, height: 100 }}
+                            source={require('../../../../../../assets/gubin.png')}
+                          />
+                          <Text style={{ textAlign: 'center' }}>
+                            Наименование
+                          </Text>
+                          <Text style={{ textAlign: 'center' }}>780 руб</Text>
+                        </TouchableOpacity>
+                      </View>
+
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            seTthird({
+                              src: '../../../../../../assets/gubin.png',
+                              name: 'Наименование',
+                              price: '1050 руб',
+                            });
+                            seTlookOpen(false);
+                          }}>
+                          <Image
+                            style={{ width: 100, height: 100 }}
+                            source={require('../../../../../../assets/gubin.png')}
+                          />
+                          <Text style={{ textAlign: 'center' }}>
+                            Наименование
+                          </Text>
+                          <Text style={{ textAlign: 'center' }}>1050 руб</Text>
+                        </TouchableOpacity>
+                      </View>
+
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            seTthird({
+                              src: '../../../../../../assets/gubin.png',
+                              name: 'Наименование',
+                              price: '1230 руб',
+                            });
+                            seTlookOpen(false);
+                          }}>
+                          <Image
+                            style={{ width: 100, height: 100 }}
+                            source={require('../../../../../../assets/gubin.png')}
+                          />
+                          <Text style={{ textAlign: 'center' }}>
+                            Наименование
+                          </Text>
+                          <Text style={{ textAlign: 'center' }}>1230 руб</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                      }}>
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            {
+                              seTthird({
+                                src: '../../../../../../assets/gubin.png',
+                                name: 'Наименование',
+                                price: '1320 руб',
+                              });
+                              seTlookOpen(false);
+                            }
+                          }}>
+                          <Image
+                            style={{ width: 100, height: 100 }}
+                            source={require('../../../../../../assets/gubin.png')}
+                          />
+                          <Text style={{ textAlign: 'center' }}>
+                            Наименование
+                          </Text>
+                          <Text style={{ textAlign: 'center' }}>1320 руб</Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            seTthird({
+                              src: '../../../../../../assets/gubin.png',
+                              name: 'Наименование',
+                              price: '1440 руб',
+                            });
+                            seTlookOpen(false);
+                          }}>
+                          <Image
+                            style={{ width: 100, height: 100 }}
+                            source={require('../../../../../../assets/gubin.png')}
+                          />
+                          <Text style={{ textAlign: 'center' }}>
+                            Наименование
+                          </Text>
+                          <Text style={{ textAlign: 'center' }}>1440 руб</Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            seTthird({
+                              src: '../../../../../../assets/gubin.png',
+                              name: 'Наименование',
+                              price: '9600 руб',
+                            });
+                            seTlookOpen(false);
+                          }}>
+                          <Image
+                            style={{ width: 100, height: 100 }}
+                            source={require('../../../../../../assets/gubin.png')}
+                          />
+                          <Text style={{ textAlign: 'center' }}>
+                            Наименование
+                          </Text>
+                          <Text style={{ textAlign: 'center' }}>9600 руб</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+
+                    <Button
+                      style={{
+                        width: '100%',
+                        marginTop: 5,
+                        backgroundColor: '#333333',
+                        zIndex: 1,
+                        elevation: 0,
+                      }}
+                      mode="contained"
+                      onPress={() => console.log('')}>
+                      <Text style={{ color: 'white' }}>Показать еще</Text>
+                    </Button>
+                  </View>
+                </ScrollView>
+              </SafeAreaView>
+            </Modal>
             <MonumentModel
               cancelModel={cancelModelMonument}
               selectPressed={selectMonumentItem}
