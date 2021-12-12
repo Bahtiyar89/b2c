@@ -15,24 +15,26 @@ interface IState {
   model: boolean;
   selectedMonument: any;
   monument: any;
+  monuments: any;
+  chooseMonument: () => void;
+  loading: boolean;
+  modalTotalPrice: (val: any) => void;
 }
-
-const itemsLook = [
-  { label: 'Портрет', value: 'p' },
-  { label: 'Фотокерамика', value: 'fk' },
-  { label: 'Фото на стекле', value: 'foncam' },
-];
 
 const FirstStep: React.FC<IState> = ({
   model,
   monument,
   selectedMonument,
+  chooseMonument,
+  monuments,
+  loading,
+  modalTotalPrice,
 }: IState) => {
   //Checkbox
 
   const [mainModel, seTmainModel] = useState(false);
   const [secondModal, seTsecondModal] = useState(false);
-  const cancelPressed = () => {};
+
   const cancelModelMonument = () => {
     seTmainModel(false);
     console.log('cancel pressed');
@@ -48,48 +50,15 @@ const FirstStep: React.FC<IState> = ({
   const [typeInstallation, seTtypeInstallation] = React.useState('usual');
   //Checkbox
   const [checkedMonument, seTcheckedMonument] = useState(false);
-  const [typeOpen, seTtypeOpen] = useState(false);
-  const [lookOpen, seTlookOpen] = useState(false);
-  const [sizeFontOpen, seTsizeFontOpen] = useState(false);
 
-  const [look, seTlook] = useState('');
-  const [type, seTtype] = useState('');
-  const [sizeFont, seTsizeFont] = useState('');
-
-  //on Open dropdown
-  const onLookOpen = useCallback(() => {
-    seTtypeOpen(false);
-  }, []);
-
-  const onTypeOpen = useCallback(() => {
-    seTsizeFontOpen(false);
-  }, []);
-
-  const onWriteFontOpen = useCallback(() => {
-    seTsizeFontOpen(false);
-  }, []);
-
-  //dropdown on change
-  const setLookDr = (callback: any) => {
-    seTlook(callback());
-  };
-  const setTypeDr = (callback: any) => {
-    seTtype(callback());
-  };
-  const setSizeFontDr = (callback: any) => {
-    seTsizeFont(callback());
-  };
-  const [value, setValue] = React.useState('first');
-
-  console.log('mainModel: ', mainModel);
-  console.log('secondModal: ', secondModal);
   const firstModelFunc = () => {
+    chooseMonument();
     seTmainModel(true);
     seTsecondModal(false);
   };
   const selectedModelSecond = (val: any) => {
-    console.log('vaaal: val', val);
     seTmainModel(false);
+    modalTotalPrice(val);
     seTsecondModal(false);
   };
   return (
@@ -101,7 +70,7 @@ const FirstStep: React.FC<IState> = ({
         <View
           style={{
             flexDirection: 'row',
-            width: '90%',
+            width: '70%',
             justifyContent: 'space-between',
           }}>
           <View style={{ flexDirection: 'row' }}>
@@ -185,10 +154,12 @@ const FirstStep: React.FC<IState> = ({
         cancelModel={cancelModelMonument}
         selectPressed={selectMonumentItem}
         model={mainModel}
+        monuments={monuments}
       />
       <FirstStepSecondModal
         selectedModelSecond={selectedModelSecond}
         secondModal={secondModal}
+        monuments={monuments}
       />
     </View>
   );

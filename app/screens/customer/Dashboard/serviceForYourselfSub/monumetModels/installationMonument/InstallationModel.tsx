@@ -139,11 +139,7 @@ const Model: React.FC<IState> = ({ okPressed, noPressed, model }: IState) => {
   const [checkedPictureCriss, seTcheckedPictureCriss] = useState(false);
   const [checkedQrCode, seTcheckedQrCode] = useState(false);
   console.log('monument : ', monument);
-  const selected = (val: any) => {
-    console.log('val: ', val);
 
-    seTmonument(val);
-  };
   const cancelPressed = () => {
     seTcheckedMonument(false);
     seTcheckedPlate(false);
@@ -164,10 +160,22 @@ const Model: React.FC<IState> = ({ okPressed, noPressed, model }: IState) => {
     { label: 'Apple', value: 'apple' },
     { label: 'Banana', value: 'banana' },
   ]);
+
+  const chooseMonument = () => {
+    console.log('val: ');
+  };
+  const selected = (val: any) => {
+    console.log('val: 33334 ');
+    //  seTmonument(val);
+  };
+  const selected2 = (val: any) => {
+    console.log('val22: ');
+  };
   const stepList = [
     {
       content: (
         <FirstStep
+          chooseMonument={chooseMonument}
           selectedMonument={(val: any) => selected(val)}
           monument={monument}
           model={model}
@@ -450,19 +458,6 @@ const Model: React.FC<IState> = ({ okPressed, noPressed, model }: IState) => {
                         </TouchableOpacity>
                       </View>
                     </View>
-
-                    <Button
-                      style={{
-                        width: '100%',
-                        marginTop: 5,
-                        backgroundColor: '#333333',
-                        zIndex: 1,
-                        elevation: 0,
-                      }}
-                      mode="contained"
-                      onPress={() => console.log('')}>
-                      <Text style={{ color: 'white' }}>Показать еще</Text>
-                    </Button>
                   </View>
                 </ScrollView>
               </SafeAreaView>

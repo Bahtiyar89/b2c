@@ -41,7 +41,7 @@ const SecondStep: React.FC = () => {
     price: '1700 руб',
   });
   return (
-    <View style={{ width: '95%' }}>
+    <View style={{ width: '90%' }}>
       <Text style={{ textAlign: 'center' }}>
         Цветник или надгробная плита на выбор
       </Text>

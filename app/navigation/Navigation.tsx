@@ -45,6 +45,7 @@ import CareOfGravesPhoto from '../screens/customer/Dashboard/careOfGravesPhoto';
 import GeneratedOrder from '../screens/customer/generatedOrder';
 import ServiceForYourself from '../screens/customer/Dashboard/serviceForYourself';
 import ServiceForYourselfSub from 'app/screens/customer/Dashboard/serviceForYourselfSub';
+import ProductOpts from 'app/screens/customer/Dashboard/serviceForYourselfSub/productOpts';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -152,6 +153,13 @@ function SignedIn() {
         }}
         name="ServiceForYourselfSub"
         component={ServiceForYourselfSub}
+      />
+      <Stack.Screen
+        options={{
+          title: 'Уход за могилами',
+        }}
+        name="productOps"
+        component={ProductOpts}
       />
     </Stack.Navigator>
   );

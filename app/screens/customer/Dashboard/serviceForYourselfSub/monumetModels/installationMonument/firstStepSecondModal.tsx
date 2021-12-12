@@ -13,33 +13,13 @@ import styles from './styles';
 interface IState {
   secondModal: boolean;
   selectedModelSecond: any;
+  monuments: any;
 }
-
-const itemsMaterial = [
-  { label: 'Гранит', value: 'granite' },
-  { label: 'Мрамор', value: 'marble' },
-  { label: 'Бетон', value: 'concrete' },
-];
-
-const itemsForm = [
-  { label: 'Форма 1', value: 'form1' },
-  { label: 'Форма 2', value: 'form2' },
-];
-
-const itemsSize = [
-  { label: '12', value: '12' },
-  { label: '14', value: '14' },
-];
-
-const itemsLook = [
-  { label: 'Портрет', value: 'p' },
-  { label: 'Фотокерамика', value: 'fk' },
-  { label: 'Фото на стекле', value: 'foncam' },
-];
 
 const FirstStepSecondModal: React.FC<IState> = ({
   secondModal,
   selectedModelSecond,
+  monuments,
 }: IState) => {
   //Checkbox
 
@@ -61,10 +41,10 @@ const FirstStepSecondModal: React.FC<IState> = ({
   const [sizeFontOpen, seTsizeFontOpen] = useState(false);
   const [checkedMonument, seTcheckedMonument] = useState(false);
 
-  const [look, seTlook] = useState('');
-  const [material, seTmaterial] = useState('');
-  const [form, seTform] = useState('');
-  const [sizeFont, seTsizeFont] = useState('');
+  const [material, seTmaterial] = useState(0);
+  const [form, seTform] = useState(0);
+  const [sizeFont, seTsizeFont] = useState(0);
+  const [totalPrice, seTtotalPrice] = useState(0);
 
   //on Open dropdown
   const onMaterialOpen = useCallback(() => {
@@ -78,15 +58,89 @@ const FirstStepSecondModal: React.FC<IState> = ({
   //dropdown on change
 
   const setMaterialDr = (callback: any) => {
+    seTtotalPrice(callback() + sizeFont + form);
     seTmaterial(callback());
   };
   const setFormDr = (callback: any) => {
+    seTtotalPrice(callback() + sizeFont + material);
     seTform(callback());
   };
   const setSizeFontDr = (callback: any) => {
+    seTtotalPrice(callback() + material + form);
     seTsizeFont(callback());
   };
   const [value, setValue] = React.useState('first');
+
+  const getItemsMaterial = () => {
+    if (!monuments[0]?.customs) {
+      return [];
+    }
+    const werksBranchOptions = monuments[0]?.customs.filter(
+      wa => wa.type === 'material',
+    );
+
+    let out = werksBranchOptions.map(c => {
+      return {
+        value: parseInt(c.priceAdd, 10),
+        label: c.name,
+        id: parseInt(c.id, 10),
+      };
+    });
+    return out;
+  };
+
+  const getItemsSize = () => {
+    if (!monuments[0]?.customs) {
+      return [];
+    }
+    const werksBranchOptions = monuments[0]?.customs.filter(
+      wa => wa.type === 'size',
+    );
+
+    let out = werksBranchOptions.map(c => {
+      return {
+        value: parseInt(c.priceAdd, 10),
+        label: c.name,
+      };
+    });
+    return out;
+  };
+
+  const getItemsForm = () => {
+    if (!monuments[0]?.customs) {
+      return [];
+    }
+    const werksBranchOptions = monuments[0]?.customs.filter(
+      wa => wa.type === 'form',
+    );
+
+    let out = werksBranchOptions.map(c => {
+      return {
+        value: parseInt(c.priceAdd, 10),
+        label: c.name,
+      };
+    });
+    return out;
+  };
+
+  const getColors = () => {
+    if (!monuments[0]?.customs) {
+      return [];
+    }
+    const werksBranchOptions = monuments[0]?.customs.filter(
+      wa => wa.type === 'colour',
+    );
+
+    let out = werksBranchOptions.map(c => {
+      return {
+        value: parseInt(c.priceAdd, 10),
+        label: c.name,
+        id: parseInt(c.id, 10),
+      };
+    });
+    return out;
+  };
+
   return (
     <>
       <Modal style={{ margin: 0 }} isVisible={secondModal}>
@@ -118,7 +172,7 @@ const FirstStepSecondModal: React.FC<IState> = ({
                 open={materialOpen}
                 onOpen={onMaterialOpen}
                 setOpen={seTmaterialOpen}
-                items={itemsMaterial}
+                items={getItemsMaterial()}
                 setValue={setMaterialDr}
                 value={material}
                 dropDownContainerStyle={{
@@ -133,39 +187,19 @@ const FirstStepSecondModal: React.FC<IState> = ({
                 <View style={{ flexDirection: 'row' }}>
                   <Text
                     onPress={() => seTcheckedMonument(!checkedMonument)}
-                    style={{ margin: 8 }}>
+                    style={{ marginTop: 7 }}>
                     Цвет
                   </Text>
-                  <RadioButton.Android
-                    color="blue"
-                    uncheckedColor="blue"
-                    value="first"
-                  />
-                  <RadioButton.Android
-                    color="black"
-                    uncheckedColor="black"
-                    value="second"
-                  />
-                  <RadioButton.Android
-                    color="green"
-                    uncheckedColor="green"
-                    value="third"
-                  />
-                  <RadioButton.Android
-                    color="yellow"
-                    uncheckedColor="yellow"
-                    value="fourth"
-                  />
-                  <RadioButton.Android
-                    color="orange"
-                    uncheckedColor="orange"
-                    value="fifth"
-                  />
-                  <RadioButton.Android
-                    color="grey"
-                    uncheckedColor="grey"
-                    value="sixes"
-                  />
+                  {getColors().map(x => (
+                    <View style={{ marginLeft: 7 }}>
+                      <Text style={{ marginTop: 7 }}>{x.label}</Text>
+                      <RadioButton.Android
+                        color={'black'}
+                        uncheckedColor={'black'}
+                        value={x.id}
+                      />
+                    </View>
+                  ))}
                 </View>
               </RadioButton.Group>
 
@@ -180,7 +214,7 @@ const FirstStepSecondModal: React.FC<IState> = ({
                 open={formOpen}
                 onOpen={onFormOpen}
                 setOpen={seTformOpen}
-                items={itemsForm}
+                items={getItemsForm()}
                 setValue={setFormDr}
                 value={form}
                 dropDownContainerStyle={{
@@ -200,7 +234,7 @@ const FirstStepSecondModal: React.FC<IState> = ({
               <DropDownPicker
                 open={sizeFontOpen}
                 setOpen={seTsizeFontOpen}
-                items={itemsSize}
+                items={getItemsSize()}
                 setValue={setSizeFontDr}
                 value={sizeFont}
                 dropDownContainerStyle={{
@@ -211,12 +245,12 @@ const FirstStepSecondModal: React.FC<IState> = ({
               />
               <View
                 style={{
-                  marginTop: 60,
+                  marginTop: 100,
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
                 <Text>Общая стоимость</Text>
-                <Text>___руб</Text>
+                <Text>{totalPrice} руб</Text>
               </View>
               <Button
                 style={{
@@ -226,7 +260,7 @@ const FirstStepSecondModal: React.FC<IState> = ({
                   zIndex: 0,
                 }}
                 mode="contained"
-                onPress={selectedModelSecond}>
+                onPress={() => selectedModelSecond(totalPrice)}>
                 <Text style={{ color: 'white' }}>Выбрать</Text>
               </Button>
             </View>

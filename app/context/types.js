@@ -27,3 +27,5 @@ export const VARIFY_OK = 'VARIFY_OK';
 //dashboard
 export const TOMB_SERVICES = 'TOMB_SERVICES';
 export const TOMB_SERVICES_MODAL = 'TOMB_SERVICES_MODAL';
+//commodityes
+export const GET_MONUMENT_SERVICES = 'GET_MONUMENT_SERVICES';

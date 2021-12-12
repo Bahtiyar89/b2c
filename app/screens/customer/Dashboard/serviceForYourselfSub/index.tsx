@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, SafeAreaView, View, Image } from 'react-native';
 import { Card, Button, Text, Checkbox } from 'react-native-paper';
 import Modal from 'react-native-modal';
@@ -58,7 +58,7 @@ const ServiceForYourselfSub: React.FC<IProps> = (props: IProps) => {
                 flexDirection: 'row-reverse',
                 justifyContent: 'space-between',
               }}
-              onPress={() => seTmonumentInstModel(true)}>
+              onPress={() => navigation.navigate('productOps')}>
               <Text
                 style={{ fontWeight: '700', fontSize: 14, color: '#3498db' }}>
                 Установка

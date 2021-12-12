@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { Button, Checkbox, TextInput } from 'react-native-paper';
 
 import AppStyles from '../../../../../../config/styles';
-import styles from './styles';
+import styles from '../../productOpts/styles';
 
 interface IState {
   model: boolean;

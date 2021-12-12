@@ -15,12 +15,14 @@ interface IState {
   model: boolean;
   selectPressed: (params: any) => void;
   cancelModel: () => void;
+  monuments: any;
 }
 
 const MonumentModel: React.FC<IState> = ({
   model,
   cancelModel,
   selectPressed,
+  monuments,
 }: IState) => {
   const elements = {
     email: '',
@@ -70,15 +72,6 @@ const MonumentModel: React.FC<IState> = ({
     return err;
   };
 
-  const onButtonPressed = () => {};
-  const [checked, setChecked] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: 'Портрет', value: 'p' },
-    { label: 'Фотокерамика', value: 'fk' },
-    { label: 'Фото на стекле', value: 'foncam' },
-  ]);
   return (
     <>
       <Modal style={{ margin: 0 }} isVisible={model}>
@@ -89,118 +82,30 @@ const MonumentModel: React.FC<IState> = ({
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-around',
                 }}>
                 <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      selectPressed({
-                        src: '.../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '780 руб',
-                      })
-                    }>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>780 руб</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      selectPressed({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '1050 руб',
-                      })
-                    }>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>1050 руб</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      selectPressed({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '1230 руб',
-                      })
-                    }>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>1230 руб</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                }}>
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      selectPressed({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '1320 руб',
-                      })
-                    }>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>1320 руб</Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      selectPressed({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '1440 руб',
-                      })
-                    }>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>1440 руб</Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      selectPressed({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '9600 руб',
-                      })
-                    }>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>9600 руб</Text>
-                  </TouchableOpacity>
+                  {Object.keys(monuments).length > 0 ? (
+                    <View>
+                      {monuments.map(m => (
+                        <TouchableOpacity
+                          onPress={() =>
+                            selectPressed({
+                              name: m.name,
+                              price: m.price,
+                            })
+                          }>
+                          <Image
+                            style={{ width: 100, height: 100 }}
+                            source={require('../../../../../../assets/gubin.png')}
+                          />
+                          <Text style={{ textAlign: 'center' }}>{m.name}</Text>
+                          <Text style={{ textAlign: 'center' }}>{m.price}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  ) : (
+                    <Text></Text>
+                  )}
                 </View>
               </View>
 

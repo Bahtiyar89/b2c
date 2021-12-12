@@ -20,6 +20,7 @@ import configureStore from 'app/store';
 import { IThemeState } from 'app/models/reducers/theme';
 import AuthState from './context/auth/AuthState';
 import DashboardState from './context/dashboard/DashboardState';
+import CommodityState from './context/commodities/CommodityState';
 import F4State from './context/f4_state';
 import Navigation from './navigation/Navigation';
 import Navi from './navigation/navi';
@@ -51,11 +52,13 @@ const EntryPoint: React.FC = () => {
         <F4State>
           <AuthState>
             <DashboardState>
-              <PersistGate
-                loading={<ActivityIndicator />}
-                persistor={persistor}>
-                <RootNavigation />
-              </PersistGate>
+              <CommodityState>
+                <PersistGate
+                  loading={<ActivityIndicator />}
+                  persistor={persistor}>
+                  <RootNavigation />
+                </PersistGate>
+              </CommodityState>
             </DashboardState>
           </AuthState>
         </F4State>
