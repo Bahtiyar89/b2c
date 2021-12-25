@@ -11,6 +11,7 @@ import { CommonActions } from '@react-navigation/native';
 import utility from '../../utils/Utility';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const LOGOUT = 'LOGOUT';
+export const MENUBAR = 'MENUBAR';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -30,6 +31,7 @@ const AuthState = props => {
     varifyId: '',
     modalVarify: false,
     modalVarifyUser: false,
+    menuHamburger: true,
     error: [],
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -271,6 +273,15 @@ const AuthState = props => {
     }
   };
 
+  //menuHeader
+  const menuBarShow = menu => {
+    console.log('menu:', menu);
+    dispatch({
+      type: MENUBAR,
+      payload: menu,
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -282,6 +293,7 @@ const AuthState = props => {
         modalVarify: state.modalVarify,
         modalVarifyUser: state.modalVarifyUser,
         token: state.token,
+        menuHamburger: state.menuHamburger,
         /* token: state.token,
         
         error: state.error,
@@ -294,6 +306,7 @@ const AuthState = props => {
         signin,
         signout
         */
+        menuBarShow,
         signin,
         signOut,
         register,

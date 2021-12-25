@@ -62,7 +62,7 @@ const FirstStep: React.FC<IState> = ({
     seTsecondModal(false);
   };
   return (
-    <View style={{ width: '95%' }}>
+    <View style={{ width: '90%', backgroundColor: 'blue' }}>
       <Text style={{ margin: 10, textAlign: 'center', fontSize: 20 }}>
         Выбор памятника
       </Text>

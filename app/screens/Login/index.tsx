@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Text, Button, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from 'react-native-toast-notifications';
@@ -17,9 +18,12 @@ interface IState {
 }
 interface IProps {
   navigation: any;
+  route: any;
 }
 const Login: React.FC<IProps> = (props: IProps) => {
-  const { navigation } = props;
+  const { navigation, route } = props;
+  console.log('navigation: ', navigation);
+  console.log('route: ', route);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const id = useSelector((state: IState) => state.loginReducer.id);
@@ -32,7 +36,19 @@ const Login: React.FC<IProps> = (props: IProps) => {
   const onRegistration = () => navigation.navigate('Registration');
 
   const authContext = useContext(AuthContext);
-  const { signin, loading } = authContext;
+  const { signin, loading, menuBarShow, menuHamburger } = authContext;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      menuBarShow(false);
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        menuBarShow(true);
+      };
+    }, []),
+  );
 
   const toast = useToast();
 

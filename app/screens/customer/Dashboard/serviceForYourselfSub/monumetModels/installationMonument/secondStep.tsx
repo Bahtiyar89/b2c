@@ -41,7 +41,7 @@ const SecondStep: React.FC = () => {
     price: '1700 руб',
   });
   return (
-    <View style={{ width: '90%' }}>
+    <View style={{ width: '95%' }}>
       <Text style={{ textAlign: 'center' }}>
         Цветник или надгробная плита на выбор
       </Text>
@@ -52,6 +52,7 @@ const SecondStep: React.FC = () => {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
+            width: '70%',
           }}>
           <View style={{ flexDirection: 'row' }}>
             <RadioButton.Android color="blue" value="first" />

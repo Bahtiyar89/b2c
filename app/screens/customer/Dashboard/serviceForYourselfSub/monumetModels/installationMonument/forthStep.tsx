@@ -57,13 +57,20 @@ const ForthStep: React.FC<IState> = ({
   };
   const [checkedEpitaph, seTcheckedEpitaph] = useState(false);
   return (
-    <View style={{ width: '90%', marginTop: 20 }}>
-      <Text style={{ marginTop: '2%', fontSize: 20 }}>
+    <View style={{ width: '100%', marginTop: '2%', backgroundColor: 'blue' }}>
+      <Text style={{ fontSize: 20, textAlign: 'center' }}>
         Надписи на памятнике
       </Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text style={{ marginTop: '6%' }}>Основаня надпись</Text>
-        <Text style={{ marginTop: '6%' }}>___руб</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+
+          width: '90%',
+        }}>
+        <Text style={{ flex: 1, marginTop: '6%' }}>Основаня надпись</Text>
+        <Text style={{ justifyContent: 'flex-end', marginTop: '6%' }}>
+          ___руб
+        </Text>
       </View>
 
       <Text style={{ marginTop: '2%' }}>Шрифт</Text>
@@ -76,11 +83,10 @@ const ForthStep: React.FC<IState> = ({
         value={type}
         dropDownContainerStyle={{
           borderColor: '#dfdfdf',
-          width: '70%',
         }}
         dropDownDirection="BOTTOM"
         placeholder="Тип установки памятника"
-        style={{ width: '70%' }}
+        style={{}}
         zIndex={10}
       />
       <Text style={{ marginTop: '2%' }}>Размер шрифта</Text>
@@ -93,11 +99,10 @@ const ForthStep: React.FC<IState> = ({
         value={size}
         dropDownContainerStyle={{
           borderColor: '#dfdfdf',
-          width: '70%',
         }}
         dropDownDirection="BOTTOM"
         placeholder="Тип установки памятника"
-        style={{ width: '70%' }}
+        style={{}}
         zIndex={9}
       />
 

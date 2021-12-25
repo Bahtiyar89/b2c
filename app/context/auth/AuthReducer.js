@@ -10,6 +10,7 @@ import {
   LOADING,
   MODAL_VARIFY,
   MODAL_VARIFY_USER,
+  MENUBAR,
 } from './AuthState';
 
 export default (state, action) => {
@@ -61,6 +62,11 @@ export default (state, action) => {
         loading: false,
         user: null,
         error: [],
+      };
+    case MENUBAR:
+      return {
+        ...state,
+        menuHamburger: action.payload,
       };
     case CLEAR_ERRORS:
       return { ...state, error: null };

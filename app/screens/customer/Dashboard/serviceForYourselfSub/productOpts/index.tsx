@@ -30,7 +30,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
   const { navigation, model } = props;
   const wizard = useRef<any>();
   const [monument, seTmonument] = useState({
-    src: '',
+    src: 'rrr',
     name: '',
   });
   const [monumentPrice, seTmonumentPrice] = useState(0);
@@ -76,7 +76,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     },
     {
       content: (
-        <View style={{ width: '90%' }}>
+        <View style={{ width: '95%', backgroundColor: 'red' }}>
           <Text style={{ marginTop: '2%', fontSize: 20 }}>
             Фото на памятнике
           </Text>
@@ -159,6 +159,8 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          alignSelf: 'center',
+          width: '90%',
         }}>
         <Wizard
           ref={wizard}
