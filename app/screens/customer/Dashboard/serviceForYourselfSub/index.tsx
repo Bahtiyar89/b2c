@@ -131,11 +131,15 @@ const ServiceForYourselfSub: React.FC<IProps> = (props: IProps) => {
             noPressed={() => seTmonumentInstModel(false)}
           />
           <ChangeMonument
+            navigation={navigation}
+            route={params}
             model={monumentChangeModel}
             okPressed={() => seTmonumentChangeModel(false)}
             noPressed={() => seTmonumentChangeModel(false)}
           />
           <MonumentResolutionModel
+            navigation={navigation}
+            route={params}
             okPressed={val => seTmonumentResolutionModal(val)}
             model={monumentResolutionModal}
           />

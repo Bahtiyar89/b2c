@@ -82,13 +82,6 @@ const Dashboard: React.FC<IProps> = (props: IProps) => {
           noPressed={() => seTmodelRitualGoods(false)}
         />
       </View>
-      <Button
-        style={{ marginTop: 100 }}
-        icon="logout"
-        mode="outlined"
-        onPress={onLogout}>
-        Выйти
-      </Button>
     </View>
   );
 };

@@ -218,7 +218,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
             fontWeight: 'bold',
           },
         }}
-        initialRouteName="NotSignedIn"
+        initialRouteName="CustomerDashboard"
         drawerContent={props => {
           return (
             <>
@@ -229,7 +229,6 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                 />
               )}
               <DrawerContentScrollView {...props}>
-                <DrawerItemList {...props} />
                 {isSigned && (
                   <DrawerItem
                     label=""
@@ -249,7 +248,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                     )}
                   />
                 )}
-
+                <DrawerItemList {...props} />
                 <DrawerItem
                   label=""
                   onPress={() => console.log('pressed')}
@@ -260,6 +259,21 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
             </>
           );
         }}>
+        {!isSigned && (
+          <Drawer.Screen
+            name="Login"
+            options={{
+              title: 'Войти',
+              drawerIcon: focused => (
+                <Image
+                  source={require('../assets/lock.png')} //Change your icon image here
+                  style={styles.icon}
+                />
+              ),
+            }}
+            component={NotSignedIn}
+          />
+        )}
         <Drawer.Screen
           name="CustomerDashboard"
           options={{
@@ -275,98 +289,87 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
           }}
           component={SignedIn}
         />
-        <Drawer.Screen
-          name="CustomerOrderHistory"
-          options={{
-            title: 'История заказов',
-            drawerIcon: focused => (
-              <Image
-                source={require('../assets/checklist.png')} //Change your icon image here
-                style={styles.icon}
-              />
-            ),
-          }}
-          component={CustomerOrderHistory}
-        />
-        <Drawer.Screen
-          name="Dashboard"
-          options={{
-            title: 'Избранное',
-            drawerIcon: focused => (
-              <Image
-                source={require('../assets/rating.png')} //Change your icon image here
-                style={styles.icon}
-              />
-            ),
-          }}
-          component={CustomerSelected}
-        />
-        <Drawer.Screen
-          name="CustomerBasket"
-          options={{
-            title: 'Корзина',
-            drawerIcon: focused => (
-              <Image
-                source={require('../assets/vegetables.png')} //Change your icon image here
-                style={styles.icon}
-              />
-            ),
-          }}
-          component={CustomerBasket}
-        />
-        <Drawer.Screen
-          name="CustomerAddCard"
-          options={{
-            title: 'Добавить карту',
-            drawerIcon: focused => (
-              <Image
-                source={require('../assets/map.png')} //Change your icon image here
-                style={styles.icon}
-              />
-            ),
-          }}
-          component={CustomerAddCard}
-        />
-        <Drawer.Screen
-          name="CustomerSettings"
-          options={{
-            title: 'Настройка',
-            drawerIcon: focused => (
-              <Image
-                source={require('../assets/setting.png')} //Change your icon image here
-                style={styles.icon}
-              />
-            ),
-          }}
-          component={CustomerSettings}
-        />
-        <Drawer.Screen
-          name="CustomerSupport"
-          options={{
-            title: 'Служба поддержки',
-            drawerIcon: focused => (
-              <Image
-                source={require('../assets/call-center.png')} //Change your icon image here
-                style={styles.icon}
-              />
-            ),
-          }}
-          component={CustomerSupport}
-        />
-        {!isSigned && (
-          <Drawer.Screen
-            name="Login"
-            options={{
-              title: 'Войти',
-              drawerIcon: focused => (
-                <Image
-                  source={require('../assets/lock.png')} //Change your icon image here
-                  style={styles.icon}
-                />
-              ),
-            }}
-            component={NotSignedIn}
-          />
+        {isSigned && (
+          <>
+            <Drawer.Screen
+              name="CustomerOrderHistory"
+              options={{
+                title: 'История заказов',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/checklist.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={CustomerOrderHistory}
+            />
+            <Drawer.Screen
+              name="Dashboard"
+              options={{
+                title: 'Избранное',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/rating.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={CustomerSelected}
+            />
+            <Drawer.Screen
+              name="CustomerBasket"
+              options={{
+                title: 'Корзина',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/vegetables.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={CustomerBasket}
+            />
+            <Drawer.Screen
+              name="CustomerAddCard"
+              options={{
+                title: 'Добавить карту',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/map.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={CustomerAddCard}
+            />
+            <Drawer.Screen
+              name="CustomerSettings"
+              options={{
+                title: 'Настройка',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/setting.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={CustomerSettings}
+            />
+            <Drawer.Screen
+              name="CustomerSupport"
+              options={{
+                title: 'Служба поддержки',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/call-center.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={CustomerSupport}
+            />
+          </>
         )}
       </Drawer.Navigator>
     </NavigationContainer>

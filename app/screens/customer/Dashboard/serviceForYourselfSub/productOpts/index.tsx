@@ -1,8 +1,9 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, Fragment } from 'react';
 import { ScrollView, SafeAreaView, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import Wizard from 'react-native-wizard';
 import DropDownPicker from 'react-native-dropdown-picker';
+import AuthContext from '../../../../../context/auth/AuthContext';
 import CommodityContext from '../../../../../context/commodities/CommodityContext';
 import styles from './styles';
 import FirstStep from '../monumetModels/installationMonument/firstStep';
@@ -10,13 +11,17 @@ import SecondStep from '../monumetModels/installationMonument/secondStep';
 import ForthStep from '../monumetModels/installationMonument/forthStep';
 import FifthStep from '../monumetModels/installationMonument/fifthStep';
 import SixthStep from '../monumetModels/installationMonument/sixthStep';
+import Login from '../../../../Login';
 
 interface IProps {
   navigation: any;
   model: boolean;
+  route: any;
 }
 
 const ProductOpts: React.FC<IProps> = (props: IProps) => {
+  const authContext = useContext(AuthContext);
+  const { isSigned } = authContext;
   const commodityContext = useContext(CommodityContext);
   const {
     getMonumentService,
@@ -27,7 +32,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     monuments,
   } = commodityContext;
 
-  const { navigation, model } = props;
+  const { navigation, model, route } = props;
   const wizard = useRef<any>();
   const [monument, seTmonument] = useState({
     src: 'rrr',
@@ -53,7 +58,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
   const chooseMonument = () => {
     console.log('val: 333', getMonumentService('1'));
   };
-  console.log('monuments: ', monuments);
+  console.log('isSigned: ', isSigned);
   const modalTotalPrice = (val: any) => {
     console.log('modalTotalPrice:::: ', val);
   };
@@ -135,64 +140,76 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
   ];
 
   return (
-    <View style={{ width: '100%' }}>
-      <SafeAreaView style={{ backgroundColor: '#FFF' }}>
-        <View
-          style={{
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            backgroundColor: '#FFF',
-            borderBottomColor: '#dedede',
-            borderBottomWidth: 1,
-          }}>
-          <Button disabled={isFirstStep} onPress={() => wizard.current.prev()}>
-            <Text style={{ fontSize: 8 }}>Предыдущая</Text>
-          </Button>
-          <Text>{currentStep + 1} из 6</Text>
-          <Button disabled={isLastStep} onPress={() => wizard.current.next()}>
-            <Text style={{ fontSize: 8 }}>Далее</Text>
-          </Button>
-        </View>
-      </SafeAreaView>
-      <View
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          alignSelf: 'center',
-          width: '90%',
-        }}>
-        <Wizard
-          ref={wizard}
-          steps={stepList}
-          isFirstStep={val => setIsFirstStep(val)}
-          isLastStep={val => setIsLastStep(val)}
-          onNext={() => {
-            console.log('Next Step Called');
-          }}
-          onPrev={() => {
-            console.log('Previous Step Called');
-          }}
-          currentStep={({ currentStep, isLastStep, isFirstStep }) => {
-            setCurrentStep(currentStep);
-          }}
-        />
-        <View style={{ flexDirection: 'row', margin: 18 }}>
-          {stepList.map((val, index) => (
+    <>
+      {isSigned ? (
+        <View style={{ width: '100%' }}>
+          <SafeAreaView style={{ backgroundColor: '#FFF' }}>
             <View
-              key={'step-indicator-' + index}
               style={{
-                width: 10,
-                marginHorizontal: 6,
-                height: 10,
-                borderRadius: 5,
-                backgroundColor: index === currentStep ? '#fc0' : '#000',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                backgroundColor: '#FFF',
+                borderBottomColor: '#dedede',
+                borderBottomWidth: 1,
+              }}>
+              <Button
+                disabled={isFirstStep}
+                onPress={() => wizard.current.prev()}>
+                <Text style={{ fontSize: 8 }}>Предыдущая</Text>
+              </Button>
+              <Text>{currentStep + 1} из 6</Text>
+              <Button
+                disabled={isLastStep}
+                onPress={() => wizard.current.next()}>
+                <Text style={{ fontSize: 8 }}>Далее</Text>
+              </Button>
+            </View>
+          </SafeAreaView>
+          <View
+            style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              width: '90%',
+            }}>
+            <Wizard
+              ref={wizard}
+              steps={stepList}
+              isFirstStep={val => setIsFirstStep(val)}
+              isLastStep={val => setIsLastStep(val)}
+              onNext={() => {
+                console.log('Next Step Called');
+              }}
+              onPrev={() => {
+                console.log('Previous Step Called');
+              }}
+              currentStep={({ currentStep, isLastStep, isFirstStep }) => {
+                setCurrentStep(currentStep);
               }}
             />
-          ))}
+            <View style={{ flexDirection: 'row', margin: 18 }}>
+              {stepList.map((val, index) => (
+                <View
+                  key={'step-indicator-' + index}
+                  style={{
+                    width: 10,
+                    marginHorizontal: 6,
+                    height: 10,
+                    borderRadius: 5,
+                    backgroundColor: index === currentStep ? '#fc0' : '#000',
+                  }}
+                />
+              ))}
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      ) : (
+        <>
+          <Login route={route} navigation={navigation} />
+        </>
+      )}
+    </>
   );
 };
 
