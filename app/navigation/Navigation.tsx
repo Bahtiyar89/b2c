@@ -260,19 +260,34 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
           );
         }}>
         {!isSigned && (
-          <Drawer.Screen
-            name="Login"
-            options={{
-              title: 'Войти',
-              drawerIcon: focused => (
-                <Image
-                  source={require('../assets/lock.png')} //Change your icon image here
-                  style={styles.icon}
-                />
-              ),
-            }}
-            component={NotSignedIn}
-          />
+          <>
+            <Drawer.Screen
+              name="Login"
+              options={{
+                title: 'Войти',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/lock.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={NotSignedIn}
+            />
+            <Drawer.Screen
+              name="CustomerSupport"
+              options={{
+                title: 'Служба поддержки',
+                drawerIcon: focused => (
+                  <Image
+                    source={require('../assets/call-center.png')} //Change your icon image here
+                    style={styles.icon}
+                  />
+                ),
+              }}
+              component={CustomerSupport}
+            />
+          </>
         )}
         <Drawer.Screen
           name="CustomerDashboard"

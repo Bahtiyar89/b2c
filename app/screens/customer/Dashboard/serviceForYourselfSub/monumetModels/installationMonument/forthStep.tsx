@@ -57,7 +57,7 @@ const ForthStep: React.FC<IState> = ({
   };
   const [checkedEpitaph, seTcheckedEpitaph] = useState(false);
   return (
-    <View style={{ width: '100%', marginTop: '2%', backgroundColor: 'blue' }}>
+    <View style={{ width: '100%', marginTop: '2%' }}>
       <Text style={{ fontSize: 20, textAlign: 'center' }}>
         Надписи на памятнике
       </Text>

@@ -81,7 +81,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     },
     {
       content: (
-        <View style={{ width: '95%', backgroundColor: 'red' }}>
+        <View style={{ width: '95%' }}>
           <Text style={{ marginTop: '2%', fontSize: 20 }}>
             Фото на памятнике
           </Text>
