@@ -50,6 +50,7 @@ const F4State = props => {
   };
 
   const loadRegions = country_id => {
+    console.log("country_id: ",country_id);
     dispatch({ type: LOADING, payload: true });
     doGet(`/locations/regions?countryId=${country_id}`)
       .then(({ data }) => {

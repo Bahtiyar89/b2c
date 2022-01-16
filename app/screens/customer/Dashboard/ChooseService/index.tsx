@@ -1,9 +1,6 @@
-import React, { useContext, useCallback, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ScrollView, SafeAreaView, View, Image } from 'react-native';
-import { Card, Button, Text } from 'react-native-paper';
-import Modal from 'react-native-modal';
-import DropDownPicker from 'react-native-dropdown-picker';
-import AuthContext from '../../../../context/auth/AuthContext';
+import { Button, Text } from 'react-native-paper';
 import styles from './styles';
 import utility from '../../../../utils/Utility';
 import DashboardContext from '../../../../context/dashboard/DashboardContext';

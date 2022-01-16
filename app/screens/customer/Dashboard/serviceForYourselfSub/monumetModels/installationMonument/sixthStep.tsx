@@ -9,18 +9,19 @@ interface IState {
   model: boolean;
   selectedMonument: any;
   monument: any;
-  cancelPressed: any;
+  chooseSixStep: () => void;
 }
 
 const SixthStep: React.FC<IState> = ({
   model,
   monument,
   selectedMonument,
-  cancelPressed,
+  chooseSixStep,
 }: IState) => {
   //Checkbox
 
   const [checkedQrCode, seTcheckedQrCode] = useState(false);
+
   return (
     <View style={{ width: '90%' }}>
       <View style={{ flexDirection: 'row', width: '90%' }}>
@@ -50,14 +51,13 @@ const SixthStep: React.FC<IState> = ({
         mode="outlined"
         multiline={true}
         placeholder="Коментарии к заказу"
-        style={{ flex: 1 }}
       />
       <Button
         style={{
           backgroundColor: '#333333',
           marginTop: 10,
         }}
-        onPress={() => cancelPressed()}
+        onPress={chooseSixStep}
         mode="contained">
         <Text style={{ color: 'white' }}>Выбрать</Text>
       </Button>

@@ -37,5 +37,14 @@
   "ritual_goods": "Ритуальные товары",
   "find_grave": "Найти могилу",
   "loading": "Загружается...",
-  "order_funeral": "Заказать похороны"
+  "order_funeral": "Заказать похороны",
+  "search":"Поиск...",
+  "countries":"Страны",
+  "regions":"Регионы",
+  "cities":"Города",
+  "cemetries":"Кладбищи",
+  "choose_country": "Выберите Страну",
+  "choose_region": "Выберите Регион",
+  "choose_city": "Выберите Город",
+  "choose_cemetry":"Выберети кладбище"
 }

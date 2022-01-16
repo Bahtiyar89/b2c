@@ -273,20 +273,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                 ),
               }}
               component={NotSignedIn}
-            />
-            <Drawer.Screen
-              name="CustomerSupport"
-              options={{
-                title: 'Служба поддержки',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/call-center.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={CustomerSupport}
-            />
+            /> 
           </>
         )}
         <Drawer.Screen
@@ -371,7 +358,10 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
               }}
               component={CustomerSettings}
             />
-            <Drawer.Screen
+            
+          </>
+        )}
+        <Drawer.Screen
               name="CustomerSupport"
               options={{
                 title: 'Служба поддержки',
@@ -384,8 +374,6 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
               }}
               component={CustomerSupport}
             />
-          </>
-        )}
       </Drawer.Navigator>
     </NavigationContainer>
   );

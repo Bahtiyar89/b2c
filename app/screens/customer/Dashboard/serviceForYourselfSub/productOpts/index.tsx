@@ -1,8 +1,10 @@
-import React, { useRef, useState, useContext, Fragment } from 'react';
-import { ScrollView, SafeAreaView, View } from 'react-native';
+import React, { useRef, useState, useContext } from 'react';
+import { SafeAreaView, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import Wizard from 'react-native-wizard';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { Dropdown } from 'react-native-element-dropdown';
+
 import AuthContext from '../../../../../context/auth/AuthContext';
 import CommodityContext from '../../../../../context/commodities/CommodityContext';
 import styles from './styles';
@@ -12,6 +14,8 @@ import ForthStep from '../monumetModels/installationMonument/forthStep';
 import FifthStep from '../monumetModels/installationMonument/fifthStep';
 import SixthStep from '../monumetModels/installationMonument/sixthStep';
 import Login from '../../../../Login';
+import I18n from '../../../../../../i18';
+import UpDownIcn from '../../../../../components/upDownIcn';
 
 interface IProps {
   navigation: any;
@@ -38,19 +42,21 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     src: 'rrr',
     name: '',
   });
-  const [monumentPrice, seTmonumentPrice] = useState(0);
   const selected = (val: any) => {
     seTmonument(val);
   };
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = React.useState('first');
-  const [items, setItems] = useState([
+  const [type, seTtype] = useState('');
+  const items = [
     { label: 'Apple', value: 'apple' },
     { label: 'Banana', value: 'banana' },
-  ]);
+  ];
   const [lookOpen, seTlookOpen] = useState(false);
   const cancelPressed = () => {
-    console.log('cancel');
+    console.log('cannnn: ');
+
+    navigation.navigate('ServiceForYourselfSub', {
+      payload: 'monuments',
+    });
   };
   const [isFirstStep, setIsFirstStep] = useState(true);
   const [isLastStep, setIsLastStep] = useState(false);
@@ -62,6 +68,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
   const modalTotalPrice = (val: any) => {
     console.log('modalTotalPrice:::: ', val);
   };
+  const [isFocusType, seTisFocusType] = useState(false);
   const stepList = [
     {
       content: (
@@ -81,25 +88,40 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     },
     {
       content: (
-        <View style={{ width: '95%' }}>
+        <View>
           <Text style={{ marginTop: '2%', fontSize: 20 }}>
             Фото на памятнике
           </Text>
-          <Text style={{ marginTop: '2%' }}>Вид</Text>
-          <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            dropDownContainerStyle={{
-              borderColor: '#dfdfdf',
-            }}
-            style={{ marginBottom: '5%', zIndex: 1000, elevation: 1000 }}
-            zIndex={1000}
-            placeholder="Вид"
-          />
+
+          <View style={{ width: '100%', marginTop: 10 }}>
+            <Text>Вид</Text>
+            <Dropdown
+              autoScroll={false}
+              style={{
+                height: 50,
+                borderColor: 'black',
+                borderWidth: 0.5,
+                borderRadius: 8,
+                paddingHorizontal: 8,
+                width: '100%',
+              }}
+              placeholderStyle={{ fontSize: 16 }}
+              selectedTextStyle={{ fontSize: 16, marginLeft: 8 }}
+              inputSearchStyle={{ height: 40, fontSize: 16 }}
+              data={items}
+              search
+              maxHeight={200}
+              labelField="label"
+              valueField="value"
+              placeholder={'Выберите вид памятника'}
+              searchPlaceholder={I18n.t('search')}
+              value={type}
+              onFocus={() => seTisFocusType(true)}
+              onBlur={() => seTisFocusType(false)}
+              onChange={item => seTtype(item.value)}
+              renderRightIcon={() => <UpDownIcn isFocus={isFocusType} />}
+            />
+          </View>
           <Button
             style={{
               marginTop: 15,
@@ -133,7 +155,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
           model={false}
           selectedMonument={undefined}
           monument={monument}
-          cancelPressed={cancelPressed}
+          chooseSixStep={cancelPressed}
         />
       ),
     },
@@ -142,7 +164,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
   return (
     <>
       {isSigned ? (
-        <View style={{ width: '100%' }}>
+        <View style={{ flex: 1 }}>
           <SafeAreaView style={{ backgroundColor: '#FFF' }}>
             <View
               style={{
@@ -174,6 +196,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
               width: '90%',
             }}>
             <Wizard
+              contentContainerStyle={{ width: '100%' }}
               ref={wizard}
               steps={stepList}
               isFirstStep={val => setIsFirstStep(val)}
@@ -188,7 +211,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
                 setCurrentStep(currentStep);
               }}
             />
-            <View style={{ flexDirection: 'row', margin: 18 }}>
+            <View style={{ flexDirection: 'row', flex: 1, margin: 18 }}>
               {stepList.map((val, index) => (
                 <View
                   key={'step-indicator-' + index}

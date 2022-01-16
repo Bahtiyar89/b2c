@@ -9,14 +9,7 @@ import {
 } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
 import Modal from 'react-native-modal';
-import DropDownPicker from 'react-native-dropdown-picker';
-
-import MonumentModel from './installationMonumentModel';
-//import { useDispatch } from 'react-redux';
-//import * as loginActions from 'app/store/actions/loginActions';
-import AppStyles from '../../../../../../config/styles';
 import styles from './styles';
-import FirstStepSecondModal from './firstStepSecondModal';
 
 const SecondStep: React.FC = () => {
   //Checkbox

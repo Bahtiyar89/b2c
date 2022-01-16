@@ -1,13 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
-import Modal from 'react-native-modal';
-import DropDownPicker from 'react-native-dropdown-picker';
 
 import MonumentModel from './installationMonumentModel';
 //import { useDispatch } from 'react-redux';
 //import * as loginActions from 'app/store/actions/loginActions';
-import AppStyles from '../../../../../../config/styles';
 import styles from './styles';
 import FirstStepSecondModal from './firstStepSecondModal';
 
@@ -115,7 +112,7 @@ const FirstStep: React.FC<IState> = ({
           <View style={{ flexDirection: 'row' }}>
             <RadioButton.Android color="blue" value="usual" />
             <Text
-              onPress={() => seTcheckedMonument(!checkedMonument)}
+              onPress={() => seTtypeInstallation('usual')}
               style={{ margin: 8 }}>
               Обычная
             </Text>
@@ -136,7 +133,7 @@ const FirstStep: React.FC<IState> = ({
           <View style={{ flexDirection: 'row' }}>
             <RadioButton.Android color="blue" value="forced" />
             <Text
-              onPress={() => seTcheckedMonument(!checkedMonument)}
+              onPress={() => seTtypeInstallation('forced')}
               style={{ margin: 8 }}>
               Усиленная
             </Text>

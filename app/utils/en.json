@@ -37,5 +37,14 @@
   "ritual_goods": "Ritual Goods",
   "find_grave": "Find a grave",
   "loading": "Loading...",
-  "order_funeral": "Order a funeral"
+  "order_funeral": "Order a funeral",
+  "search":"Search...",
+  "countries":"Countries",
+  "regions":"Regions",
+  "cities":"Cities",
+  "cemetries":"Cemetries",
+  "choose_country": "Choose Country",
+  "choose_region": "Choose Region",
+  "choose_city": "Choose City",
+  "choose_cemetry":"Choose Cemetry"
 }

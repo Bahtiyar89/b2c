@@ -22,8 +22,7 @@ import AuthState from './context/auth/AuthState';
 import DashboardState from './context/dashboard/DashboardState';
 import CommodityState from './context/commodities/CommodityState';
 import F4State from './context/f4_state';
-import Navigation from './navigation/Navigation';
-import Navi from './navigation/navi';
+import Navigation from './navigation/Navigation'; 
 
 const { persistor, store } = configureStore();
 
