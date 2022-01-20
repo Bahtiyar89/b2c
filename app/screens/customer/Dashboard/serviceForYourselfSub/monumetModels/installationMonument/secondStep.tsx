@@ -17,7 +17,7 @@ const SecondStep: React.FC = () => {
   //Checkbox
   const [checkedMonument, seTcheckedMonument] = useState(false);
 
-  const [value, setValue] = React.useState('first');
+  const [value, setValue] = React.useState('');
   const [modelFlower, seTmodelFlower] = useState(false);
   const [modelTombstone, seTmodelTombstone] = useState(false);
   const firstModelFunc = () => {
@@ -59,7 +59,7 @@ const SecondStep: React.FC = () => {
           <Text
             style={{ alignSelf: 'center' }}
             onPress={() => seTcheckedMonument(!checkedMonument)}>
-            {monument.price}
+            {value === 'first' && monument.price}
           </Text>
         </View>
         {value === 'first' && (
@@ -87,7 +87,7 @@ const SecondStep: React.FC = () => {
           <Text
             style={{ alignSelf: 'center' }}
             onPress={() => seTcheckedMonument(!checkedMonument)}>
-            {tombstone.price}
+            {value === 'second' && tombstone.price}
           </Text>
         </View>
         {value === 'second' && (
@@ -243,7 +243,7 @@ const SecondStep: React.FC = () => {
                 <Text style={{ color: 'white' }}>Показать еще</Text>
               </Button>
               <View style={styles.modelYesNo}>
-                <Button>
+                <Button onPress={()=>seTmodelFlower(false)}>
                   <Text style={styles.modelButtonNoColor}>Отмена</Text>
                 </Button>
               </View>
@@ -394,7 +394,7 @@ const SecondStep: React.FC = () => {
                 <Text style={{ color: 'white' }}>Показать еще</Text>
               </Button>
               <View style={styles.modelYesNo}>
-                <Button>
+                <Button onPress={()=>seTmodelTombstone(false)}>
                   <Text style={styles.modelButtonNoColor}>Отмена</Text>
                 </Button>
               </View>

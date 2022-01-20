@@ -332,6 +332,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
               }}
               component={CustomerBasket}
             />
+            {/*
             <Drawer.Screen
               name="CustomerAddCard"
               options={{
@@ -345,6 +346,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
               }}
               component={CustomerAddCard}
             />
+            */}
             <Drawer.Screen
               name="CustomerSettings"
               options={{

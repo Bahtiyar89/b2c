@@ -1,15 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
-import { Button, RadioButton, Checkbox, TextInput } from 'react-native-paper';
-import Modal from 'react-native-modal';
+import { Button, RadioButton, Checkbox, TextInput } from 'react-native-paper'; 
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import MonumentModel from './installationMonumentModel';
-//import { useDispatch } from 'react-redux';
-//import * as loginActions from 'app/store/actions/loginActions';
-import AppStyles from '../../../../../../config/styles';
-import styles from './styles';
-import FirstStepSecondModal from './firstStepSecondModal';
+import AppStyles from '../../../../../../config/styles'; 
 
 interface IState {
   model: boolean;
@@ -26,7 +20,7 @@ const itemsTextFont = [
   { label: '14', value: '14' },
 ];
 
-const ForthStep: React.FC<IState> = ({
+const ForthsStep: React.FC<IState> = ({
   model,
   monument,
   selectedMonument,
@@ -59,53 +53,9 @@ const ForthStep: React.FC<IState> = ({
   return (
     <View style={{ width: '100%', marginTop: '2%' }}>
       <Text style={{ fontSize: 20, textAlign: 'center' }}>
-        Надписи на памятнике
+        Эпитафия
       </Text>
-      <View
-        style={{
-          flexDirection: 'row',
-
-          width: '90%',
-        }}>
-        <Text style={{ flex: 1, marginTop: '6%' }}>Основаня надпись</Text>
-        <Text style={{ justifyContent: 'flex-end', marginTop: '6%' }}>
-          ___руб
-        </Text>
-      </View>
-
-      <Text style={{ marginTop: '2%' }}>Шрифт</Text>
-      <DropDownPicker
-        open={typeOpen}
-        onOpen={onTypeOpen}
-        setOpen={seTtypeOpen}
-        items={itemsType}
-        setValue={setTypeDr}
-        value={type}
-        dropDownContainerStyle={{
-          borderColor: '#dfdfdf',
-        }}
-        dropDownDirection="BOTTOM"
-        placeholder=""
-        style={{}}
-        zIndex={10}
-      />
-      <Text style={{ marginTop: '2%' }}>Размер шрифта</Text>
-      <DropDownPicker
-        open={textFontOpen}
-        onOpen={onTextFontOpen}
-        setOpen={seTtextFontOpen}
-        items={itemsTextFont}
-        setValue={setSizeFontTypeDr}
-        value={size}
-        dropDownContainerStyle={{
-          borderColor: '#dfdfdf',
-        }}
-        dropDownDirection="BOTTOM"
-        placeholder=""
-        style={{}}
-        zIndex={9}
-      />
-
+     
       <View
         style={{
           flexDirection: 'row',
@@ -181,4 +131,4 @@ const ForthStep: React.FC<IState> = ({
   );
 };
 
-export default ForthStep;
+export default ForthsStep;

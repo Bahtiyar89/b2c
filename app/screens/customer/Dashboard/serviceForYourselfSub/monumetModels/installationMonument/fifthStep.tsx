@@ -99,7 +99,7 @@ const FifthStep: React.FC<IState> = ({
               width: '70%',
             }}
             dropDownDirection="BOTTOM"
-            placeholder="Размер рисунка"
+            placeholder=""
             style={{
               width: '70%',
               marginBottom: '20%',

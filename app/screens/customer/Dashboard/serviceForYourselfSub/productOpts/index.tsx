@@ -12,6 +12,7 @@ import FirstStep from '../monumetModels/installationMonument/firstStep';
 import SecondStep from '../monumetModels/installationMonument/secondStep';
 import ForthStep from '../monumetModels/installationMonument/forthStep';
 import FifthStep from '../monumetModels/installationMonument/fifthStep';
+import ForthsStep from '../monumetModels/installationMonument/fifthsStep';
 import SixthStep from '../monumetModels/installationMonument/sixthStep';
 import Login from '../../../../Login';
 import I18n from '../../../../../../i18';
@@ -46,9 +47,11 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     seTmonument(val);
   };
   const [type, seTtype] = useState('');
+  const [typeValue, seTtypeValue] = useState('');
   const items = [
-    { label: 'Apple', value: 'apple' },
-    { label: 'Banana', value: 'banana' },
+    { label: 'Портрет', value: 'portre' },
+    { label: 'Фотокерамика', value: 'photocamera' },
+    { label: 'Фото на стекле', value: 'photoOnCam' },
   ];
   const [lookOpen, seTlookOpen] = useState(false);
   const cancelPressed = () => {
@@ -69,6 +72,16 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     console.log('modalTotalPrice:::: ', val);
   };
   const [isFocusType, seTisFocusType] = useState(false);
+  const onTypeChange = (item: any) => {
+    seTtype(item.value)
+    if (item.value === 'portre') {
+      seTtypeValue('3500 руб.')
+    } else if(item.value === 'photocamera'){
+      seTtypeValue('4500 руб.')
+    }else{
+      seTtypeValue('5500 руб.')
+    }
+  }
   const stepList = [
     {
       content: (
@@ -95,6 +108,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
 
           <View style={{ width: '100%', marginTop: 10 }}>
             <Text>Вид</Text>
+            <View style={{flexDirection:'row'}}>
             <Dropdown
               autoScroll={false}
               style={{
@@ -103,13 +117,12 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
                 borderWidth: 0.5,
                 borderRadius: 8,
                 paddingHorizontal: 8,
-                width: '100%',
+                width: '70%',
               }}
               placeholderStyle={{ fontSize: 16 }}
               selectedTextStyle={{ fontSize: 16, marginLeft: 8 }}
               inputSearchStyle={{ height: 40, fontSize: 16 }}
-              data={items}
-              search
+              data={items} 
               maxHeight={200}
               labelField="label"
               valueField="value"
@@ -118,9 +131,11 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
               value={type}
               onFocus={() => seTisFocusType(true)}
               onBlur={() => seTisFocusType(false)}
-              onChange={item => seTtype(item.value)}
+              onChange={item => onTypeChange(item)}
               renderRightIcon={() => <UpDownIcn isFocus={isFocusType} />}
             />
+            <Text style={{flex:1, textAlign:'center', marginTop:10}}>{typeValue}</Text>
+            </View>
           </View>
           <Button
             style={{
@@ -138,6 +153,15 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     {
       content: (
         <ForthStep
+          model={false}
+          selectedMonument={undefined}
+          monument={monument}
+        />
+      ),
+    },
+    {
+    content: (
+        <ForthsStep
           model={false}
           selectedMonument={undefined}
           monument={monument}
@@ -179,7 +203,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
                 onPress={() => wizard.current.prev()}>
                 <Text style={{ fontSize: 8 }}>Предыдущая</Text>
               </Button>
-              <Text>{currentStep + 1} из 6</Text>
+              <Text>{currentStep + 1} из 7</Text>
               <Button
                 disabled={isLastStep}
                 onPress={() => wizard.current.next()}>
