@@ -63,7 +63,7 @@ const FirstStep: React.FC<IState> = ({
       <Text style={{ margin: 10, textAlign: 'center', fontSize: 20 }}>
         Выбор памятника
       </Text>
-      {monument.src.length > 0 && (
+       
         <View
           style={{
             flexDirection: 'row',
@@ -81,7 +81,7 @@ const FirstStep: React.FC<IState> = ({
           </View>
           <Text>{monument.price}</Text>
         </View>
-      )}
+    
       <Button
         style={{
           marginTop: 5,

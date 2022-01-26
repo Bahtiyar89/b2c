@@ -86,8 +86,9 @@ const MonumentModel: React.FC<IState> = ({
                 <View>
                   {Object.keys(monuments).length > 0 ? (
                     <View>
-                      {monuments.map(m => (
+                      {monuments.map((m: any, index: any) => (
                         <TouchableOpacity
+                          key={index}
                           onPress={() =>
                             selectPressed({
                               name: m.name,

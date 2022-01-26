@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -12,14 +12,23 @@ import Modal from 'react-native-modal';
 import styles from './styles';
 
 const SecondStep: React.FC = () => {
-  //Checkbox
-
-  //Checkbox
-  const [checkedMonument, seTcheckedMonument] = useState(false);
-
-  const [value, setValue] = React.useState('');
   const [modelFlower, seTmodelFlower] = useState(false);
   const [modelTombstone, seTmodelTombstone] = useState(false);
+  const [svetnikText, seTsvetnikText] = useState(false);
+  const [plitaText, seTplitaText] = useState(false);
+  const [svetnik, seTsvetnik] = useState({
+    type: '',
+    src: '',
+    name: '',
+    price: '',
+  });
+  const [plita, seTplita] = useState({
+    type: '',
+    src: '',
+    name: '',
+    price: '',
+  });
+
   const firstModelFunc = () => {
     seTmodelFlower(true);
   };
@@ -33,73 +42,82 @@ const SecondStep: React.FC = () => {
     name: '',
     price: '1700 руб',
   });
+
   return (
     <View style={{ width: '95%' }}>
       <Text style={{ textAlign: 'center' }}>
         Цветник или надгробная плита на выбор
       </Text>
-      <RadioButton.Group
-        onValueChange={newValue => setValue(newValue)}
-        value={value}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '70%',
-          }}>
-          <View style={{ flexDirection: 'row' }}>
-            <RadioButton.Android color="blue" value="first" />
-            <Text
-              onPress={() => seTcheckedMonument(!checkedMonument)}
-              style={{ margin: 8 }}>
-              Цветник
-            </Text>
-          </View>
-
+      <View style={{ flexDirection: 'row' }}>
+        <RadioButton.Android
+          status={svetnik.type === 'sveti' ? 'checked' : 'unchecked'}
+          color="blue"
+          value="sveti"
+        />
+        <View style={{ flex: 1, flexDirection: 'row' }}>
           <Text
-            style={{ alignSelf: 'center' }}
-            onPress={() => seTcheckedMonument(!checkedMonument)}>
-            {value === 'first' && monument.price}
+            onPress={() => {
+              seTsvetnikText(true);
+              seTplitaText(false);
+            }}
+            style={{ margin: 8 }}>
+            Цветник
           </Text>
-        </View>
-        {value === 'first' && (
-          <Button
-            uppercase={false}
-            mode="outlined"
-            style={{ backgroundColor: '#333333' }}
-            onPress={firstModelFunc}>
-            <Text style={{ color: 'white' }}>Выбрать Цветник</Text>
-          </Button>
-        )}
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <View style={{ flexDirection: 'row' }}>
-            <RadioButton.Android color="blue" value="second" />
-            <Text
-              onPress={() => seTcheckedMonument(!checkedMonument)}
-              style={{ margin: 8 }}>
-              Надгробная плита
-            </Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              marginTop: 10,
+              justifyContent: 'flex-end',
+            }}>
+            <Text>{svetnik.price}</Text>
           </View>
-          <Text
-            style={{ alignSelf: 'center' }}
-            onPress={() => seTcheckedMonument(!checkedMonument)}>
-            {value === 'second' && tombstone.price}
-          </Text>
         </View>
-        {value === 'second' && (
-          <Button
-            uppercase={false}
-            mode="outlined"
-            style={{ backgroundColor: '#333333' }}
-            onPress={() => seTmodelTombstone(!modelTombstone)}>
-            <Text style={{ color: 'white' }}>Выбрать плиту</Text>
-          </Button>
-        )}
-      </RadioButton.Group>
+      </View>
+      {svetnikText && (
+        <Button
+          uppercase={false}
+          mode="outlined"
+          style={{ backgroundColor: '#333333' }}
+          onPress={firstModelFunc}>
+          <Text style={{ color: 'white' }}>Выбрать Цветник</Text>
+        </Button>
+      )}
+      <View style={{ flexDirection: 'row' }}>
+        <RadioButton.Android
+          status={plita.type === 'plita' ? 'checked' : 'unchecked'}
+          color="blue"
+          value="sveti"
+        />
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <Text
+            onPress={() => {
+              seTplitaText(true);
+              seTsvetnikText(false);
+            }}
+            style={{ margin: 8 }}>
+            Надгробная плита
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              marginTop: 10,
+              justifyContent: 'flex-end',
+            }}>
+            <Text>{plita.price}</Text>
+          </View>
+        </View>
+      </View>
+      {plitaText && (
+        <Button
+          uppercase={false}
+          mode="outlined"
+          style={{ backgroundColor: '#333333' }}
+          onPress={() => seTmodelTombstone(!modelTombstone)}>
+          <Text style={{ color: 'white' }}>Выбрать плиту</Text>
+        </Button>
+      )}
 
       <Modal style={{ margin: 0 }} isVisible={modelFlower}>
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -114,7 +132,9 @@ const SecondStep: React.FC = () => {
                 <View>
                   <TouchableOpacity
                     onPress={() => {
-                      seTmonument({
+                      seTsvetnik({
+                        ...svetnik,
+                        type: 'sveti',
                         src: '.../../../../../../assets/gubin.png',
                         name: 'Наименование',
                         price: '780 руб',
@@ -127,105 +147,6 @@ const SecondStep: React.FC = () => {
                     />
                     <Text style={{ textAlign: 'center' }}>Наименование</Text>
                     <Text style={{ textAlign: 'center' }}>780 руб</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTmonument({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '2600 руб',
-                      });
-                      seTmodelFlower(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>3200 руб</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTmonument({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '4440 руб',
-                      });
-                      seTmodelFlower(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>4440 руб</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                }}>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTmonument({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '1900 руб',
-                      });
-                      seTmodelFlower(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>1900 руб</Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTmonument({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '1700 руб',
-                      });
-                      seTmodelFlower(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>1700 руб</Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTmonument({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '9600 руб',
-                      });
-                      seTmodelFlower(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>9600 руб</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -243,7 +164,17 @@ const SecondStep: React.FC = () => {
                 <Text style={{ color: 'white' }}>Показать еще</Text>
               </Button>
               <View style={styles.modelYesNo}>
-                <Button onPress={()=>seTmodelFlower(false)}>
+                <Button
+                  onPress={() => {
+                    seTsvetnik({
+                      ...svetnik,
+                      type: '',
+                      src: '',
+                      name: '',
+                      price: '',
+                    });
+                    seTmodelFlower(false);
+                  }}>
                   <Text style={styles.modelButtonNoColor}>Отмена</Text>
                 </Button>
               </View>
@@ -256,7 +187,7 @@ const SecondStep: React.FC = () => {
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
           <ScrollView contentInsetAdjustmentBehavior="automatic">
             <View style={{ backgroundColor: 'white', padding: 10 }}>
-              <Text style={styles.modelHeaderText}>Перечень Цветников</Text>
+              <Text style={styles.modelHeaderText}>Перечень Плит</Text>
               <View
                 style={{
                   flexDirection: 'row',
@@ -265,10 +196,12 @@ const SecondStep: React.FC = () => {
                 <View>
                   <TouchableOpacity
                     onPress={() => {
-                      seTtombstone({
+                      seTplita({
+                        ...plita,
+                        type: 'plita',
                         src: '.../../../../../../assets/gubin.png',
                         name: 'Наименование',
-                        price: '780 руб',
+                        price: '180 руб',
                       });
                       seTmodelTombstone(false);
                     }}>
@@ -277,106 +210,7 @@ const SecondStep: React.FC = () => {
                       source={require('../../../../../../assets/gubin.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>780 руб</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTtombstone({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '2600 руб',
-                      });
-                      seTmodelTombstone(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>3200 руб</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTtombstone({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '4440 руб',
-                      });
-                      seTmodelTombstone(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>4440 руб</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                }}>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTtombstone({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '1900 руб',
-                      });
-                      seTmodelTombstone(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>1900 руб</Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTtombstone({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '1700 руб',
-                      });
-                      seTmodelTombstone(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>1700 руб</Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      seTtombstone({
-                        src: '../../../../../../assets/gubin.png',
-                        name: 'Наименование',
-                        price: '9600 руб',
-                      });
-                      seTmodelTombstone(false);
-                    }}>
-                    <Image
-                      style={{ width: 100, height: 100 }}
-                      source={require('../../../../../../assets/gubin.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Наименование</Text>
-                    <Text style={{ textAlign: 'center' }}>9600 руб</Text>
+                    <Text style={{ textAlign: 'center' }}>180 руб</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -394,7 +228,17 @@ const SecondStep: React.FC = () => {
                 <Text style={{ color: 'white' }}>Показать еще</Text>
               </Button>
               <View style={styles.modelYesNo}>
-                <Button onPress={()=>seTmodelTombstone(false)}>
+                <Button
+                  onPress={() => {
+                    seTplita({
+                      ...plita,
+                      type: '',
+                      src: '',
+                      name: '',
+                      price: '',
+                    });
+                    seTmodelTombstone(false);
+                  }}>
                   <Text style={styles.modelButtonNoColor}>Отмена</Text>
                 </Button>
               </View>

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
-import { Button, RadioButton } from 'react-native-paper';
+import { Button, RadioButton, TextInput } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -17,21 +17,6 @@ const FirstStepSecondModal: React.FC<IState> = ({
   selectedModelSecond,
   monuments,
 }: IState) => {
-  //Checkbox
-
-  const [monumentModel, seTmonumentModel] = useState(false);
-  const cancelPressed = () => {};
-  const cancelModelMonument = () => {
-    seTmonumentModel(false);
-    console.log('cancel pressed');
-  };
-
-  const selectMonumentItem = (item: any) => {
-    console.log('item . ', item);
-  };
-  const [typeInstallation, seTtypeInstallation] = React.useState('usual');
-  //Checkbox
-
   const [materialOpen, seTmaterialOpen] = useState(false);
   const [formOpen, seTformOpen] = useState(false);
   const [sizeFontOpen, seTsizeFontOpen] = useState(false);
@@ -102,23 +87,6 @@ const FirstStepSecondModal: React.FC<IState> = ({
     return out;
   };
 
-  const getItemsForm = () => {
-    if (!monuments[0]?.customs) {
-      return [];
-    }
-    const werksBranchOptions = monuments[0]?.customs.filter(
-      wa => wa.type === 'form',
-    );
-
-    let out = werksBranchOptions.map(c => {
-      return {
-        value: parseInt(c.priceAdd, 10),
-        label: c.name,
-      };
-    });
-    return out;
-  };
-
   const getColors = () => {
     if (!monuments[0]?.customs) {
       return [];
@@ -152,13 +120,22 @@ const FirstStepSecondModal: React.FC<IState> = ({
                   style={{ width: 100, height: 100 }}
                   source={require('../../../../../../assets/gubin.png')}
                 />
-                <View style={{ marginLeft: '2%' }}>
-                  <Text style={{ marginTop: '2%' }}>Наименование</Text>
-                  <Text style={{ marginTop: '2%' }}>Описание</Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ textAlign: 'center' }}>Наименование</Text>
+                  <TextInput
+                    label="Oписание..."
+                    mode="outlined"
+                    style={{
+                      marginLeft: '5%',
+                      width: '100%',
+                      textAlign: 'center',
+                    }}
+                  />
                 </View>
               </View>
               <Text
                 style={{
+                  marginTop: 10,
                   width: '25%',
                   textAlignVertical: 'center',
                 }}>
@@ -198,28 +175,6 @@ const FirstStepSecondModal: React.FC<IState> = ({
                   ))}
                 </View>
               </RadioButton.Group>
-
-              <Text
-                style={{
-                  width: '25%',
-                  textAlignVertical: 'center',
-                }}>
-                Форма
-              </Text>
-              <DropDownPicker
-                open={formOpen}
-                onOpen={onFormOpen}
-                setOpen={seTformOpen}
-                items={getItemsForm()}
-                setValue={setFormDr}
-                value={form}
-                dropDownContainerStyle={{
-                  borderColor: '#dfdfdf',
-                }}
-                zIndex={100}
-                placeholder="Форма"
-              />
-
               <Text
                 style={{
                   width: '25%',

@@ -225,7 +225,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
               {isSigned && (
                 <Avatar.Image
                   size={100}
-                  source={require('../assets/gubin.png')}
+                  source={require('../assets/growth.png')}
                 />
               )}
               <DrawerContentScrollView {...props}>

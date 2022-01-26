@@ -73,15 +73,15 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
   };
   const [isFocusType, seTisFocusType] = useState(false);
   const onTypeChange = (item: any) => {
-    seTtype(item.value)
+    seTtype(item.value);
     if (item.value === 'portre') {
-      seTtypeValue('3500 руб.')
-    } else if(item.value === 'photocamera'){
-      seTtypeValue('4500 руб.')
-    }else{
-      seTtypeValue('5500 руб.')
+      seTtypeValue('3500 руб.');
+    } else if (item.value === 'photocamera') {
+      seTtypeValue('4500 руб.');
+    } else {
+      seTtypeValue('5500 руб.');
     }
-  }
+  };
   const stepList = [
     {
       content: (
@@ -108,33 +108,35 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
 
           <View style={{ width: '100%', marginTop: 10 }}>
             <Text>Вид</Text>
-            <View style={{flexDirection:'row'}}>
-            <Dropdown
-              autoScroll={false}
-              style={{
-                height: 50,
-                borderColor: 'black',
-                borderWidth: 0.5,
-                borderRadius: 8,
-                paddingHorizontal: 8,
-                width: '70%',
-              }}
-              placeholderStyle={{ fontSize: 16 }}
-              selectedTextStyle={{ fontSize: 16, marginLeft: 8 }}
-              inputSearchStyle={{ height: 40, fontSize: 16 }}
-              data={items} 
-              maxHeight={200}
-              labelField="label"
-              valueField="value"
-              placeholder={'Выберите вид памятника'}
-              searchPlaceholder={I18n.t('search')}
-              value={type}
-              onFocus={() => seTisFocusType(true)}
-              onBlur={() => seTisFocusType(false)}
-              onChange={item => onTypeChange(item)}
-              renderRightIcon={() => <UpDownIcn isFocus={isFocusType} />}
-            />
-            <Text style={{flex:1, textAlign:'center', marginTop:10}}>{typeValue}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Dropdown
+                autoScroll={false}
+                style={{
+                  height: 50,
+                  borderColor: 'black',
+                  borderWidth: 0.5,
+                  borderRadius: 8,
+                  paddingHorizontal: 8,
+                  width: '70%',
+                }}
+                placeholderStyle={{ fontSize: 16 }}
+                selectedTextStyle={{ fontSize: 16, marginLeft: 8 }}
+                inputSearchStyle={{ height: 40, fontSize: 16 }}
+                data={items}
+                maxHeight={200}
+                labelField="label"
+                valueField="value"
+                placeholder={''}
+                searchPlaceholder={I18n.t('search')}
+                value={type}
+                onFocus={() => seTisFocusType(true)}
+                onBlur={() => seTisFocusType(false)}
+                onChange={item => onTypeChange(item)}
+                renderRightIcon={() => <UpDownIcn isFocus={isFocusType} />}
+              />
+              <Text style={{ flex: 1, textAlign: 'center', marginTop: 10 }}>
+                {typeValue}
+              </Text>
             </View>
           </View>
           <Button
@@ -160,7 +162,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
       ),
     },
     {
-    content: (
+      content: (
         <ForthsStep
           model={false}
           selectedMonument={undefined}
