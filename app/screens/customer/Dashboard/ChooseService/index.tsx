@@ -41,7 +41,7 @@ const ServiceForYourself: React.FC<IProps> = (props: IProps) => {
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
-          <Text style={styles.modelHeaderText}>Уход за могилами</Text>
+          <Text style={styles.modelHeaderText}>Уход за могилами 2</Text>
 
           <Button
             style={styles.buttonWidth}

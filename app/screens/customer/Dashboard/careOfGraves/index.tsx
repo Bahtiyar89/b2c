@@ -160,7 +160,7 @@ const CareGrave: React.FC<IProps> = (props: IProps) => {
             fontWeight: 'bold',
             fontSize: 26,
           }}>
-          Уход за могилами
+          Уход за могилами 1
         </Text>
 
         <Text

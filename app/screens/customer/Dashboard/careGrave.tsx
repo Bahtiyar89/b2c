@@ -85,7 +85,7 @@ const ProfileEditModal: React.FC<IState> = ({
     <>
       <Modal isVisible={model}>
         <View style={styles.modelContainer}>
-          <Text style={styles.modelHeaderText}>Уход за могилами</Text>
+          <Text style={styles.modelHeaderText}>Уход за могилами 3</Text>
           <View style={styles.modelTextAndError}>
             <Text style={{ flex: 1 }}>Имя</Text>
             <HelperText

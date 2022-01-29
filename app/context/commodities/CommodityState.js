@@ -25,10 +25,14 @@ const CommodityState = props => {
   const getMonumentService = async regionId => {
     console.log('regionId', regionId);
     dispatch({ type: LOADING, payload: true });
-    doGet(
-      `/tomb/care/commodities?page=1&size=40&type=monument&cityId=${regionId}`,
-    )
+    doGet(`/tomb/care/commodities?`, {
+      page: '1',
+      size: '20',
+      type: 'monument',
+      cityId: regionId,
+    })
       .then(({ data }) => {
+        console.log('data...:', data);
         dispatch({ type: LOADING, payload: false });
         dispatch({
           type: GET_MONUMENT_SERVICES,
@@ -36,7 +40,7 @@ const CommodityState = props => {
         });
       })
       .catch(error => {
-        console.log('error.message...:', error.message);
+        console.log('error...:', error);
         toast.show(error.message, {
           type: 'warning',
           duration: 4000,

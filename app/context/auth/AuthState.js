@@ -39,7 +39,7 @@ const AuthState = props => {
   //logout
   const signOut = async () => {
     try {
-      utility.removeItem('token');
+      // utility.removeItem('token');
       utility.removeItem('user');
       dispatch({
         type: LOGOUT,

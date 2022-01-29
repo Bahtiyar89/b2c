@@ -22,8 +22,6 @@ interface IProps {
 }
 const Login: React.FC<IProps> = (props: IProps) => {
   const { navigation, route } = props;
-  console.log('navigation: ', navigation);
-  console.log('route: ', route);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const id = useSelector((state: IState) => state.loginReducer.id);

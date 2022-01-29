@@ -83,7 +83,7 @@ function NotSignedIn() {
       />
       <Stack.Screen
         options={{
-          title: 'Уход за могилами',
+          title: 'careOfGraves',
         }}
         name="careOfGraves"
         component={CareOfGraves}
@@ -112,14 +112,14 @@ function SignedIn() {
       />
       <Stack.Screen
         options={{
-          title: 'Уход за могилами',
+          title: 'CareOfGraves',
         }}
         name="CareOfGraves"
         component={CareOfGraves}
       />
       <Stack.Screen
         options={{
-          title: 'Уход за могилами',
+          title: 'CareOfGravesPhoto',
         }}
         name="CareOfGravesPhoto"
         component={CareOfGravesPhoto}
@@ -127,7 +127,7 @@ function SignedIn() {
 
       <Stack.Screen
         options={{
-          title: 'Уход за могилами',
+          title: 'RitualGoodsCustomer',
         }}
         name="RitualGoodsCustomer"
         component={RitualGoodsCustomer}
@@ -142,21 +142,21 @@ function SignedIn() {
       />
       <Stack.Screen
         options={{
-          title: 'Уход за могилами',
+          title: 'ServiceForYourself',
         }}
         name="ServiceForYourself"
         component={ServiceForYourself}
       />
       <Stack.Screen
         options={{
-          title: 'Уход за могилами',
+          title: 'ServiceForYourselfSub',
         }}
         name="ServiceForYourselfSub"
         component={ServiceForYourselfSub}
       />
       <Stack.Screen
         options={{
-          title: 'Уход за могилами',
+          title: 'productOps',
         }}
         name="productOps"
         component={ProductOpts}
@@ -229,6 +229,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                 />
               )}
               <DrawerContentScrollView {...props}>
+                <DrawerItemList {...props} />
                 {isSigned && (
                   <DrawerItem
                     label=""
@@ -248,7 +249,6 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                     )}
                   />
                 )}
-                <DrawerItemList {...props} />
                 <DrawerItem
                   label=""
                   onPress={() => console.log('pressed')}
@@ -273,7 +273,7 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
                 ),
               }}
               component={NotSignedIn}
-            /> 
+            />
           </>
         )}
         <Drawer.Screen
@@ -360,22 +360,21 @@ const Navigation: React.FC<IProps> = (props: IProps) => {
               }}
               component={CustomerSettings}
             />
-            
           </>
         )}
         <Drawer.Screen
-              name="CustomerSupport"
-              options={{
-                title: 'Служба поддержки',
-                drawerIcon: focused => (
-                  <Image
-                    source={require('../assets/call-center.png')} //Change your icon image here
-                    style={styles.icon}
-                  />
-                ),
-              }}
-              component={CustomerSupport}
-            />
+          name="CustomerSupport"
+          options={{
+            title: 'Служба поддержки',
+            drawerIcon: focused => (
+              <Image
+                source={require('../assets/call-center.png')} //Change your icon image here
+                style={styles.icon}
+              />
+            ),
+          }}
+          component={CustomerSupport}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

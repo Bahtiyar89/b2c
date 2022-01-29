@@ -1,94 +1,72 @@
-import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
-
-import MonumentModel from './installationMonumentModel';
+import { useFocusEffect } from '@react-navigation/native';
+import Modal from 'react-native-modal';
 //import { useDispatch } from 'react-redux';
 //import * as loginActions from 'app/store/actions/loginActions';
 import styles from './styles';
-import FirstStepSecondModal from './firstStepSecondModal';
 
-interface IState {
-  model: boolean;
-  selectedMonument: any;
-  monument: any;
-  monuments: any;
-  chooseMonument: () => void;
-  loading: boolean;
-  modalTotalPrice: (val: any) => void;
-}
-
-const FirstStep: React.FC<IState> = ({
-  model,
-  monument,
-  selectedMonument,
-  chooseMonument,
-  monuments,
-  loading,
-  modalTotalPrice,
-}: IState) => {
+const FirstStep = props => {
   //Checkbox
-
+  const {
+    chooseMonument,
+    modalTotalPrice,
+    monument,
+    monuments,
+    openAllMonumentModal,
+  } = props;
   const [mainModel, seTmainModel] = useState(false);
-  const [secondModal, seTsecondModal] = useState(false);
 
   const cancelModelMonument = () => {
     seTmainModel(false);
     console.log('cancel pressed');
   };
+  console.log('monuments: ', monuments);
 
-  const selectMonumentItem = (item: any) => {
-    selectedMonument(item);
-    seTmainModel(false);
-    setTimeout(function () {
-      seTsecondModal(true);
-    }, 500);
-  };
-  const [typeInstallation, seTtypeInstallation] = React.useState('usual');
+  const [typeInstallation, seTtypeInstallation] = React.useState('');
   //Checkbox
   const [checkedMonument, seTcheckedMonument] = useState(false);
-
-  const firstModelFunc = () => {
-    chooseMonument();
-    seTmainModel(true);
-    seTsecondModal(false);
-  };
-  const selectedModelSecond = (val: any) => {
-    seTmainModel(false);
-    modalTotalPrice(val);
-    seTsecondModal(false);
-  };
+  console.log('typeInstallation: 3 ', typeInstallation);
+  const [checked, setChecked] = React.useState('first');
   return (
     <View style={{ width: '90%' }}>
       <Text style={{ margin: 10, textAlign: 'center', fontSize: 20 }}>
         Выбор памятника
       </Text>
-       
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '70%',
-            justifyContent: 'space-between',
-          }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Image
-              style={styles.imageWH100}
-              source={require('../../../../../../assets/gubin.png')}
-            />
-            <Text style={{ marginLeft: 10, textAlign: 'center' }}>
-              {monument.name}
-            </Text>
-          </View>
-          <Text>{monument.price}</Text>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '70%',
+          justifyContent: 'space-between',
+        }}>
+        <View style={{ flexDirection: 'row' }}>
+          <Image
+            style={styles.imageWH100}
+            source={require('../../../../../../assets/gubin.png')}
+          />
+          <Text style={{ marginLeft: 10, textAlign: 'center' }}>
+            {monument.name}
+          </Text>
         </View>
-    
+        <Text>{monument.price}</Text>
+      </View>
+
       <Button
         style={{
           marginTop: 5,
           backgroundColor: '#333333',
         }}
         mode="contained"
-        onPress={firstModelFunc}>
+        onPress={openAllMonumentModal}>
         <Text style={{ color: 'white' }}>Выбрать памятник</Text>
       </Button>
 
@@ -120,7 +98,7 @@ const FirstStep: React.FC<IState> = ({
           {typeInstallation === 'usual' && (
             <Text
               style={{ alignSelf: 'center' }}
-              onPress={() => seTcheckedMonument(!checkedMonument)}>
+              onPress={() => seTtypeInstallation('usual')}>
               0 руб
             </Text>
           )}
@@ -147,17 +125,6 @@ const FirstStep: React.FC<IState> = ({
           )}
         </View>
       </RadioButton.Group>
-      <MonumentModel
-        cancelModel={cancelModelMonument}
-        selectPressed={selectMonumentItem}
-        model={mainModel}
-        monuments={monuments}
-      />
-      <FirstStepSecondModal
-        selectedModelSecond={selectedModelSecond}
-        secondModal={secondModal}
-        monuments={monuments}
-      />
     </View>
   );
 };

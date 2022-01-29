@@ -4,7 +4,7 @@ import { APP_API_URL } from 'react-native-dotenv';
 import utility from '../utils/Utility';
 
 export const doGet = async (uri, params = {}) => {
-  const token = await utility.getItem('token');
+  let token = await utility.getItem('token');
 
   const config = {
     headers: {

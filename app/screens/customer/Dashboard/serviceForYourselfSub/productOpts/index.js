@@ -1,9 +1,16 @@
-import React, { useRef, useState, useContext } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import React, { useEffect, useRef, useState, useContext } from 'react';
+import {
+  SafeAreaView,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import Wizard from 'react-native-wizard';
-import DropDownPicker from 'react-native-dropdown-picker';
 import { Dropdown } from 'react-native-element-dropdown';
+import Modal from 'react-native-modal';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import AuthContext from '../../../../../context/auth/AuthContext';
 import CommodityContext from '../../../../../context/commodities/CommodityContext';
@@ -17,14 +24,9 @@ import SixthStep from '../monumetModels/installationMonument/sixthStep';
 import Login from '../../../../Login';
 import I18n from '../../../../../../i18';
 import UpDownIcn from '../../../../../components/upDownIcn';
+import FirstStepSecondModal from '../monumetModels/installationMonument/firstStepSecondModal';
 
-interface IProps {
-  navigation: any;
-  model: boolean;
-  route: any;
-}
-
-const ProductOpts: React.FC<IProps> = (props: IProps) => {
+const ProductOpts = props => {
   const authContext = useContext(AuthContext);
   const { isSigned } = authContext;
   const commodityContext = useContext(CommodityContext);
@@ -38,12 +40,12 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
   } = commodityContext;
 
   const { navigation, model, route } = props;
-  const wizard = useRef<any>();
+  const wizard = useRef();
   const [monument, seTmonument] = useState({
-    src: 'rrr',
+    src: '',
     name: '',
   });
-  const selected = (val: any) => {
+  const selected = val => {
     seTmonument(val);
   };
   const [type, seTtype] = useState('');
@@ -53,7 +55,7 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
     { label: 'Фотокерамика', value: 'photocamera' },
     { label: 'Фото на стекле', value: 'photoOnCam' },
   ];
-  const [lookOpen, seTlookOpen] = useState(false);
+
   const cancelPressed = () => {
     console.log('cannnn: ');
 
@@ -64,15 +66,23 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
   const [isFirstStep, setIsFirstStep] = useState(true);
   const [isLastStep, setIsLastStep] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const chooseMonument = () => {
-    console.log('val: 333', getMonumentService('1'));
+  const [allMonuments, seTallMonuments] = useState(true);
+  const [secondModal, seTsecondModal] = useState(false);
+
+  useEffect(() => {
+    getMonumentService(1);
+  }, []);
+
+  const openAllMonumentModal = () => {
+    getMonumentService(1);
+    seTallMonuments(true);
   };
-  console.log('isSigned: ', isSigned);
-  const modalTotalPrice = (val: any) => {
+
+  const modalTotalPrice = val => {
     console.log('modalTotalPrice:::: ', val);
   };
   const [isFocusType, seTisFocusType] = useState(false);
-  const onTypeChange = (item: any) => {
+  const onTypeChange = item => {
     seTtype(item.value);
     if (item.value === 'portre') {
       seTtypeValue('3500 руб.');
@@ -82,17 +92,29 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
       seTtypeValue('5500 руб.');
     }
   };
+
+  const selectMonumentItem = item => {
+    selected(item);
+    seTallMonuments(false);
+    setTimeout(function () {
+      seTsecondModal(true);
+    }, 500);
+  };
+  const selectedModelSecond = val => {
+    seTallMonuments(false);
+    modalTotalPrice(val);
+    seTsecondModal(false);
+  };
+
   const stepList = [
     {
       content: (
         <FirstStep
-          selectedMonument={(val: any) => selected(val)}
           monument={monument}
           monuments={monuments}
           model={model}
-          chooseMonument={chooseMonument}
-          loading={loading}
           modalTotalPrice={modalTotalPrice}
+          openAllMonumentModal={openAllMonumentModal}
         />
       ),
     },
@@ -189,9 +211,58 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
+      <Spinner
+        visible={loading}
+        textContent={'Загружается...'}
+        textStyle={{ color: '#3498db' }}
+      />
       {isSigned ? (
         <View style={{ flex: 1 }}>
-          <SafeAreaView style={{ backgroundColor: '#FFF' }}>
+          <View
+            style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              width: '90%',
+            }}>
+            <Wizard
+              contentContainerStyle={{ width: '100%' }}
+              ref={wizard}
+              steps={stepList}
+              isFirstStep={val => setIsFirstStep(val)}
+              isLastStep={val => setIsLastStep(val)}
+              onNext={() => {
+                console.log('Next Step Called');
+              }}
+              onPrev={() => {
+                console.log('Previous Step Called');
+              }}
+              currentStep={({ currentStep }) => {
+                setCurrentStep(currentStep);
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              margin: 18,
+            }}>
+            {stepList.map((val, index) => (
+              <View
+                key={'step-indicator-' + index}
+                style={{
+                  width: 10,
+                  marginHorizontal: 6,
+                  height: 10,
+                  borderRadius: 5,
+                  backgroundColor: index === currentStep ? '#fc0' : '#000',
+                }}
+              />
+            ))}
+          </View>
+          <SafeAreaView style={{ backgroundColor: 'red' }}>
             <View
               style={{
                 justifyContent: 'space-between',
@@ -213,45 +284,77 @@ const ProductOpts: React.FC<IProps> = (props: IProps) => {
               </Button>
             </View>
           </SafeAreaView>
-          <View
-            style={{
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              alignSelf: 'center',
-              width: '90%',
-            }}>
-            <Wizard
-              contentContainerStyle={{ width: '100%' }}
-              ref={wizard}
-              steps={stepList}
-              isFirstStep={val => setIsFirstStep(val)}
-              isLastStep={val => setIsLastStep(val)}
-              onNext={() => {
-                console.log('Next Step Called');
-              }}
-              onPrev={() => {
-                console.log('Previous Step Called');
-              }}
-              currentStep={({ currentStep, isLastStep, isFirstStep }) => {
-                setCurrentStep(currentStep);
-              }}
-            />
-            <View style={{ flexDirection: 'row', flex: 1, margin: 18 }}>
-              {stepList.map((val, index) => (
-                <View
-                  key={'step-indicator-' + index}
-                  style={{
-                    width: 10,
-                    marginHorizontal: 6,
-                    height: 10,
-                    borderRadius: 5,
-                    backgroundColor: index === currentStep ? '#fc0' : '#000',
-                  }}
-                />
-              ))}
-            </View>
-          </View>
+
+          {/* ALL MONUMENTS MODAL */}
+          <Modal style={{ margin: 0 }} isVisible={allMonuments}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+              <ScrollView contentInsetAdjustmentBehavior="automatic">
+                <View style={{ backgroundColor: 'white', padding: 10 }}>
+                  <Text style={styles.modelHeaderText}>
+                    Перечень памятников
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
+                    <View>
+                      {Object.keys(monuments).length > 0 ? (
+                        <View>
+                          {monuments.map((m, index) => (
+                            <TouchableOpacity
+                              key={index}
+                              onPress={() =>
+                                selectMonumentItem({
+                                  name: m.name,
+                                  price: m.price,
+                                })
+                              }>
+                              <Image
+                                style={{ width: 100, height: 100 }}
+                                source={require('../../../../../assets/gubin.png')}
+                              />
+                              <Text style={{ textAlign: 'center' }}>
+                                {m.name}
+                              </Text>
+                              <Text style={{ textAlign: 'center' }}>
+                                {m.price}
+                              </Text>
+                            </TouchableOpacity>
+                          ))}
+                        </View>
+                      ) : (
+                        <Text></Text>
+                      )}
+                    </View>
+                  </View>
+
+                  <Button
+                    style={{
+                      width: '100%',
+                      marginTop: 5,
+                      backgroundColor: '#333333',
+                      zIndex: 1,
+                      elevation: 0,
+                    }}
+                    mode="contained"
+                    onPress={() => console.log('')}>
+                    <Text style={{ color: 'white' }}>Показать еще</Text>
+                  </Button>
+                  <View style={styles.modelYesNo}>
+                    <Button onPress={() => seTallMonuments(false)}>
+                      <Text style={styles.modelButtonNoColor}>Отмена</Text>
+                    </Button>
+                  </View>
+                </View>
+              </ScrollView>
+            </SafeAreaView>
+          </Modal>
+          {/* DESCRIPTION MONUMENTS MODAL */}
+          <FirstStepSecondModal
+            selectedModelSecond={selectedModelSecond}
+            secondModal={secondModal}
+            monuments={monuments}
+          />
         </View>
       ) : (
         <>

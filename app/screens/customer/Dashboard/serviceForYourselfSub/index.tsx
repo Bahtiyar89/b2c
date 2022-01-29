@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { ScrollView, SafeAreaView, View, Image } from 'react-native';
 import { Card, Button, Text, Checkbox } from 'react-native-paper';
 import Modal from 'react-native-modal';
+
+import CommodityContext from '../../../../context/commodities/CommodityContext';
 import styles from './styles';
-import InstallationModel from './monumetModels/installationMonument/InstallationModel';
 import ChangeMonument from './monumetModels/changeMonument/changeModel';
 import MonumentResolutionModel from './monumetModels/monumentResolutionModel';
 import MonumentRestorationModal from './monumetModels/monumentRestorationModel';
@@ -19,7 +20,15 @@ const ServiceForYourselfSub: React.FC<IProps> = (props: IProps) => {
     navigation,
     route: { params },
   } = props;
-
+  const commodityContext = useContext(CommodityContext);
+  const {
+    getMonumentService,
+    tombcareService,
+    modalTombCare,
+    loading,
+    modalTombFalse,
+    monuments,
+  } = commodityContext;
   //dropdown models
   const [modalClean, seTmodalClean] = useState<boolean>(false);
   const [instModel, seTinstModel] = useState<boolean>(false);
@@ -125,11 +134,7 @@ const ServiceForYourselfSub: React.FC<IProps> = (props: IProps) => {
               </Text>
             </Button>
           </View>
-          <InstallationModel
-            model={monumentInstModel}
-            okPressed={() => seTmonumentInstModel(false)}
-            noPressed={() => seTmonumentInstModel(false)}
-          />
+
           <ChangeMonument
             navigation={navigation}
             route={params}
@@ -146,10 +151,14 @@ const ServiceForYourselfSub: React.FC<IProps> = (props: IProps) => {
           <MonumentRestorationModal
             okPressed={val => seTmonumentRestorationModel(val)}
             model={monumentRestorationModel}
+            navigation={undefined}
+            route={undefined}
           />
           <MonumentCorrectionModal
             okPressed={val => seTmonumentCorrectionModel(val)}
             model={monumentCorrectionModel}
+            navigation={undefined}
+            route={undefined}
           />
         </ScrollView>
       </SafeAreaView>
