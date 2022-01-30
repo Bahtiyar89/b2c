@@ -61,7 +61,7 @@ const FifthStep: React.FC<IState> = ({
       <Text style={{ marginTop: '2%', fontSize: 20 }}>
         Дополнительное фото на памятнике
       </Text>
-      <View style={{ flexDirection: 'row', width: '90%' }}>
+      <View style={{ flexDirection: 'row' }}>
         <Checkbox.Android
           status={checkedPictureEpitaph ? 'checked' : 'unchecked'}
           onPress={() => seTcheckedPictureEpitaph(!checkedPictureEpitaph)}
@@ -69,7 +69,7 @@ const FifthStep: React.FC<IState> = ({
         />
         <Text
           onPress={() => seTcheckedPictureEpitaph(!checkedPictureEpitaph)}
-          style={{ flex: 1, margin: 8 }}>
+          style={{ flex: 1 }}>
           Рисунок (рядом с эпитафии)
         </Text>
         <Text style={{ justifyContent: 'flex-end' }}>__руб</Text>

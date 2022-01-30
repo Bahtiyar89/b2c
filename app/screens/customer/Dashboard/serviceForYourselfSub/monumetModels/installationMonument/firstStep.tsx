@@ -88,7 +88,7 @@ const FirstStep = props => {
             justifyContent: 'space-between',
           }}>
           <View style={{ flexDirection: 'row' }}>
-            <RadioButton.Android color="blue" value="usual" />
+            <RadioButton.Android color="#3498db" value="usual" />
             <Text
               onPress={() => seTtypeInstallation('usual')}
               style={{ margin: 8 }}>
@@ -109,7 +109,7 @@ const FirstStep = props => {
             justifyContent: 'space-between',
           }}>
           <View style={{ flexDirection: 'row' }}>
-            <RadioButton.Android color="blue" value="forced" />
+            <RadioButton.Android color="#3498db" value="forced" />
             <Text
               onPress={() => seTtypeInstallation('forced')}
               style={{ margin: 8 }}>
