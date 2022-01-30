@@ -14,8 +14,6 @@ import styles from './styles';
 const SecondStep: React.FC = () => {
   const [modelFlower, seTmodelFlower] = useState(false);
   const [modelTombstone, seTmodelTombstone] = useState(false);
-  const [svetnikText, seTsvetnikText] = useState(false);
-  const [plitaText, seTplitaText] = useState(false);
   const [svetnik, seTsvetnik] = useState({
     type: '',
     src: '',
@@ -27,20 +25,6 @@ const SecondStep: React.FC = () => {
     src: '',
     name: '',
     price: '',
-  });
-
-  const firstModelFunc = () => {
-    seTmodelFlower(true);
-  };
-  const [monument, seTmonument] = useState({
-    src: '',
-    name: '',
-    price: '0 руб',
-  });
-  const [tombstone, seTtombstone] = useState({
-    src: '',
-    name: '',
-    price: '1700 руб',
   });
 
   return (
@@ -57,8 +41,8 @@ const SecondStep: React.FC = () => {
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <Text
             onPress={() => {
-              seTsvetnikText(true);
-              seTplitaText(false);
+              seTmodelFlower(true);
+              seTmodelTombstone(false);
             }}
             style={{ margin: 8 }}>
             Цветник
@@ -74,15 +58,6 @@ const SecondStep: React.FC = () => {
           </View>
         </View>
       </View>
-      {svetnikText && (
-        <Button
-          uppercase={false}
-          mode="outlined"
-          style={{ backgroundColor: '#333333' }}
-          onPress={firstModelFunc}>
-          <Text style={{ color: 'white' }}>Выбрать Цветник</Text>
-        </Button>
-      )}
       <View style={{ flexDirection: 'row' }}>
         <RadioButton.Android
           status={plita.type === 'plita' ? 'checked' : 'unchecked'}
@@ -92,8 +67,8 @@ const SecondStep: React.FC = () => {
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <Text
             onPress={() => {
-              seTplitaText(true);
-              seTsvetnikText(false);
+              seTmodelTombstone(true);
+              seTmodelFlower(false);
             }}
             style={{ margin: 8 }}>
             Надгробная плита
@@ -109,15 +84,6 @@ const SecondStep: React.FC = () => {
           </View>
         </View>
       </View>
-      {plitaText && (
-        <Button
-          uppercase={false}
-          mode="outlined"
-          style={{ backgroundColor: '#333333' }}
-          onPress={() => seTmodelTombstone(!modelTombstone)}>
-          <Text style={{ color: 'white' }}>Выбрать плиту</Text>
-        </Button>
-      )}
 
       <Modal style={{ margin: 0 }} isVisible={modelFlower}>
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
