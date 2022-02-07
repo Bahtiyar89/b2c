@@ -25,7 +25,7 @@ const FirstStepSecondModal: React.FC<IState> = ({
   const [material, seTmaterial] = useState(0);
   const [form, seTform] = useState(0);
   const [sizeFont, seTsizeFont] = useState(0);
-  const [totalPrice, seTtotalPrice] = useState(0);
+  const [totalPrice, seTtotalPrice] = useState(780);
 
   //on Open dropdown
   const onMaterialOpen = useCallback(() => {

@@ -37,19 +37,22 @@ const SecondStep: React.FC = () => {
   const [poursoil, seTpoursoil] = useState(false);
   const [plant, seTplant] = useState(false);
   const [flowers, seTflowers] = useState(false);
+  const [selectedFlowers, seTselectedFlowers] = useState(0);
   const [flowerCheck, seTflowerCheck] = useState(false);
+  const [flower2, seTflower2] = useState(false);
   const [imageSize, seTimageSize] = useState(0.75);
   const totalPrice = () => {
     if (poursoil && plant) {
-      return 500 + 700;
+      return 500 + selectedFlowers + Number.parseInt(svetnik.price);
     } else if (poursoil && plant === false) {
-      return 500;
+      return 500 + Number.parseInt(svetnik.price);
     } else if (poursoil === false && plant) {
-      return 700;
+      return selectedFlowers + Number.parseInt(svetnik.price);
     } else {
-      return 0;
+      return svetnik.price;
     }
   };
+
   return (
     <View style={{ width: '95%' }}>
       <Text style={{ textAlign: 'center' }}>
@@ -81,7 +84,7 @@ const SecondStep: React.FC = () => {
               marginTop: 10,
               justifyContent: 'flex-end',
             }}>
-            <Text>{svetnik.price}</Text>
+            <Text>{totalPrice() + ' руб'}</Text>
           </View>
         </View>
       </View>
@@ -134,7 +137,7 @@ const SecondStep: React.FC = () => {
                         type: 'sveti',
                         src: '.../../../../../../assets/gubin.png',
                         name: 'Наименование',
-                        price: '780 руб',
+                        price: '780',
                       });
                       seTmodelFlower(false);
                       setTimeout(function () {
@@ -247,7 +250,9 @@ const SecondStep: React.FC = () => {
                     Насыпать грунт
                   </Text>
                 </View>
-                <Text style={{ alignSelf: 'center' }}>500 руб</Text>
+                {poursoil && (
+                  <Text style={{ alignSelf: 'center' }}>500 руб</Text>
+                )}
               </View>
 
               <View
@@ -266,7 +271,9 @@ const SecondStep: React.FC = () => {
                     Посадить растение
                   </Text>
                 </View>
-                <Text style={{ alignSelf: 'center' }}>700 руб</Text>
+                {plant && (
+                  <Text style={{ alignSelf: 'center' }}>{700 + 'руб'}</Text>
+                )}
               </View>
               {plant && (
                 <Button
@@ -336,13 +343,40 @@ const SecondStep: React.FC = () => {
                       <Text
                         onPress={() => seTflowerCheck(!flowerCheck)}
                         style={{ textAlign: 'center', marginTop: 8 }}>
-                        Цветок 2
+                        Цветок
                       </Text>
                     </View>
                     <Text
                       onPress={() => seTflowerCheck(!flowerCheck)}
                       style={{ textAlign: 'center' }}>
                       700 руб
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{ marginLeft: 20 }}
+                  onPress={() => seTflower2(!flower2)}>
+                  <View style={{ width: 100 }}>
+                    <Image
+                      style={{ width: 100, height: 100 }}
+                      source={require('../../../../../../assets/color-circle.png')}
+                    />
+                    <View style={{ flexDirection: 'row' }}>
+                      <Checkbox.Android
+                        color="#3498db"
+                        status={flower2 ? 'checked' : 'unchecked'}
+                        onPress={() => seTflower2(!flower2)}
+                      />
+                      <Text
+                        onPress={() => seTflower2(!flower2)}
+                        style={{ textAlign: 'center', marginTop: 8 }}>
+                        Цветок 2
+                      </Text>
+                    </View>
+                    <Text
+                      onPress={() => seTflower2(!flower2)}
+                      style={{ textAlign: 'center' }}>
+                      600 руб
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -356,8 +390,17 @@ const SecondStep: React.FC = () => {
                   zIndex: 0,
                 }}
                 mode="contained"
-                onPress={() => seTflowers(false)}>
-                <Text style={{ color: 'white' }}>Выбрать</Text>
+                onPress={() => {
+                  seTflowers(false);
+                  if (flowerCheck && flower2) {
+                    seTselectedFlowers(600 + 700);
+                  } else if (flowerCheck && flower2) {
+                    seTselectedFlowers(700);
+                  } else {
+                    seTselectedFlowers(600);
+                  }
+                }}>
+                <Text style={{ color: 'white' }}>Выбрать цветы</Text>
               </Button>
             </View>
           </ScrollView>
