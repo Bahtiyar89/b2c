@@ -36,88 +36,89 @@ const SecondStep: React.FC = () => {
 
   const [poursoil, seTpoursoil] = useState(false);
   const [plant, seTplant] = useState(false);
+  const [plantPrice, seTplantPrice] = useState('');
   const [flowers, seTflowers] = useState(false);
   const [selectedFlowers, seTselectedFlowers] = useState(0);
   const [flowerCheck, seTflowerCheck] = useState(false);
   const [flower2, seTflower2] = useState(false);
   const [imageSize, seTimageSize] = useState(0.75);
+  const [posaditRasteniyePrice, seTposaditRasteniyePrice] = useState(0);
+
   const totalPrice = () => {
-    if (poursoil && plant) {
-      return 500 + selectedFlowers + Number.parseInt(svetnik.price);
+    if (poursoil && plant && (flowerCheck || flower2)) {
+      return 500 + posaditRasteniyePrice + Number.parseInt(svetnik.price);
     } else if (poursoil && plant === false) {
       return 500 + Number.parseInt(svetnik.price);
     } else if (poursoil === false && plant) {
-      return selectedFlowers + Number.parseInt(svetnik.price);
+      return posaditRasteniyePrice + Number.parseInt(svetnik.price);
     } else {
       return svetnik.price;
     }
   };
+  const [typeInstallation, seTtypeInstallation] = React.useState('');
 
   return (
     <View style={{ width: '95%' }}>
       <Text style={{ textAlign: 'center' }}>
         Цветник или надгробная плита на выбор
       </Text>
-      <View style={{ flexDirection: 'row' }}>
-        <RadioButton.Android
-          status={svetnik.type === 'sveti' ? 'checked' : 'unchecked'}
-          color="blue"
-          value="sveti"
-          onPress={() => {
-            seTmodelFlower(true);
-            seTmodelTombstone(false);
-          }}
-        />
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Text
-            onPress={() => {
-              seTmodelFlower(true);
-              seTmodelTombstone(false);
-            }}
-            style={{ margin: 8 }}>
-            Цветник
-          </Text>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              marginTop: 10,
-              justifyContent: 'flex-end',
-            }}>
-            <Text>{totalPrice() + ' руб'}</Text>
+
+      <RadioButton.Group
+        onValueChange={newValue => seTtypeInstallation(newValue)}
+        value={typeInstallation}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <View style={{ flexDirection: 'row' }}>
+            <RadioButton.Android color="#3498db" value="usual" />
+            <Text
+              onPress={() => {
+                seTtypeInstallation('usual');
+                seTmodelFlower(true);
+                seTmodelTombstone(false);
+              }}
+              style={{ margin: 8 }}>
+              Цветник
+            </Text>
           </View>
+          {typeInstallation === 'usual' && (
+            <Text
+              style={{ alignSelf: 'center' }}
+              onPress={() => seTtypeInstallation('usual')}>
+              {totalPrice() + ' руб'}
+            </Text>
+          )}
         </View>
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        <RadioButton.Android
-          status={plita.type === 'plita' ? 'checked' : 'unchecked'}
-          color="blue"
-          value="sveti"
-          onPress={() => {
-            seTmodelTombstone(true);
-            seTmodelFlower(false);
-          }}
-        />
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Text
-            onPress={() => {
-              seTmodelTombstone(true);
-              seTmodelFlower(false);
-            }}
-            style={{ margin: 8 }}>
-            Надгробная плита
-          </Text>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              marginTop: 10,
-              justifyContent: 'flex-end',
-            }}>
-            <Text>{plita.price}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <View style={{ flexDirection: 'row' }}>
+            <RadioButton.Android color="#3498db" value="forced" />
+            <Text
+              onPress={() => {
+                seTtypeInstallation('forced');
+                seTmodelTombstone(true);
+                seTmodelFlower(false);
+              }}
+              style={{ margin: 8 }}>
+              Надгробная плита
+            </Text>
           </View>
+          {typeInstallation === 'forced' && (
+            <Text
+              style={{ alignSelf: 'center' }}
+              //  onPress={() => seTcheckedMonument(!checkedMonument)}
+            >
+              {plita.price}
+            </Text>
+          )}
         </View>
-      </View>
+      </RadioButton.Group>
+
       {/* FLOWERS */}
       <Modal style={{ margin: 0 }} isVisible={modelFlower}>
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -265,14 +266,22 @@ const SecondStep: React.FC = () => {
                   <Checkbox.Android
                     color="#3498db"
                     status={plant ? 'checked' : 'unchecked'}
-                    onPress={() => seTplant(!plant)}
+                    onPress={() => {
+                      seTplant(!plant);
+                    }}
                   />
-                  <Text style={{ margin: 8 }} onPress={() => seTplant(!plant)}>
+                  <Text
+                    style={{ margin: 8 }}
+                    onPress={() => {
+                      seTplant(!plant);
+                    }}>
                     Посадить растение
                   </Text>
                 </View>
-                {plant && (
-                  <Text style={{ alignSelf: 'center' }}>{700 + 'руб'}</Text>
+                {plant && (flowerCheck || flower2) && (
+                  <Text style={{ alignSelf: 'center' }}>
+                    {posaditRasteniyePrice + ' руб'}
+                  </Text>
                 )}
               </View>
               {plant && (
@@ -338,16 +347,43 @@ const SecondStep: React.FC = () => {
                       <Checkbox.Android
                         color="#3498db"
                         status={flowerCheck ? 'checked' : 'unchecked'}
-                        onPress={() => seTflowerCheck(!flowerCheck)}
+                        onPress={() => {
+                          seTflowerCheck(!flowerCheck);
+                          !flowerCheck
+                            ? seTposaditRasteniyePrice(
+                                posaditRasteniyePrice + 700,
+                              )
+                            : seTposaditRasteniyePrice(
+                                posaditRasteniyePrice - 700,
+                              );
+                        }}
                       />
                       <Text
-                        onPress={() => seTflowerCheck(!flowerCheck)}
+                        onPress={() => {
+                          seTflowerCheck(!flowerCheck);
+                          !flowerCheck
+                            ? seTposaditRasteniyePrice(
+                                posaditRasteniyePrice + 700,
+                              )
+                            : seTposaditRasteniyePrice(
+                                posaditRasteniyePrice - 700,
+                              );
+                        }}
                         style={{ textAlign: 'center', marginTop: 8 }}>
                         Цветок
                       </Text>
                     </View>
                     <Text
-                      onPress={() => seTflowerCheck(!flowerCheck)}
+                      onPress={() => {
+                        seTflowerCheck(!flowerCheck);
+                        !flowerCheck
+                          ? seTposaditRasteniyePrice(
+                              posaditRasteniyePrice + 700,
+                            )
+                          : seTposaditRasteniyePrice(
+                              posaditRasteniyePrice - 700,
+                            );
+                      }}
                       style={{ textAlign: 'center' }}>
                       700 руб
                     </Text>
@@ -365,16 +401,43 @@ const SecondStep: React.FC = () => {
                       <Checkbox.Android
                         color="#3498db"
                         status={flower2 ? 'checked' : 'unchecked'}
-                        onPress={() => seTflower2(!flower2)}
+                        onPress={() => {
+                          seTflower2(!flower2);
+                          !flower2
+                            ? seTposaditRasteniyePrice(
+                                posaditRasteniyePrice + 600,
+                              )
+                            : seTposaditRasteniyePrice(
+                                posaditRasteniyePrice - 600,
+                              );
+                        }}
                       />
                       <Text
-                        onPress={() => seTflower2(!flower2)}
+                        onPress={() => {
+                          seTflower2(!flower2);
+                          !flower2
+                            ? seTposaditRasteniyePrice(
+                                posaditRasteniyePrice + 600,
+                              )
+                            : seTposaditRasteniyePrice(
+                                posaditRasteniyePrice - 600,
+                              );
+                        }}
                         style={{ textAlign: 'center', marginTop: 8 }}>
                         Цветок 2
                       </Text>
                     </View>
                     <Text
-                      onPress={() => seTflower2(!flower2)}
+                      onPress={() => {
+                        seTflower2(!flower2);
+                        !flower2
+                          ? seTposaditRasteniyePrice(
+                              posaditRasteniyePrice + 600,
+                            )
+                          : seTposaditRasteniyePrice(
+                              posaditRasteniyePrice - 600,
+                            );
+                      }}
                       style={{ textAlign: 'center' }}>
                       600 руб
                     </Text>
